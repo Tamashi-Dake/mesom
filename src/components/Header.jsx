@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import BackButton from "./shared/BackButton";
 
-const Header = ({ label, showBackArrow }) => {
+const Header = ({ label, showBackArrow = false }) => {
   return (
     <div className="border-b-[1px]  p-4">
       <div className="flex gap-2 items-center">
@@ -15,7 +15,7 @@ const Header = ({ label, showBackArrow }) => {
 
 Header.propTypes = {
   label: PropTypes.string.isRequired,
-  showBackArrow: PropTypes.bool.isRequired,
+  showBackArrow: PropTypes.bool,
 };
 
 export default Header;
