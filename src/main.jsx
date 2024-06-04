@@ -2,10 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
+import "./index.css";
+
 import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
-import "./index.css";
 import Profile from "./pages/Profile.jsx";
+import About from "./pages/About.jsx";
+import Messages from "./pages/Messages.jsx";
+import Notifications from "./pages/Notification.jsx";
+import Search from "./pages/Search.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,25 +24,25 @@ const router = createBrowserRouter([
         // errorElement: <Error />,
       },
       {
+        path: "/search",
+        element: <Search />,
+      },
+      {
+        path: "/notifications",
+        element: <Notifications />,
+      },
+      {
+        path: "/messages",
+        element: <Messages />,
+      },
+      {
         path: "/profile",
         element: <Profile />,
       },
-      // {
-      //   path: "/discovery",
-      //   element: <Discovery />,
-      // },
-      // {
-      //   path: "/messages",
-      //   element: <Messages />,
-      // },
-      // {
-      //   path: "/notifications",
-      //   element: <Notifications />,
-      // },
-      // {
-      //   path: "/about",
-      //   element: <About />,
-      // },
+      {
+        path: "/about",
+        element: <About />,
+      },
     ],
   },
 ]);

@@ -1,3 +1,4 @@
+import { BiSearch } from "react-icons/bi";
 import {
   BsBell,
   BsChatDots,
@@ -7,13 +8,12 @@ import {
 } from "react-icons/bs";
 import { CiMail } from "react-icons/ci";
 import { FaFeather } from "react-icons/fa6";
-import { IoEarthOutline } from "react-icons/io5";
 export const routes = [
   { name: "Home", path: "/", icon: <BsHouse size={24} color="black" /> },
   {
-    name: "Discovery",
-    path: "/discovery",
-    icon: <IoEarthOutline size={24} color="black" />,
+    name: "Search",
+    path: "/search",
+    icon: <BiSearch size={24} color="black" />,
   },
   {
     name: "Notifications",
