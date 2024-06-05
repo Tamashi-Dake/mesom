@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import Button from "./Button";
 
 const Modal = ({
-  isopen,
+  isOpen,
   onClose,
   onSubmit,
   title,
@@ -27,7 +27,7 @@ const Modal = ({
     onSubmit();
   }, [disabled, onSubmit]);
 
-  if (!isopen) {
+  if (!isOpen) {
     return null;
   }
 
@@ -93,7 +93,7 @@ const Modal = ({
               </button>
             </div>
             {/* Body */}
-            <div className="relative p-10 flex-auto">{body}</div>
+            <div className="relative px-10 py-5 flex-auto">{body}</div>
             {/* Footer */}
             <div className="flex flex-col gap-2 p-10">
               <Button
@@ -113,7 +113,7 @@ const Modal = ({
 };
 
 Modal.propTypes = {
-  isopen: PropTypes.bool,
+  isOpen: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   title: PropTypes.string,
