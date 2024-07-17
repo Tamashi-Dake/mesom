@@ -11,11 +11,30 @@ import About from "./pages/About.jsx";
 import Messages from "./pages/Messages.jsx";
 import Notifications from "./pages/Notification.jsx";
 import Search from "./pages/Search.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 
+// Create a new instance of QueryClient
+const queryClient = new QueryClient();
+
+// Create a new instance of BrowserRouter
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      // wrap the App component with QueryClientProvider
+      <QueryClientProvider client={queryClient}>
+        <Toaster
+          toastOptions={{
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          }}
+        />
+        <App />
+      </QueryClientProvider>
+    ),
     children: [
       {
         path: "/",

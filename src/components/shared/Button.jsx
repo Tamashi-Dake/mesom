@@ -29,10 +29,10 @@ const Button = ({
 };
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  secondary: PropTypes.boolean,
+  secondary: PropTypes.bool,
   onClick: PropTypes.func,
-  disabled: PropTypes.boolean,
-  outline: PropTypes.boolean,
+  disabled: PropTypes.bool,
+  outline: PropTypes.bool,
   classNames: PropTypes.string,
 };
 export default Button;

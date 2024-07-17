@@ -1,7 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthModal } from "../../hooks/useModal";
 import Modal from "./shared/Modal";
 import Input from "./shared/Input";
+import { useMutation } from "@tanstack/react-query";
+import authPoster from "../helper/authentication";
+import toast from "react-hot-toast";
 
 const AuthModal = () => {
   const authModal = useAuthModal();
@@ -15,7 +18,49 @@ const AuthModal = () => {
   // Register
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const loginMutation = useMutation({
+    mutationFn: (loginData) =>
+      authPoster({
+        url: `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
+        data: loginData,
+      }),
+    onSuccess: (response) => {
+      toast.success("Login successful");
+    },
+    onError: (error) => {
+      toast.error("Login failed", error);
+    },
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: () =>
+      authPoster({
+        url: `${import.meta.env.VITE_BACKEND_URL}/auth/logout`,
+        data: {},
+      }),
+    onSuccess: (response) => {
+      toast.success("Logout successful");
+    },
+    onError: (error) => {
+      toast.error("Logout failed", error.message);
+    },
+  });
+
+  const registerMutation = useMutation({
+    mutationFn: (registerData) =>
+      authPoster({
+        url: `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
+        data: registerData,
+      }),
+    onSuccess: (response) => {
+      toast.success("Register successful");
+    },
+    onError: (error) => {
+      toast.error("Register failed", error);
+    },
+  });
 
   useEffect(() => {
     setUsername("");
@@ -23,34 +68,50 @@ const AuthModal = () => {
     setConfirmPassword("");
   }, [authModal.isOpen, isLogin]);
 
-  const onSubmit = useCallback(async () => {
+  const onSubmit = async () => {
     try {
-      setIsLoading(true);
-
-      // TODO: Add Login and Register
-
-      authModal.onclose();
+      if (isLogin) {
+        loginMutation.mutate({ username, password });
+      } else {
+        if (password !== confirmPassword) {
+          toast.error("Passwords do not match");
+          return;
+        }
+        registerMutation.mutate({ username, password });
+      }
     } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+      toast.error("Login failed", error);
     }
-  }, [authModal]);
+  };
+
+  const handleLogout = async () => {
+    try {
+      logoutMutation.mutate();
+    } catch (error) {
+      toast.error("Logout failed", error);
+    }
+  };
 
   const loginContent = (
     <div className="flex flex-col gap-4">
+      {loginMutation.isSuccess && (
+        <>
+          <div className="text-neutral-500">Login successful</div>
+          <button onClick={handleLogout}>logout</button>
+        </>
+      )}
       <Input
         placeholder={"Username"}
         onChanged={(e) => setUsername(e.target.value)}
         value={username}
-        disabled={isLoading}
+        disabled={loginMutation.isLoading}
       />
 
       <Input
         placeholder={"Password"}
         onChanged={(e) => setPassword(e.target.value)}
         value={password}
-        disabled={isLoading}
+        disabled={loginMutation.isLoading}
       />
     </div>
   );
@@ -61,19 +122,19 @@ const AuthModal = () => {
         placeholder={"Username"}
         onChanged={(e) => setUsername(e.target.value)}
         value={username}
-        disabled={isLoading}
+        disabled={registerMutation.isLoading}
       />
       <Input
         placeholder={"Password"}
         onChanged={(e) => setPassword(e.target.value)}
         value={password}
-        disabled={isLoading}
+        disabled={registerMutation.isLoading}
       />
       <Input
         placeholder={"Confirm Password"}
         onChanged={(e) => setConfirmPassword(e.target.value)}
         value={confirmPassword}
-        disabled={isLoading}
+        disabled={registerMutation.isLoading}
       />
     </div>
   );
@@ -93,7 +154,7 @@ const AuthModal = () => {
   return (
     <Modal
       isOpen={authModal.isOpen}
-      disabled={isLoading}
+      disabled={registerMutation.isLoading || loginMutation.isLoading}
       title={isLogin ? "Login" : "Register"}
       actionLabel={isLogin ? "Sign in" : "Sign up"}
       onClose={authModal.onClose}
