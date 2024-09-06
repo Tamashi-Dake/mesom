@@ -1,9 +1,23 @@
-import Header from "../components/Header";
+import { useState } from "react";
+import SearchHeader from "../components/layout/SearchHeader";
 
 const Search = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [activeTab, setActiveTab] = useState("forYou"); // top 5 tags in count
+  const onSearchValueChange = (value) => {
+    setSearchValue(value);
+  };
+  const onTabChange = (tab) => {
+    setActiveTab(tab);
+  };
   return (
     <>
-      <Header label="Search" />
+      <SearchHeader
+        searchValue={searchValue}
+        onSearchValueChange={onSearchValueChange}
+        activeTab={activeTab}
+        onTabChange={onTabChange}
+      />
       <div>
         <h2>Search</h2>
         <p>Search information</p>
