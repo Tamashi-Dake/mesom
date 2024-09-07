@@ -1,33 +1,19 @@
-import { useMutation } from "react-query";
-import api from "../api";
+import { useMutation } from "@tanstack/react-query";
+import api from "../src/helper/api";
 
-const postData = async ({ endpoint, newData }) => {
-  const response = await api.post(endpoint, newData);
+// Hàm helper để POST dữ liệu với axios
+const postData = async (props) => {
+  const response = await api.post(props.url, props.data, {
+    params: props.params || {},
+    withCredentials: true,
+  });
+
   return response.data;
 };
 
-const usePostData = () => {
-  return useMutation(({ endpoint, newData }) =>
-    postData({ endpoint, newData })
-  );
+// Hook sử dụng useMutation cho POST request
+const usePostData = (options) => {
+  return useMutation({ mutationFn: (props) => postData(props), ...options });
 };
-
-// const PostDataComponent = ({ endpoint }) => {
-//     const [newData, setNewData] = useState({});
-//     const { mutate, isLoading, isError, error } = usePostData();
-
-//     const handleSubmit = () => {
-//       mutate({ endpoint, newData });
-//     };
-
-//     if (isLoading) return <div>Submitting...</div>;
-//     if (isError) return <div>Error: {error.message}</div>;
-
-//     return (
-//       <div>
-//         <button onClick={handleSubmit}>Submit Data</button>
-//       </div>
-//     );
-//   };
 
 export default usePostData;

@@ -1,33 +1,21 @@
-import { useMutation } from "react-query";
-import api from "../api";
+import { useMutation } from "@tanstack/react-query";
+import api from "../src/helper/api";
 
-const patchData = async ({ endpoint, updatedData }) => {
-  const response = await api.patch(endpoint, updatedData);
+// Hàm helper để PATCH dữ liệu với axios
+const patchData = async (props) => {
+  const response = await api.patch(props.url, props.data, {
+    params: props.params || {},
+    withCredentials: true,
+  });
   return response.data;
 };
 
-const usePatchData = () => {
-  return useMutation(({ endpoint, updatedData }) =>
-    patchData({ endpoint, updatedData })
-  );
+// Hook sử dụng useMutation cho PATCH request
+const usePatchData = (options) => {
+  return useMutation({
+    mutationFn: (props) => patchData(props),
+    ...options,
+  });
 };
-
-// const PatchDataComponent = ({ endpoint }) => {
-//     const [updatedData, setUpdatedData] = useState({ id: 1, name: 'Updated Name' });
-//     const { mutate, isLoading, isError, error } = usePatchData();
-
-//     const handleSubmit = () => {
-//       mutate({ endpoint, updatedData });
-//     };
-
-//     if (isLoading) return <div>Updating...</div>;
-//     if (isError) return <div>Error: {error.message}</div>;
-
-//     return (
-//       <div>
-//         <button onClick={handleSubmit}>Update Data</button>
-//       </div>
-//     );
-//   };
 
 export default usePatchData;

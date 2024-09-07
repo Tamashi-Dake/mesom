@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuthModal } from "../../hooks/useModal";
 import Modal from "./shared/Modal";
 import Input from "./shared/Input";
-import { useMutation } from "@tanstack/react-query";
-import authPoster from "../helper/authentication";
 import toast from "react-hot-toast";
+import usePostData from "../../hooks/usePostData";
 
 const AuthModal = () => {
   const authModal = useAuthModal();
@@ -20,45 +19,30 @@ const AuthModal = () => {
 
   // const [isLoading, setIsLoading] = useState(false);
 
-  const loginMutation = useMutation({
-    mutationFn: (loginData) =>
-      authPoster({
-        url: `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
-        data: loginData,
-      }),
+  const registerMutation = usePostData({
     onSuccess: (response) => {
-      toast.success("Login successful");
+      console.log("Registered successfully:", response);
     },
     onError: (error) => {
-      toast.error("Login failed", error);
+      console.error("An error occurred while registering:", error);
     },
   });
 
-  const logoutMutation = useMutation({
-    mutationFn: () =>
-      authPoster({
-        url: `${import.meta.env.VITE_BACKEND_URL}/auth/logout`,
-        data: {},
-      }),
+  const loginMutation = usePostData({
     onSuccess: (response) => {
-      toast.success("Logout successful");
+      console.log("Logged in successfully:", response);
     },
     onError: (error) => {
-      toast.error("Logout failed", error.message);
+      console.error("An error occurred while logging in:", error);
     },
   });
 
-  const registerMutation = useMutation({
-    mutationFn: (registerData) =>
-      authPoster({
-        url: `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
-        data: registerData,
-      }),
+  const logoutMutation = usePostData({
     onSuccess: (response) => {
-      toast.success("Register successful");
+      console.log("Logged out successfully:", response);
     },
     onError: (error) => {
-      toast.error("Register failed", error);
+      console.error("An error occurred while logging out:", error);
     },
   });
 
@@ -71,22 +55,37 @@ const AuthModal = () => {
   const onSubmit = async () => {
     try {
       if (isLogin) {
-        loginMutation.mutate({ username, password });
+        loginMutation.mutate({
+          url: "/auth/login",
+          data: {
+            username: username,
+            password: password,
+          },
+        });
       } else {
         if (password !== confirmPassword) {
           toast.error("Passwords do not match");
           return;
         }
-        registerMutation.mutate({ username, password });
+        registerMutation.mutate({
+          url: "/auth/register",
+          data: {
+            username: username,
+            password: password,
+          },
+        });
       }
     } catch (error) {
-      toast.error("Login failed", error);
+      toast.error("Authentication failed", error);
     }
   };
 
   const handleLogout = async () => {
     try {
-      logoutMutation.mutate();
+      logoutMutation.mutate({
+        url: "/auth/logout",
+        data: {},
+      });
     } catch (error) {
       toast.error("Logout failed", error);
     }

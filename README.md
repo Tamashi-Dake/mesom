@@ -3,8 +3,11 @@
 ## TODO
 
 - [ ] Home page
-  - [ ] Show posts from all users
-  - [ ] Show posts from following users
+
+  - [x] Show posts from all users - can be viewed by guest
+  - [x] Show posts from following users
+  - [ ] Post
+
 - [ ] Search
   - [ ] Search users
   - [ ] Search posts

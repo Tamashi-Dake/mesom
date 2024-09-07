@@ -1,29 +1,18 @@
-import { useMutation } from "react-query";
-import api from "../api";
+import { useMutation } from "@tanstack/react-query";
+import api from "../src/helper/api";
 
-const deleteData = async (endpoint) => {
-  await api.delete(endpoint);
+// Hàm helper để DELETE dữ liệu với axios
+const deleteData = async (props) => {
+  const response = await api.delete(props.url, { params: props.params || {} });
+  return response.data;
 };
 
-const useDeleteData = () => {
-  return useMutation(deleteData);
+// Hook sử dụng useMutation cho DELETE request
+const useDeleteData = (options) => {
+  return useMutation({
+    mutationFn: (props) => deleteData(props),
+    ...options,
+  });
 };
-
-// const DeleteDataComponent = ({ endpoint }) => {
-//     const { mutate, isLoading, isError, error } = useDeleteData();
-
-//     const handleDelete = () => {
-//       mutate(endpoint);
-//     };
-
-//     if (isLoading) return <div>Deleting...</div>;
-//     if (isError) return <div>Error: {error.message}</div>;
-
-//     return (
-//       <div>
-//         <button onClick={handleDelete}>Delete Data</button>
-//       </div>
-//     );
-//   };
 
 export default useDeleteData;
