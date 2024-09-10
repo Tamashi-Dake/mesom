@@ -13,9 +13,10 @@ const getData = async (props) => {
 // Hook sử dụng useQuery cho GET request
 const useFetchData = (props, options) => {
   return useQuery({
-    queryKey: ["fetchData", props.url, props.params],
+    queryKey: [props.key, props.url, props.params],
     queryFn: () => getData(props),
-    ...options,
+    staleTime: options?.staleTime || 0,
+    cacheTime: options?.cacheTime || 0,
   });
 };
 

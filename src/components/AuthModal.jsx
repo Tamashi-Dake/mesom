@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuthModal } from "../../hooks/useModal";
 import Modal from "./shared/Modal";
 import Input from "./shared/Input";
@@ -21,28 +21,21 @@ const AuthModal = () => {
 
   const registerMutation = usePostData({
     onSuccess: (response) => {
-      console.log("Registered successfully:", response);
+      toast.success("Registered successfully");
     },
     onError: (error) => {
+      toast.error("An error occurred while registering");
       console.error("An error occurred while registering:", error);
     },
   });
 
   const loginMutation = usePostData({
     onSuccess: (response) => {
-      console.log("Logged in successfully:", response);
+      toast.success("Logged in successfully");
     },
     onError: (error) => {
+      toast.error("An error occurred while logging in");
       console.error("An error occurred while logging in:", error);
-    },
-  });
-
-  const logoutMutation = usePostData({
-    onSuccess: (response) => {
-      console.log("Logged out successfully:", response);
-    },
-    onError: (error) => {
-      console.error("An error occurred while logging out:", error);
     },
   });
 
@@ -52,7 +45,7 @@ const AuthModal = () => {
     setConfirmPassword("");
   }, [authModal.isOpen, isLogin]);
 
-  const onSubmit = async () => {
+  const onSubmit = useCallback(async () => {
     try {
       if (isLogin) {
         loginMutation.mutate({
@@ -78,26 +71,16 @@ const AuthModal = () => {
     } catch (error) {
       toast.error("Authentication failed", error);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authModal, username, password, confirmPassword]);
 
-  const handleLogout = async () => {
-    try {
-      logoutMutation.mutate({
-        url: "/auth/logout",
-        data: {},
-      });
-    } catch (error) {
-      toast.error("Logout failed", error);
-    }
-  };
-
+  // TODO: Disable button when input is empty, disable button, input when loading
   const loginContent = (
     <div className="flex flex-col gap-4">
-      {loginMutation.isSuccess && (
-        <>
-          <div className="text-neutral-500">Login successful</div>
-          <button onClick={handleLogout}>logout</button>
-        </>
+      {loginMutation.isError && (
+        <span className="text-red-500 text-center font-semibold text-lg">
+          {loginMutation.error.response.data.message}
+        </span>
       )}
       <Input
         placeholder={"Username"}
@@ -117,6 +100,11 @@ const AuthModal = () => {
 
   const registerContent = (
     <div className="flex flex-col gap-4">
+      {registerMutation.isError && (
+        <span className="text-red-500 text-center font-semibold text-lg">
+          {registerMutation.error.response.data.message}
+        </span>
+      )}
       <Input
         placeholder={"Username"}
         onChanged={(e) => setUsername(e.target.value)}
@@ -145,7 +133,7 @@ const AuthModal = () => {
     >
       <p>{isLogin ? "Don't have an account?" : "Already have an account?"}</p>
       <button className="text-neutral-800 hover:underline font-semibold">
-        {isLogin ? "Create an account" : "Sign in"}
+        {isLogin ? "Create an account" : "Login"}
       </button>
     </div>
   );
@@ -155,7 +143,7 @@ const AuthModal = () => {
       isOpen={authModal.isOpen}
       disabled={registerMutation.isLoading || loginMutation.isLoading}
       title={isLogin ? "Login" : "Register"}
-      actionLabel={isLogin ? "Sign in" : "Sign up"}
+      actionLabel={isLogin ? "Login" : "Sign up"}
       onClose={authModal.onClose}
       onSubmit={onSubmit}
       body={isLogin ? loginContent : registerContent}

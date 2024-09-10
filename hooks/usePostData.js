@@ -12,8 +12,8 @@ const postData = async (props) => {
 };
 
 // Hook sử dụng useMutation cho POST request
-const usePostData = (options) => {
-  return useMutation({ mutationFn: (props) => postData(props), ...options });
+const usePostData = () => {
+  return useMutation({ mutationFn: (props) => postData(props) });
 };
 
 export default usePostData;

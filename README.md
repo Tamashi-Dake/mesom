@@ -17,3 +17,9 @@
   - [ ] Show user's replies / posts
   - [ ] Show user's media posts
   - [ ] Show user's liked posts
+
+## Problems
+
+- React Query
+  - Doesn't cause re-render when data changes
+  - Still cache user data even after logout
