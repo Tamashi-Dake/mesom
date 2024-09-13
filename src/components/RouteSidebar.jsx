@@ -1,44 +1,37 @@
 import { BiSolidLogOut } from "react-icons/bi";
 import toast from "react-hot-toast";
 
-import usePostData from "../../hooks/usePostData";
 import { routes } from "./shared/config";
 import RouteItem from "./shared/RouteItem";
 import RouteCreatePost from "./shared/RouteCreatePost";
 import Button from "./shared/Button";
-import useCurrentUser from "../../hooks/useCurrentUser";
-import { useQueryClient } from "@tanstack/react-query";
+import useCurrentUser from "../hooks/useCurrentUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { logout } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 const RouteSidebar = () => {
   const queryClient = useQueryClient();
-  // TODO: ui doesn't update when user logs out/ logs in
-  const { data: currentUser } = useCurrentUser();
+  const navigate = useNavigate();
 
-  const logoutMutation = usePostData({
-    onSuccess: (response) => {
+  const currentUser = useCurrentUser();
+
+  const logoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
       toast.success("Logged out successfully");
-      queryClient.invalidateQueries("authUser");
-    },
-    onError: (error) => {
-      toast.error("An error occurred while logging out");
-      console.error("An error occurred while logging out:", error);
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
   });
 
-  const handleLogout = async () => {
-    try {
-      logoutMutation.mutate({
-        url: "/auth/logout",
-      });
-      console.log("Current user:", currentUser);
-    } catch (error) {
-      toast.error("Logout failed", error);
-    }
+  const handleLogout = () => {
+    logoutMutation.mutate();
+    navigate("/login");
   };
+
   return (
-    // TODO: Add Side bar for mobile
     <>
-      <div className="col-span-1 h-full lg:p-2 xl:p-4 hidden xm:block">
+      <div className=" h-screen col-span-1 lg:p-2 xl:p-4 hidden xm:block sticky top-0">
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col space-y-4 m-2">
             {routes.map((route) => (
@@ -52,6 +45,8 @@ const RouteSidebar = () => {
             <RouteCreatePost />
           </div>
           <div className="space-y-4 m-2">
+            {/*TODO: Chuyển button sang RouteItem hoặc custom button logout */}
+
             <Button
               name="Logout"
               // if the user is not logged in, hide the logout button

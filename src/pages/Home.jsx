@@ -1,23 +1,22 @@
 import { useState } from "react";
 import HomeHeader from "../components/layout/HomeHeader";
-import useFetchData from "../../hooks/useFetchData";
+import { useQuery } from "@tanstack/react-query";
+import { getFollowingPosts, getPosts } from "../services/postsService";
 
 const Home = () => {
   const [feedType, setFeedType] = useState("forYou");
 
-  const { data, isLoading, isError, error } = useFetchData(
-    {
-      url: feedType === "forYou" ? "/posts" : "/posts/following",
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["posts", feedType],
+    queryFn: () => {
+      if (feedType === "forYou") {
+        return getPosts();
+      }
+      if (feedType === "following") {
+        return getFollowingPosts();
+      }
     },
-    {
-      onSuccess: (response) => {
-        console.log("Fetched successfully:", response);
-      },
-      onError: (error) => {
-        console.error("An error occurred:", error);
-      },
-    }
-  );
+  });
 
   const handleTabChange = (tab) => {
     setFeedType(tab);

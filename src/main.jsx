@@ -13,6 +13,8 @@ import Notifications from "./pages/Notification.jsx";
 import Search from "./pages/Search.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import LoginPage from "./pages/Auth/Login.jsx";
+import SignUpPage from "./pages/Auth/SignUp.jsx";
 
 // Create a new instance of QueryClient
 const queryClient = new QueryClient();
@@ -21,23 +23,10 @@ const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      // wrap the App component with QueryClientProvider
-      <QueryClientProvider client={queryClient}>
-        <Toaster
-          toastOptions={{
-            style: {
-              background: "#333",
-              color: "#fff",
-            },
-          }}
-        />
-        <App />
-      </QueryClientProvider>
-    ),
+    element: <App />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <Home />,
         // TODO: Add error page
         // errorElement: <Error />,
@@ -64,14 +53,28 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignUpPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider
-      router={router}
-      // TODO: Add fallback element
-      // fallback={<Loading />}
-    />
+    <QueryClientProvider client={queryClient}>
+      <Toaster
+        toastOptions={{
+          style: {
+            background: "#333",
+            color: "#fff",
+          },
+        }}
+      />
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
