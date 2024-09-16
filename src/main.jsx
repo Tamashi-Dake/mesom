@@ -17,7 +17,14 @@ import LoginPage from "./pages/Auth/Login.jsx";
 import SignUpPage from "./pages/Auth/SignUp.jsx";
 
 // Create a new instance of QueryClient
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 // Create a new instance of BrowserRouter
 const router = createBrowserRouter([

@@ -2,6 +2,7 @@ import { useState } from "react";
 import HomeHeader from "../components/layout/HomeHeader";
 import { useQuery } from "@tanstack/react-query";
 import { getFollowingPosts, getPosts } from "../services/postsService";
+import Post from "../components/post/post";
 
 const Home = () => {
   const [feedType, setFeedType] = useState("forYou");
@@ -29,27 +30,18 @@ const Home = () => {
         {isError && <div>Error: {error.message}</div>}
         {feedType === "forYou" && (
           <>
-            <div>
-              <pre>{JSON.stringify(data, null, 2)}</pre>
-              {/* {data?.map((post) => (
-              <div key={post.id}>
-                <h2>{post.text}</h2>
-                <p>{post.views}</p>
-              </div>
-            ))} */}
-            </div>
+            {data?.posts?.map((post) => (
+              <Post key={post._id} post={post} />
+            ))}
+            {/* {console.log(data.posts)} */}
           </>
         )}
         {feedType === "following" && (
           <>
             <div>
-              <pre>{JSON.stringify(data, null, 2)}</pre>
-              {/* {data?.map((post) => (
-              <div key={post.id}>
-                <h2>{post.text}</h2>
-                <p>{post.views}</p>
-              </div>
-            ))} */}
+              {data?.posts?.map((post) => (
+                <Post key={post._id} post={post} />
+              ))}
             </div>
           </>
         )}
