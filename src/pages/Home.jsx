@@ -8,7 +8,11 @@ const Home = () => {
   const [feedType, setFeedType] = useState("forYou");
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["posts", feedType],
+    queryKey: [
+      "posts",
+      // TODO: Consider adding feedType to refetch independently
+      feedType,
+    ],
     queryFn: () => {
       if (feedType === "forYou") {
         return getPosts();
@@ -31,7 +35,7 @@ const Home = () => {
         {feedType === "forYou" && (
           <>
             {data?.posts?.map((post) => (
-              <Post key={post._id} post={post} />
+              <Post key={post._id} post={post} postType={feedType} />
             ))}
             {/* {console.log(data.posts)} */}
           </>

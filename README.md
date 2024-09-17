@@ -3,7 +3,8 @@
 ## TODO
 
 - [x] Change auth modal to Auth page
-- [ ] Refactor api calls
+- [x] Refactor api calls
+- [ ] Add Emoji Mart, gif-picker-react
 
 - [ ] Home page
 

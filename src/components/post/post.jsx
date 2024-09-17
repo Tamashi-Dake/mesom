@@ -1,4 +1,4 @@
-import { FaHeart, FaRegComment } from "react-icons/fa";
+import { FaHeart, FaRegComment, FaTrash } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
@@ -12,8 +12,9 @@ import { formatPostDate } from "../../helper/formatDate";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { IoIosMore } from "react-icons/io";
 import { twMerge } from "tailwind-merge";
+import { deletePost } from "../../services/postsService";
 
-const Post = ({ post }) => {
+const Post = ({ post, postType }) => {
   // const [comment, setComment] = useState("");
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
@@ -26,113 +27,24 @@ const Post = ({ post }) => {
 
   const formattedDate = formatPostDate(post.createdAt);
 
-  // const { mutate: deletePost, isPending: isDeleting } = useMutation({
-  // 	mutationFn: async () => {
-  // 		try {
-  // 			const res = await fetch(`/api/posts/${post._id}`, {
-  // 				method: "DELETE",
-  // 			});
-  // 			const data = await res.json();
-
-  // 			if (!res.ok) {
-  // 				throw new Error(data.error || "Something went wrong");
-  // 			}
-  // 			return data;
-  // 		} catch (error) {
-  // 			throw new Error(error);
-  // 		}
-  // 	},
-  // 	onSuccess: () => {
-  // 		toast.success("Post deleted successfully");
-  // 		queryClient.invalidateQueries({ queryKey: ["posts"] });
-  // 	},
-  // });
-
-  // const { mutate: likePost, isPending: isLiking } = useMutation({
-  // 	mutationFn: async () => {
-  // 		try {
-  // 			const res = await fetch(`/api/posts/like/${post._id}`, {
-  // 				method: "POST",
-  // 			});
-  // 			const data = await res.json();
-  // 			if (!res.ok) {
-  // 				throw new Error(data.error || "Something went wrong");
-  // 			}
-  // 			return data;
-  // 		} catch (error) {
-  // 			throw new Error(error);
-  // 		}
-  // 	},
-  // 	onSuccess: (updatedLikes) => {
-  // 		// this is not the best UX, bc it will refetch all posts
-  // 		// queryClient.invalidateQueries({ queryKey: ["posts"] });
-
-  // 		// instead, update the cache directly for that post
-  // 		queryClient.setQueryData(["posts"], (oldData) => {
-  // 			return oldData.map((p) => {
-  // 				if (p._id === post._id) {
-  // 					return { ...p, userLikes: updatedLikes };
-  // 				}
-  // 				return p;
-  // 			});
-  // 		});
-  // 	},
-  // 	onError: (error) => {
-  // 		toast.error(error.message);
-  // 	},
-  // });
-
-  // const { mutate: commentPost, isPending: isCommenting } = useMutation({
-  // 	mutationFn: async () => {
-  // 		try {
-  // 			const res = await fetch(`/api/posts/comment/${post._id}`, {
-  // 				method: "POST",
-  // 				headers: {
-  // 					"Content-Type": "application/json",
-  // 				},
-  // 				body: JSON.stringify({ text: comment }),
-  // 			});
-  // 			const data = await res.json();
-
-  // 			if (!res.ok) {
-  // 				throw new Error(data.error || "Something went wrong");
-  // 			}
-  // 			return data;
-  // 		} catch (error) {
-  // 			throw new Error(error);
-  // 		}
-  // 	},
-  // 	onSuccess: () => {
-  // 		toast.success("Comment posted successfully");
-  // 		setComment("");
-  // 		queryClient.invalidateQueries({ queryKey: ["posts"] });
-  // 	},
-  // 	onError: (error) => {
-  // 		toast.error(error.message);
-  // 	},
-  // });
-
-  // const handleDeletePost = () => {
-  // 	deletePost();
-  // };
-
-  // const handlePostComment = (e) => {
-  // 	e.preventDefault();
-  // 	if (isCommenting) return;
-  // 	commentPost();
-  // };
-
-  // const handleLikePost = () => {
-  // 	if (isLiking) return;
-  // 	likePost();
-  // };
+  const deleteMutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      toast.success("Post deleted successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["posts", postType],
+      });
+    },
+  });
 
   const handlePostModal = () => [
     // TODO: Open Owner/Post Modal
     console.log("click more"),
   ];
 
-  // console.log(post.userShared.length);
+  const handleDeletePost = () => {
+    deleteMutation.mutate(post._id);
+  };
 
   console.log("rerender");
 
@@ -148,20 +60,31 @@ const Post = ({ post }) => {
           </Link>
         </div>
         <div className="flex flex-col flex-1">
-          <div className="flex gap-2 items-center">
-            <Link to={`/profile/${postOwner.username}`} className="font-bold">
-              {postOwner.displayName}
-            </Link>
-            <span className="text-gray-700 flex gap-1 text-sm">
-              <Link to={`/profile/${postOwner.username}`}>
-                @{postOwner.username}
+          <div className="flex gap-2 items-center justify-between">
+            <div className="flex gap-2 items-center">
+              <Link to={`/profile/${postOwner.username}`} className="font-bold">
+                {postOwner.displayName}
               </Link>
-              <span>·</span>
-              <span>{formattedDate}</span>
-            </span>
-            <span className="flex justify-end flex-1">
+              <span className="text-gray-700 flex gap-1 text-sm">
+                <Link to={`/profile/${postOwner.username}`}>
+                  @{postOwner.username}
+                </Link>
+                <span>·</span>
+                <span>{formattedDate}</span>
+              </span>
+            </div>
+            <span className="flex gap-2">
+              <FaTrash
+                className={twMerge(
+                  "cursor-pointer hover:text-red-500",
+                  deleteMutation.isPending
+                    ? "text-gray-500 cursor-not-allowed"
+                    : ""
+                )}
+                onClick={handleDeletePost}
+              />
               <IoIosMore
-                className="cursor-pointer hover:text-red-500"
+                className="cursor-pointer hover:text-neutral-400"
                 onClick={handlePostModal}
               />
             </span>
