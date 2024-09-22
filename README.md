@@ -41,7 +41,3 @@
 
 - Authentication stuck in pages when session id timeout
   => might change react router from main.jsx to App.jsx
-
-- React Query
-  - Doesn't cause re-render when data changes
-  - Still cache user data even after logout

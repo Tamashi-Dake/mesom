@@ -29,6 +29,13 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.username || !formData.password) {
+      // TODO: update UI (show missing fields, error on top)
+      toast.error("Please fill all the fields");
+      return;
+    }
+
     loginMutation.mutate(formData);
   };
 
@@ -46,6 +53,9 @@ const LoginPage = () => {
         <form className="flex gap-4 flex-col" onSubmit={handleSubmit}>
           <XSvg className="w-24 lg:hidden fill-black" />
           <h1 className="text-4xl font-extrabold text-black">{"Let's"} go.</h1>
+          {loginMutation.isError && (
+            <p className="text-red-500">{loginMutation.error.message}</p>
+          )}
           <label className="input input-bordered rounded flex items-center gap-2">
             <FaUser className="text-black" />
             <input
@@ -77,9 +87,6 @@ const LoginPage = () => {
           >
             {loginMutation.isPending ? "Loading..." : "Login"}
           </button>
-          {loginMutation.isError && (
-            <p className="text-red-500">{loginMutation.error.message}</p>
-          )}
         </form>
         <div className="flex flex-col gap-2 mt-4">
           <p className="text-black text-lg">{"Don't"} have an account?</p>

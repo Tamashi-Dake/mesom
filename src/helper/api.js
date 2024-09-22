@@ -4,9 +4,10 @@ const axiosInstance = axios.create({
   withCredentials: true,
   baseURL: `${import.meta.env.VITE_BACKEND_URL}`,
   timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  // TODO: Json conflict with form data when uploading files
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 // // Add a request interceptor

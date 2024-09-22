@@ -2,7 +2,8 @@ import { useState } from "react";
 import HomeHeader from "../components/layout/HomeHeader";
 import { useQuery } from "@tanstack/react-query";
 import { getFollowingPosts, getPosts } from "../services/postsService";
-import Post from "../components/post/post";
+import CreatePost from "../components/post/CreatePost";
+import Post from "../components/post/Post";
 
 const Home = () => {
   const [feedType, setFeedType] = useState("forYou");
@@ -29,6 +30,7 @@ const Home = () => {
   return (
     <>
       <HomeHeader activeTab={feedType} onTabChange={handleTabChange} />
+      <CreatePost postType={feedType} />
       <main>
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error: {error.message}</div>}
