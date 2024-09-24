@@ -2,42 +2,29 @@
 
 ## TODO
 
-- [x] Change auth modal to Auth page
-- [x] Refactor api calls
-- [ ] Add Emoji Mart, gif-picker-react
+- [ ] Like - setQueryData - avoid refetch all post
 
-- [ ] Home page
+  - [ ] add setQueryData in like
+  - [x] replace setQueryData in suggestedUser
+  - [ ] update BE to return update data
 
-  - [x] Show posts from all users - can be viewed by guest
-  - [x] Show posts from following users
-  - [ ] Post
+- [ ] Profile
 
-- [ ] Search
+- [ ] Change avatar -> avatarImg
+- [ ] Change banner -> avatarImg
 
-  - [ ] Search users
-  - [ ] Search posts
-  - [ ] Search tags
+- [ ] suggested user (temporary get random 2 user + admin)
 
-- [ ] User page
+  - [ ] Show more = get 10 suggested user
 
-  - [ ] Show user's posts / shared posts
-  - [ ] Show user's replies / posts
-  - [ ] Show user's media posts
-  - [ ] Show user's liked posts
-
-- [ ] Fix UI
-
-  - [ ] Sign up page
-  - [ ] Login page
+- [ ] Refactor useCurrentUser -> dùng contextApi hoặc zustand
 
 - [ ] Modal
 
   - [ ] Action modal
-  - [ ] User modal
+  - [ ] Default modal
 
-- [ ] Kiểm tra useCurrentUser (nếu re-render nhiều có thể chuyển sang dùng zustand)
+- [ ] Skeleton
+- [ ] Add Emoji Mart, gif-picker-react
 
 ## Problems
-
-- Authentication stuck in pages when session id timeout
-  => might change react router from main.jsx to App.jsx
