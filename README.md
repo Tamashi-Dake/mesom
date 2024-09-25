@@ -2,11 +2,11 @@
 
 ## TODO
 
-- [ ] Like - setQueryData - avoid refetch all post
+- [x] Like - setQueryData - avoid refetch all post
 
-  - [ ] add setQueryData in like
+  - [x] add setQueryData in like
   - [x] replace setQueryData in suggestedUser
-  - [ ] update BE to return update data
+  - [x] update BE to return update data
 
 - [ ] Profile
 

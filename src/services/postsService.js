@@ -35,3 +35,17 @@ export const deletePost = async (postId) => {
   const response = await api.delete(`/posts/${postId}`);
   return response.data;
 };
+
+// TODO: Lỗi gửi POST request thành Get Request
+export const toggleLikePost = async ({ postId, notificationType }) => {
+  const response = await api.post(`/posts/${postId}/like`, {
+    notificationType,
+  });
+  return response.data;
+};
+export const toggleSharePost = async ({ postId, notificationType }) => {
+  const response = await api.post(`/posts/${postId}/share`, {
+    notificationType,
+  });
+  return response.data;
+};

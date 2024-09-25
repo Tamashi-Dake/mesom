@@ -4,15 +4,13 @@ import { useFollowUser } from "../../hooks/useUser";
 
 const UserCard = ({ user }) => {
   const currentUser = useCurrentUser();
-  const followUserMutation = useFollowUser(user);
+  const followUserMutation = useFollowUser(user._id);
 
   const isFollowing = currentUser.data.following.includes(user._id);
 
   const handleFollow = () => {
     followUserMutation.mutate({ userId: user._id, notificationType: "follow" });
   };
-
-  console.log(user.followers);
   return (
     <Link
       to={`/profile/${user.username}`}

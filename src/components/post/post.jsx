@@ -2,7 +2,6 @@ import { FaHeart, FaRegComment, FaTrash } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
@@ -13,12 +12,12 @@ import useCurrentUser from "../../hooks/useCurrentUser";
 import { IoIosMore } from "react-icons/io";
 import { twMerge } from "tailwind-merge";
 import { deletePost } from "../../services/postsService";
+import { useLikePost, useSharePost } from "../../hooks/usePost";
 
 const Post = ({ post, postType }) => {
   // const [comment, setComment] = useState("");
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
-  const postOwner = post.author;
 
   const isLiked = post.userLikes.includes(currentUser.data._id);
   const isShared = post.userShared.includes(currentUser.data._id);
@@ -37,13 +36,26 @@ const Post = ({ post, postType }) => {
     },
   });
 
-  const handlePostModal = () => [
-    // TODO: Open Owner/Post Modal
+  const likeMutation = useLikePost(postType, post._id);
+  const shareMutation = useSharePost(postType, post._id);
+
+  const handlePostActionModal = () => [
+    // TODO: Open Owner/Post Action Modal
     console.log("click more"),
   ];
 
   const handleDeletePost = () => {
     deleteMutation.mutate(post._id);
+  };
+
+  const handleLikePost = (event) => {
+    event.preventDefault();
+    likeMutation.mutate({ postId: post._id, notificationType: "like" });
+  };
+
+  const handleSharePost = (event) => {
+    event.preventDefault();
+    shareMutation.mutate({ postId: post._id, notificationType: "share" });
   };
 
   console.log("rerender");
@@ -52,41 +64,43 @@ const Post = ({ post, postType }) => {
     <div className="flex gap-2 items-start p-4 border-b border-gray-200">
       <div className="avatar ">
         <Link
-          to={`/profile/${postOwner.username}`}
+          to={`/profile/${post.author.username}`}
           className="w-8 h-8 rounded-full overflow-hidden block"
         >
           <img
-            src={postOwner.profile.avatar || "https://placehold.co/400x400"}
+            src={post.author.profile.avatar || "https://placehold.co/400x400"}
           />
         </Link>
       </div>
       <div className="flex flex-col flex-1">
         <div className="flex gap-2 items-center justify-between">
           <div className="flex gap-2 items-center">
-            <Link to={`/profile/${postOwner.username}`} className="font-bold">
-              {postOwner.displayName}
+            <Link to={`/profile/${post.author.username}`} className="font-bold">
+              {post.author.displayName}
             </Link>
             <span className="text-gray-700 flex gap-1 text-sm">
-              <Link to={`/profile/${postOwner.username}`}>
-                @{postOwner.username}
+              <Link to={`/profile/${post.author.username}`}>
+                @{post.author.username}
               </Link>
               <span>·</span>
               <span>{formattedDate}</span>
             </span>
           </div>
           <span className="flex gap-2">
-            <FaTrash
-              className={twMerge(
-                "cursor-pointer hover:text-red-500",
-                deleteMutation.isPending
-                  ? "text-gray-500 cursor-not-allowed"
-                  : ""
-              )}
-              onClick={handleDeletePost}
-            />
+            {isMyPost && (
+              <FaTrash
+                className={twMerge(
+                  "cursor-pointer hover:text-red-500",
+                  deleteMutation.isPending
+                    ? "text-gray-500 cursor-not-allowed"
+                    : ""
+                )}
+                onClick={handleDeletePost}
+              />
+            )}
             <IoIosMore
               className="cursor-pointer hover:text-neutral-400"
-              onClick={handlePostModal}
+              onClick={handlePostActionModal}
             />
           </span>
         </div>
@@ -171,7 +185,10 @@ const Post = ({ post, postType }) => {
                   <button className="outline-none">close</button>
                 </form>
               </dialog> */}
-            <div className="flex gap-1 items-center group cursor-pointer">
+            <div
+              className="flex gap-1 items-center group cursor-pointer"
+              onClick={handleSharePost}
+            >
               <BiRepost
                 className={twMerge(
                   "w-6 h-6  text-slate-500 group-hover:text-green-500",
@@ -184,7 +201,7 @@ const Post = ({ post, postType }) => {
             </div>
             <div
               className="flex gap-1 items-center group cursor-pointer"
-              // onClick={handleLikePost}
+              onClick={handleLikePost}
             >
               {!isLiked && (
                 <FaRegHeart className="w-4 h-4 cursor-pointer text-slate-500 group-hover:text-pink-500" />

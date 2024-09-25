@@ -24,6 +24,8 @@ const Home = () => {
     },
   });
 
+  // console.log(feedType, data.posts, isLoading, isError, error);
+  // console.log(data);
   const handleTabChange = (tab) => {
     setFeedType(tab);
   };
@@ -46,7 +48,7 @@ const Home = () => {
           <>
             <div>
               {data?.posts?.map((post) => (
-                <Post key={post._id} post={post} />
+                <Post key={post._id} post={post} postType={feedType} />
               ))}
             </div>
           </>
