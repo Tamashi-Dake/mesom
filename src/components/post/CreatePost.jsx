@@ -8,6 +8,7 @@ import { CiImageOn } from "react-icons/ci";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
 import { createPost } from "../../services/postsService";
+import { gridImages } from "../shared/config";
 
 const CreatePost = ({ postType }) => {
   const queryClient = useQueryClient();
@@ -24,6 +25,7 @@ const CreatePost = ({ postType }) => {
     onSuccess: () => {
       setText("");
       setImages([]);
+      setPreviewImages([]);
       toast.success("Post created successfully");
       // TODO: might have to add url in queryKey - tạo reply không bị refetch trong post khác
       queryClient.invalidateQueries({ queryKey: ["posts", postType] });
@@ -33,7 +35,7 @@ const CreatePost = ({ postType }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!text && !images) {
+    if (!text && images != []) {
       toast.error("Missing post content");
       return;
     }
@@ -80,7 +82,6 @@ const CreatePost = ({ postType }) => {
       });
   };
 
-  // TODO: index bug when created a post
   const handleRemoveImage = (index) => {
     const newImages = images.filter((_, i) => i !== index); // Xóa ảnh tại vị trí index
     const newPreviewImages = previewImages.filter((_, i) => i !== index);
@@ -108,21 +109,53 @@ const CreatePost = ({ postType }) => {
           onChange={(e) => setText(e.target.value)}
         />
         {images.length > 0 && (
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div
+            className={`grid gap-[2px] rounded-lg overflow-hidden ${
+              gridImages[images.length - 1]
+            }`}
+          >
             {previewImages.map((img, index) => (
-              <div key={index} className="relative w-72 mx-auto">
+              <div
+                key={index}
+                className={`relative group ${
+                  images.length === 3 && index === 0 ? "row-span-2" : ""
+                }`}
+              >
                 <IoCloseSharp
-                  className="absolute top-0 right-0 text-white bg-gray-800 rounded-full w-5 h-5 cursor-pointer"
+                  className="absolute top-1 right-1 text-white bg-gray-800 rounded-full w-5 h-5 cursor-pointer"
                   onClick={() => handleRemoveImage(index)}
                 />
                 <img
                   src={img}
-                  className="w-full mx-auto h-72 object-contain rounded"
+                  className={`w-full h-full ${
+                    images.length === 1 ? "object-contain" : "object-cover"
+                  }`}
                 />
               </div>
             ))}
           </div>
         )}
+
+        {/* <div
+            className={`grid gap-[2px] rounded-lg  ${
+              gridImages[images.length - 1]
+            }`}
+          >
+            {previewImages.map((img, index) => (
+              <div
+                key={index}
+                className={` ${
+                  images.length === 3 && index === 0 ? "row-span-2" : ""
+                }`}
+              >
+                <img src={img} className="h-auto w-auto" />
+                <IoCloseSharp
+                  className="absolute top-0 right-0 text-white bg-gray-800 rounded-full w-5 h-5 cursor-pointer"
+                  onClick={() => handleRemoveImage(index)}
+                />
+              </div>
+            ))}
+          </div> */}
 
         <div className="flex justify-between border-t py-2 border-t-gray-200">
           <div className="flex gap-1 items-center">

@@ -49,3 +49,11 @@ export const config = {
     icon: <FaFeather size={24} color="white" />,
   },
 };
+
+export const gridImages = [
+  "grid-cols-1", // for 1 image
+  "grid-cols-2", // for 2 images
+  // TODO: change fixed height
+  "grid-rows-2 grid-cols-2 max-h-60", // for 3 images
+  "grid-rows-2 grid-cols-2 max-h-60", // for 4 images
+];

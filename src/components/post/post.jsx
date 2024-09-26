@@ -1,21 +1,23 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { twMerge } from "tailwind-merge";
+
+import useCurrentUser from "../../hooks/useCurrentUser";
+import { useLikePost, useSharePost } from "../../hooks/usePost";
+import { deletePost } from "../../services/postsService";
+
+import { formatPostDate } from "../../helper/formatDate";
+import { gridImages } from "../shared/config";
+
 import { FaHeart, FaRegComment, FaTrash } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
-
-// import LoadingSpinner from "./LoadingSpinner";
-import { formatPostDate } from "../../helper/formatDate";
-import useCurrentUser from "../../hooks/useCurrentUser";
 import { IoIosMore } from "react-icons/io";
-import { twMerge } from "tailwind-merge";
-import { deletePost } from "../../services/postsService";
-import { useLikePost, useSharePost } from "../../hooks/usePost";
+// import LoadingSpinner from "./LoadingSpinner";
 
 const Post = ({ post, postType }) => {
-  // const [comment, setComment] = useState("");
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
 
@@ -76,7 +78,7 @@ const Post = ({ post, postType }) => {
         <div className="flex gap-2 items-center justify-between">
           <div className="flex gap-2 items-center">
             <Link to={`/profile/${post.author.username}`} className="font-bold">
-              {post.author.displayName}
+              {post.author.displayName || post.author.username}
             </Link>
             <span className="text-gray-700 flex gap-1 text-sm">
               <Link to={`/profile/${post.author.username}`}>
@@ -106,15 +108,26 @@ const Post = ({ post, postType }) => {
         </div>
         <div className="flex flex-col gap-3 overflow-hidden">
           <span>{post.text}</span>
-          {post.images?.length > 0 &&
-            post.images.map((image, index) => (
-              <img
-                key={index} // Đặt key cho mỗi phần tử
-                src={image}
-                className="h-80 object-contain rounded-lg border border-gray-700"
-                alt={`Image ${index}`} // Tạo alt dynamic
-              />
-            ))}
+          {post.images?.length > 0 && (
+            <div
+              className={`grid gap-[2px] rounded-lg overflow-hidden ${
+                gridImages[post.images.length - 1]
+              }`}
+            >
+              {post.images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  className={twMerge(
+                    "h-full w-full object-cover ",
+                    post.images.length === 3 && index === 0 ? "row-span-2" : ""
+                  )}
+                  // "h-80 object-contain rounded-lg border border-gray-700"
+                  alt={`Image ${index}`} // Tạo alt dynamic
+                />
+              ))}
+            </div>
+          )}
         </div>
         <div className="flex justify-between mt-3">
           <div className="flex gap-4 items-center w-2/3 justify-between">

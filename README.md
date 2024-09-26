@@ -2,12 +2,6 @@
 
 ## TODO
 
-- [x] Like - setQueryData - avoid refetch all post
-
-  - [x] add setQueryData in like
-  - [x] replace setQueryData in suggestedUser
-  - [x] update BE to return update data
-
 - [ ] Profile
 
 - [ ] Change avatar -> avatarImg
