@@ -14,9 +14,10 @@
 - [ ] Refactor useCurrentUser -> dùng contextApi hoặc zustand
 
 - [ ] Modal
-
-  - [ ] Action modal
-  - [ ] Default modal
+  - [ ] Image Modal
+  - [ ] Default Modal
+  - [ ] Action Modal (Confirm actions)
+- [ ] Menu
 
 - [ ] Skeleton
 - [ ] Add Emoji Mart, gif-picker-react
