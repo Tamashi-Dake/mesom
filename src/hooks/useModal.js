@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { create } from "zustand";
 
-const toggleModalHook = () => {
+const toggleModal = () => {
   return create((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
@@ -8,9 +9,17 @@ const toggleModalHook = () => {
   }));
 };
 
-const useAuthModal = toggleModalHook();
+const usePostModal = () => {
+  const [open, setOpen] = useState(false);
 
-const useSubscribeModal = toggleModalHook();
-const useAdModal = toggleModalHook();
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
 
-export { useAuthModal, useSubscribeModal, useAdModal };
+  return { open, openModal, closeModal };
+};
+
+const useAuthModal = toggleModal();
+const useSubscribeModal = toggleModal();
+const useAdModal = toggleModal();
+
+export { useAuthModal, useSubscribeModal, useAdModal, usePostModal };

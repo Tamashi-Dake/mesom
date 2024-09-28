@@ -10,7 +10,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { createPost } from "../../services/postsService";
 import { gridImages } from "../shared/config";
 
-const CreatePost = ({ postType }) => {
+const CreatePost = ({ refetch = true, postType, isReply }) => {
   const queryClient = useQueryClient();
 
   const currentUser = useCurrentUser();
@@ -28,7 +28,8 @@ const CreatePost = ({ postType }) => {
       setPreviewImages([]);
       toast.success("Post created successfully");
       // TODO: might have to add url in queryKey - tạo reply không bị refetch trong post khác
-      queryClient.invalidateQueries({ queryKey: ["posts", postType] });
+      if (refetch)
+        queryClient.invalidateQueries({ queryKey: ["posts", ...postType] });
     },
   });
 
@@ -104,7 +105,7 @@ const CreatePost = ({ postType }) => {
       <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
         <textarea
           className="textarea w-full p-0 text-lg resize-none border-none focus:outline-none border-gray-800"
-          placeholder="What's happening?"
+          placeholder={isReply ? "Post your reply" : "What's happening?"}
           value={text}
           onChange={(e) => setText(e.target.value)}
         />

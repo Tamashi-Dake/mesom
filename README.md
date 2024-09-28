@@ -2,6 +2,11 @@
 
 ## TODO
 
+- [ ] Split Post component
+
+  - [ ] Post Content (Post Author - Post Option)
+  - [ ] Post Actions
+
 - [ ] Profile
 
 - [ ] Change avatar -> avatarImg
@@ -14,9 +19,11 @@
 - [ ] Refactor useCurrentUser -> dùng contextApi hoặc zustand
 
 - [ ] Modal
+
   - [ ] Image Modal
-  - [ ] Default Modal
+  - [x] Default Modal
   - [ ] Action Modal (Confirm actions)
+
 - [ ] Menu
 
 - [ ] Skeleton
