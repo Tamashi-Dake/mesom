@@ -1,8 +1,15 @@
 import { AiOutlineClose } from "react-icons/ai";
 import CreatePost from "../post/CreatePost";
 import { Modal } from "./Modal";
+import AuthorAvatar from "../post/AuthorAvatar";
+import PostInfo from "../post/PostInfo";
+import PostContent from "../post/PostContent";
+import { formatPostDate } from "../../helper/formatDate";
+import { Link } from "react-router-dom";
 
 const ReplyModal = ({ modal, post }) => {
+  const date = formatPostDate(post.createdAt);
+
   return (
     <Modal
       className="flex items-start justify-center "
@@ -16,7 +23,25 @@ const ReplyModal = ({ modal, post }) => {
       >
         <AiOutlineClose size={20} />
       </button>
-      <pre>{JSON.stringify(post.text, null, 2)}</pre>
+      <div className="flex gap-2 items-start p-4 ">
+        <AuthorAvatar author={post.author} isReply />
+        <div className="flex flex-col flex-1">
+          <div className="flex items-center justify-start">
+            <PostInfo author={post.author} date={date} />
+          </div>
+          <PostContent textContent={post.text} images={post.images} />
+          <div className="reply-hint flex gap-1 mt-2">
+            <span className="text-neutral-500">Replying to</span>
+            {/* TODO: Add accent color */}
+            <Link
+              to={`/profile/${post.author.username}`}
+              className="text-blue-500"
+            >
+              @{post.author.username}
+            </Link>
+          </div>
+        </div>
+      </div>
       <CreatePost postType={"forYou"} isReply={true} />
       {/* <TweetReplyModal tweet={tweet} closeModal={closeModal} /> */}
     </Modal>

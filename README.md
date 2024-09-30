@@ -2,10 +2,10 @@
 
 ## TODO
 
-- [ ] Split Post component
+- [x] Split Post component
 
-  - [ ] Post Content (Post Author - Post Option)
-  - [ ] Post Actions
+  - [x] Post Content (Post Author - Post Option)
+  - [x] Post Actions
 
 - [ ] Profile
 
@@ -21,6 +21,8 @@
 - [ ] Modal
 
   - [ ] Image Modal
+    - [ ] Zoom
+    - [ ] Image + Post
   - [x] Default Modal
   - [ ] Action Modal (Confirm actions)
 

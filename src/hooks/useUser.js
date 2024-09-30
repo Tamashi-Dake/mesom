@@ -6,7 +6,7 @@ import { toggleFollow } from "../services/userService";
 export const useFollowUser = (userId) => {
   const queryClient = useQueryClient();
 
-  const followMutate = useMutation({
+  const followMutation = useMutation({
     mutationFn: toggleFollow,
     onSuccess: (data) => {
       const { followers } = data;
@@ -28,5 +28,5 @@ export const useFollowUser = (userId) => {
     },
   });
 
-  return followMutate;
+  return followMutation;
 };

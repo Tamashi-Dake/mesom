@@ -7,19 +7,19 @@ import CreatePost from "../components/post/CreatePost";
 import Post from "../components/post/Post";
 
 const Home = () => {
-  const [feedType, setFeedType] = useState("forYou");
+  const [queryType, setFeedType] = useState("forYou");
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: [
       "posts",
       // TODO: Consider adding feedType to refetch independently
-      feedType,
+      queryType,
     ],
     queryFn: () => {
-      if (feedType === "forYou") {
+      if (queryType === "forYou") {
         return getPosts();
       }
-      if (feedType === "following") {
+      if (queryType === "following") {
         return getFollowingPosts();
       }
     },
@@ -33,24 +33,24 @@ const Home = () => {
 
   return (
     <>
-      <HomeHeader activeTab={feedType} onTabChange={handleTabChange} />
-      <CreatePost postType={feedType} />
+      <HomeHeader activeTab={queryType} onTabChange={handleTabChange} />
+      <CreatePost postType={queryType} />
       <main>
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error: {error.message}</div>}
-        {feedType === "forYou" && (
+        {queryType === "forYou" && (
           <>
             {data?.posts?.map((post) => (
-              <Post key={post._id} post={post} postType={feedType} />
+              <Post key={post._id} post={post} postType={queryType} />
             ))}
             {/* {console.log(data.posts)} */}
           </>
         )}
-        {feedType === "following" && (
+        {queryType === "following" && (
           <>
             <div>
               {data?.posts?.map((post) => (
-                <Post key={post._id} post={post} postType={feedType} />
+                <Post key={post._id} post={post} postType={queryType} />
               ))}
             </div>
           </>

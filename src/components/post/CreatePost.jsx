@@ -9,6 +9,7 @@ import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
 import { createPost } from "../../services/postsService";
 import { gridImages } from "../shared/config";
+import { twMerge } from "tailwind-merge";
 
 const CreatePost = ({ refetch = true, postType, isReply }) => {
   const queryClient = useQueryClient();
@@ -36,7 +37,7 @@ const CreatePost = ({ refetch = true, postType, isReply }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!text && images != []) {
+    if (!text && images.length == 0) {
       toast.error("Missing post content");
       return;
     }
@@ -104,7 +105,7 @@ const CreatePost = ({ refetch = true, postType, isReply }) => {
       </div>
       <form className="flex flex-col gap-2 w-full" onSubmit={handleSubmit}>
         <textarea
-          className="textarea w-full p-0 text-lg resize-none border-none focus:outline-none border-gray-800"
+          className="textarea w-full p-0 text-lg resize-none focus:outline-none "
           placeholder={isReply ? "Post your reply" : "What's happening?"}
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -137,28 +138,7 @@ const CreatePost = ({ refetch = true, postType, isReply }) => {
           </div>
         )}
 
-        {/* <div
-            className={`grid gap-[2px] rounded-lg  ${
-              gridImages[images.length - 1]
-            }`}
-          >
-            {previewImages.map((img, index) => (
-              <div
-                key={index}
-                className={` ${
-                  images.length === 3 && index === 0 ? "row-span-2" : ""
-                }`}
-              >
-                <img src={img} className="h-auto w-auto" />
-                <IoCloseSharp
-                  className="absolute top-0 right-0 text-white bg-gray-800 rounded-full w-5 h-5 cursor-pointer"
-                  onClick={() => handleRemoveImage(index)}
-                />
-              </div>
-            ))}
-          </div> */}
-
-        <div className="flex justify-between border-t py-2 border-t-gray-200">
+        <div className="flex justify-between  py-2 ">
           <div className="flex gap-1 items-center">
             <CiImageOn
               className="fill-primary w-6 h-6 cursor-pointer"
@@ -174,7 +154,15 @@ const CreatePost = ({ refetch = true, postType, isReply }) => {
             onChange={handleImgChange}
             multiple // Cho phép chọn nhiều ảnh
           />
-          <button className="bg-sky-500 rounded-full btn-sm text-white px-4">
+          <button
+            disabled={text || images.length > 0}
+            className={twMerge(
+              "bg-sky-500 rounded-full btn-sm text-white px-4",
+              text || images.length > 0
+                ? ""
+                : "bg-sky-500/50 cursor-not-allowed"
+            )}
+          >
             {postMutate.isPending ? "Posting..." : "Post"}
           </button>
         </div>

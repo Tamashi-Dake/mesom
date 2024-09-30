@@ -1,9 +1,29 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import { toggleLikePost, toggleSharePost } from "../services/postsService";
+import {
+  deletePost,
+  toggleLikePost,
+  toggleSharePost,
+} from "../services/postsService";
 
-export const useLikePost = (postType, postId) => {
+export const useDeletePost = (queryType) => {
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      toast.success("Post deleted successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["posts", queryType],
+      });
+    },
+  });
+
+  return deleteMutation;
+};
+
+export const useLikePost = (queryType, postId) => {
   const queryClient = useQueryClient();
 
   const likeMutate = useMutation({
@@ -11,7 +31,7 @@ export const useLikePost = (postType, postId) => {
     onSuccess: (data) => {
       const { likes } = data;
 
-      queryClient.setQueryData(["posts", postType], (existingPosts) => {
+      queryClient.setQueryData(["posts", queryType], (existingPosts) => {
         return {
           ...existingPosts,
           posts: existingPosts.posts.map((currentPost) => {
@@ -32,7 +52,7 @@ export const useLikePost = (postType, postId) => {
   return likeMutate;
 };
 
-export const useSharePost = (postType, postId) => {
+export const useSharePost = (queryType, postId) => {
   const queryClient = useQueryClient();
 
   const likeMutate = useMutation({
@@ -40,7 +60,7 @@ export const useSharePost = (postType, postId) => {
     onSuccess: (data) => {
       const { shares } = data;
 
-      queryClient.setQueryData(["posts", postType], (existingPosts) => {
+      queryClient.setQueryData(["posts", queryType], (existingPosts) => {
         return {
           ...existingPosts,
           posts: existingPosts.posts.map((currentPost) => {
