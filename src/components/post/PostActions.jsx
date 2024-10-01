@@ -33,6 +33,11 @@ const PostActions = ({ post, queryType }) => {
   const likeMutation = useLikePost(queryType, post._id);
   const shareMutation = useSharePost(queryType, post._id);
 
+  const handleReply = (event) => {
+    event.preventDefault();
+    replyModal.openModal();
+  };
+
   const handleLikePost = (event) => {
     event.preventDefault();
     likeMutation.mutate({ postId: post._id, notificationType: "like" });
@@ -47,7 +52,7 @@ const PostActions = ({ post, queryType }) => {
       <div className="flex gap-4 items-center w-2/3 justify-between">
         <div
           className="flex gap-1 items-center cursor-pointer group"
-          onClick={replyModal.openModal}
+          onClick={handleReply}
         >
           <FaRegComment className="w-4 h-4  text-slate-500 group-hover:text-sky-400" />
           <span className="text-sm text-slate-500 group-hover:text-sky-400">

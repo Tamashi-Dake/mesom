@@ -2,11 +2,6 @@
 
 ## TODO
 
-- [x] Split Post component
-
-  - [x] Post Content (Post Author - Post Option)
-  - [x] Post Actions
-
 - [ ] Profile
 
 - [ ] Change avatar -> avatarImg

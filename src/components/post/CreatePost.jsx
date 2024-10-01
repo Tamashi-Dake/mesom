@@ -1,96 +1,28 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
-import { toast } from "react-hot-toast";
+import { twMerge } from "tailwind-merge";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
+import { useCreatePost } from "../../hooks/usePost";
+
+import { gridImages } from "../shared/config";
 
 import { CiImageOn } from "react-icons/ci";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
-import { createPost } from "../../services/postsService";
-import { gridImages } from "../shared/config";
-import { twMerge } from "tailwind-merge";
 
-const CreatePost = ({ refetch = true, postType, isReply }) => {
-  const queryClient = useQueryClient();
-
+const CreatePost = ({ postId, isReply, refetch, queryType }) => {
   const currentUser = useCurrentUser();
-  const [text, setText] = useState("");
-  const [images, setImages] = useState([]);
-  const [previewImages, setPreviewImages] = useState([]);
-  const imgRef = useRef(null);
 
-  //   TODO: Refactor to usePost hook
-  const postMutate = useMutation({
-    mutationFn: createPost,
-    onSuccess: () => {
-      setText("");
-      setImages([]);
-      setPreviewImages([]);
-      toast.success("Post created successfully");
-      // TODO: might have to add url in queryKey - tạo reply không bị refetch trong post khác
-      if (refetch)
-        queryClient.invalidateQueries({ queryKey: ["posts", ...postType] });
-    },
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!text && images.length == 0) {
-      toast.error("Missing post content");
-      return;
-    }
-
-    const postData = new FormData();
-    postData.append("text", text);
-
-    images.forEach((image) => {
-      postData.append("images", image);
-    });
-
-    postMutate.mutate(postData);
-  };
-
-  const handleImgChange = (e) => {
-    const files = Array.from(e.target.files); // Lấy tất cả các file
-    if (files.length + images.length > 4) {
-      return toast.error("Maximum number of images reached!");
-    }
-
-    // thêm ảnh vào post
-    setImages((prevImages) => [...prevImages, ...files]);
-
-    const newPreviewImagesPromises = files.map((file) => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          resolve(reader.result); // Resolve với kết quả từ FileReader
-        };
-        reader.onerror = reject; // Reject nếu có lỗi
-        reader.readAsDataURL(file);
-      });
-    });
-
-    // Sử dụng Promise.all để chờ tất cả các ảnh được đọc hoàn tất
-    Promise.all(newPreviewImagesPromises)
-      .then((newImages) => {
-        if (images.length + newImages.length <= 4) {
-          setPreviewImages((prevImages) => [...prevImages, ...newImages]); // Cập nhật state với danh sách ảnh mới
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading images:", error);
-      });
-  };
-
-  const handleRemoveImage = (index) => {
-    const newImages = images.filter((_, i) => i !== index); // Xóa ảnh tại vị trí index
-    const newPreviewImages = previewImages.filter((_, i) => i !== index);
-    setImages(newImages);
-    setPreviewImages(newPreviewImages);
-    imgRef.current.value = null; // Đặt lại input file
-  };
+  const {
+    postMutate,
+    text,
+    setText,
+    images,
+    previewImages,
+    imgRef,
+    handleSubmit,
+    handleImgChange,
+    handleRemoveImage,
+  } = useCreatePost(postId, isReply, queryType, refetch);
 
   return (
     <div className="flex p-4 items-start gap-4 border-b border-gray-700">
@@ -155,11 +87,11 @@ const CreatePost = ({ refetch = true, postType, isReply }) => {
             multiple // Cho phép chọn nhiều ảnh
           />
           <button
-            disabled={text || images.length > 0}
+            disabled={!text && images.length === 0}
             className={twMerge(
               "bg-sky-500 rounded-full btn-sm text-white px-4",
               text || images.length > 0
-                ? ""
+                ? "cursor-pointer hover:bg-sky-500/85"
                 : "bg-sky-500/50 cursor-not-allowed"
             )}
           >

@@ -34,23 +34,22 @@ const Home = () => {
   return (
     <>
       <HomeHeader activeTab={queryType} onTabChange={handleTabChange} />
-      <CreatePost postType={queryType} />
+      <CreatePost queryType={queryType} refetch />
       <main>
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error: {error.message}</div>}
         {queryType === "forYou" && (
           <>
             {data?.posts?.map((post) => (
-              <Post key={post._id} post={post} postType={queryType} />
+              <Post key={post._id} post={post} queryType={queryType} />
             ))}
-            {/* {console.log(data.posts)} */}
           </>
         )}
         {queryType === "following" && (
           <>
             <div>
               {data?.posts?.map((post) => (
-                <Post key={post._id} post={post} postType={queryType} />
+                <Post key={post._id} post={post} queryType={queryType} />
               ))}
             </div>
           </>

@@ -6,6 +6,11 @@ export const getPosts = async () => {
   return response.data;
 };
 
+export const getPost = async (postId) => {
+  const response = await api.get(`/post/${postId}`);
+  return response.data;
+};
+
 // Hàm lấy danh sách posts theo người dùng đang theo dõi
 export const getFollowingPosts = async () => {
   const response = await api.get("/posts/following");
@@ -32,7 +37,7 @@ export const createReply = async (postId, replyData) => {
 
 // Hàm xóa một post
 export const deletePost = async (postId) => {
-  const response = await api.delete(`/posts/${postId}`);
+  const response = await api.delete(`/post/${postId}`);
   return response.data;
 };
 

@@ -10,10 +10,12 @@ const PostOptions = ({ authorId, postId, queryType }) => {
   const isMyPost = currentUser.data._id === authorId;
   const deleteMutation = useDeletePost(queryType);
 
-  const handlePostActionModal = () => [
+  const handlePostActionModal = (event) => {
+    event.preventDefault();
+
     // TODO: Open Owner/Post Action Modal
-    console.log("click more"),
-  ];
+    console.log("click more");
+  };
 
   const handleDeletePost = () => {
     deleteMutation.mutate(postId);

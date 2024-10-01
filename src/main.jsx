@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/Auth/Login.jsx";
 import SignUpPage from "./pages/Auth/SignUp.jsx";
+import PostPage from "./pages/PostPage.jsx";
 
 // Create a new instance of QueryClient
 const queryClient = new QueryClient({
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         // errorElement: <Error />,
       },
       {
+        path: "/post/:postId",
+        element: <PostPage />,
+      },
+      {
         path: "/search",
         element: <Search />,
       },
@@ -51,7 +56,7 @@ const router = createBrowserRouter([
         element: <Messages />,
       },
       {
-        path: "/profile",
+        path: "/profile/:username",
         element: <Profile />,
       },
       {

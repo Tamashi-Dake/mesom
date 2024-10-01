@@ -42,7 +42,7 @@ const ReplyModal = ({ modal, post }) => {
           </div>
         </div>
       </div>
-      <CreatePost postType={"forYou"} isReply={true} />
+      <CreatePost queryType={"forYou"} isReply={true} />
       {/* <TweetReplyModal tweet={tweet} closeModal={closeModal} /> */}
     </Modal>
   );
