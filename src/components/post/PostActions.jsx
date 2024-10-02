@@ -30,6 +30,7 @@ const PostActions = ({ post, queryType }) => {
   const isLiked = post.userLikes.includes(currentUser.data._id);
   const isShared = post.userShared.includes(currentUser.data._id);
 
+  // TODO: update lại cho Post page
   const likeMutation = useLikePost(queryType, post._id);
   const shareMutation = useSharePost(queryType, post._id);
 

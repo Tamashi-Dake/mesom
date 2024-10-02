@@ -6,10 +6,9 @@ import PostActions from "./PostActions";
 import { Link } from "react-router-dom";
 
 const Post = ({ post, queryType }) => {
-  console.log("rerender");
+  console.log("rerender", post._id);
 
   return (
-    // TODO: Change to div in PostPage
     <Link
       to={`/post/${post?._id}`}
       className="flex flex-1 gap-2 items-start p-4 border-b border-gray-200 hover:bg-neutral-100/90 transition-all"

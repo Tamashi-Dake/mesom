@@ -8,8 +8,10 @@ import { gridImages } from "../shared/config";
 import { CiImageOn } from "react-icons/ci";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
-const CreatePost = ({ postId, isReply, refetch, queryType }) => {
+const CreatePost = ({ postId, isReply, refetch, queryType, onPost }) => {
   const currentUser = useCurrentUser();
 
   const {
@@ -23,6 +25,16 @@ const CreatePost = ({ postId, isReply, refetch, queryType }) => {
     handleImgChange,
     handleRemoveImage,
   } = useCreatePost(postId, isReply, queryType, refetch);
+
+  // TODO: cần check khi reply trong Post page
+  useEffect(() => {
+    if (isReply) {
+      !postId && toast.error("Missing parent post");
+      if (postMutate.isSuccess && onPost) {
+        onPost();
+      }
+    }
+  }, [isReply, postId, postMutate.isSuccess]);
 
   return (
     <div className="flex p-4 items-start gap-4 border-b border-gray-700">

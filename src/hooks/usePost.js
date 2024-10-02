@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 
 import {
   createPost,
+  createReply,
   deletePost,
   toggleLikePost,
   toggleSharePost,
@@ -22,7 +23,7 @@ export const useCreatePost = (
   const imgRef = useRef(null);
 
   const postMutate = useMutation({
-    mutationFn: createPost,
+    mutationFn: isReply ? createReply : createPost,
     onSuccess: () => {
       setText("");
       setImages([]);
@@ -46,6 +47,10 @@ export const useCreatePost = (
     }
 
     const postData = new FormData();
+    if (isReply) {
+      postData?.append("notificationType", "reply");
+      postData.append("parentPost", postId);
+    }
     postData.append("text", text);
     images.forEach((image) => postData.append("images", image));
 

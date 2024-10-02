@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Profile
+- [x] Profile
 
 - [ ] Change avatar -> avatarImg
 - [ ] Change banner -> avatarImg
