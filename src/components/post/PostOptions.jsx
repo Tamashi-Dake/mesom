@@ -3,12 +3,14 @@ import { twMerge } from "tailwind-merge";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { useDeletePost } from "../../hooks/usePost";
 import { IoIosMore } from "react-icons/io";
+import { useParams } from "react-router-dom";
 
 const PostOptions = ({ authorId, postId, queryType }) => {
   const currentUser = useCurrentUser();
+  const { postId: postParam } = useParams();
 
   const isMyPost = currentUser.data._id === authorId;
-  const deleteMutation = useDeletePost(queryType);
+  const deleteMutation = useDeletePost(queryType, postParam);
 
   const handlePostActionModal = (event) => {
     event.preventDefault();
@@ -17,7 +19,8 @@ const PostOptions = ({ authorId, postId, queryType }) => {
     console.log("click more");
   };
 
-  const handleDeletePost = () => {
+  const handleDeletePost = (event) => {
+    event.preventDefault();
     deleteMutation.mutate(postId);
   };
 

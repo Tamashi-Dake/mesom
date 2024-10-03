@@ -42,13 +42,13 @@ const ReplyModal = ({ modal, post }) => {
           </div>
         </div>
       </div>
+      {/* TODO: update queryType  */}
       <CreatePost
         queryType={"forYou"}
         isReply={true}
         onPost={modal.closeModal}
         postId={post._id}
       />
-      {/* <TweetReplyModal tweet={tweet} closeModal={closeModal} /> */}
     </Modal>
   );
 };

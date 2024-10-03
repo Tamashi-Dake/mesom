@@ -13,8 +13,9 @@ import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
 
-const PostActions = ({ post, queryType }) => {
+const PostActions = ({ post, queryType, postParam }) => {
   const currentUser = useCurrentUser();
+  const refetchSingle = postParam ? true : false;
 
   const replyModal = useModal();
 
@@ -30,9 +31,8 @@ const PostActions = ({ post, queryType }) => {
   const isLiked = post.userLikes.includes(currentUser.data._id);
   const isShared = post.userShared.includes(currentUser.data._id);
 
-  // TODO: update lại cho Post page
-  const likeMutation = useLikePost(queryType, post._id);
-  const shareMutation = useSharePost(queryType, post._id);
+  const likeMutation = useLikePost(queryType, post._id, refetchSingle);
+  const shareMutation = useSharePost(queryType, post._id, refetchSingle);
 
   const handleReply = (event) => {
     event.preventDefault();
@@ -52,8 +52,11 @@ const PostActions = ({ post, queryType }) => {
     <div className="flex justify-between mt-3">
       <div className="flex gap-4 items-center w-2/3 justify-between">
         <div
-          className="flex gap-1 items-center cursor-pointer group"
-          onClick={handleReply}
+          className={twMerge(
+            "flex gap-1 items-center cursor-pointer group",
+            postParam ? "cursor-not-allowed" : ""
+          )}
+          onClick={postParam ? null : handleReply}
         >
           <FaRegComment className="w-4 h-4  text-slate-500 group-hover:text-sky-400" />
           <span className="text-sm text-slate-500 group-hover:text-sky-400">

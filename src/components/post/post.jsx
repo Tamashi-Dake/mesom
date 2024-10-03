@@ -6,8 +6,7 @@ import PostActions from "./PostActions";
 import { Link } from "react-router-dom";
 
 const Post = ({ post, queryType }) => {
-  console.log("rerender", post._id);
-
+  console.log("rerender", post.text);
   return (
     <Link
       to={`/post/${post?._id}`}
@@ -16,7 +15,7 @@ const Post = ({ post, queryType }) => {
       <AuthorAvatar author={post.author} />
       <div className="flex flex-col flex-1">
         <div className="flex gap-2 items-center justify-between">
-          <PostInfo author={post.author} createdAt={post.createdAt} />
+          <PostInfo author={post.author} date={post.createdAt} />
           <PostOptions
             authorId={post.author._id}
             postId={post._id}

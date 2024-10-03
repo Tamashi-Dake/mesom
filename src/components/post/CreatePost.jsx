@@ -10,9 +10,12 @@ import { BsEmojiSmileFill } from "react-icons/bs";
 import { IoCloseSharp } from "react-icons/io5";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 const CreatePost = ({ postId, isReply, refetch, queryType, onPost }) => {
   const currentUser = useCurrentUser();
+  const { postId: postParam } = useParams();
+  const inReplyModal = postParam ? false : true;
 
   const {
     postMutate,
@@ -24,7 +27,7 @@ const CreatePost = ({ postId, isReply, refetch, queryType, onPost }) => {
     handleSubmit,
     handleImgChange,
     handleRemoveImage,
-  } = useCreatePost(postId, isReply, queryType, refetch);
+  } = useCreatePost(postId, isReply, inReplyModal, queryType, refetch);
 
   // TODO: cần check khi reply trong Post page
   useEffect(() => {

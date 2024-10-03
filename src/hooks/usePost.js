@@ -13,6 +13,7 @@ import {
 export const useCreatePost = (
   postId,
   isReply = false,
+  inReplyModal = false,
   queryType,
   refetch = false
 ) => {
@@ -24,7 +25,7 @@ export const useCreatePost = (
 
   const postMutate = useMutation({
     mutationFn: isReply ? createReply : createPost,
-    onSuccess: () => {
+    onSuccess: (data) => {
       setText("");
       setImages([]);
       setPreviewImages([]);
@@ -33,7 +34,33 @@ export const useCreatePost = (
         queryClient.invalidateQueries({ queryKey: ["posts", queryType] });
       }
       if (isReply) {
-        queryClient.invalidateQueries({ queryKey: ["post", postId] });
+        const { numberReplies } = data;
+        console.log(numberReplies);
+
+        if (inReplyModal) {
+          queryClient.setQueryData(["posts", queryType], (existingPosts) => {
+            return {
+              ...existingPosts,
+              posts: existingPosts.posts.map((currentPost) => {
+                if (currentPost._id === postId) {
+                  return { ...currentPost, userReplies: numberReplies };
+                }
+                return currentPost;
+              }),
+            };
+          });
+        } else {
+          queryClient.setQueryData(["post", postId], (oldData) => {
+            if (!oldData) return;
+            return {
+              ...oldData,
+              userReplies: numberReplies,
+            };
+          });
+          queryClient.invalidateQueries({
+            queryKey: ["post", postId, "reply"],
+          });
+        }
       }
     },
   });
@@ -122,41 +149,69 @@ export const useCreatePost = (
   };
 };
 
-export const useDeletePost = (queryType) => {
+// TODO: Change to soft delete
+export const useDeletePost = (queryType, postParam) => {
   const queryClient = useQueryClient();
 
   const deleteMutation = useMutation({
     mutationFn: deletePost,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Post deleted successfully");
-      queryClient.invalidateQueries({
-        queryKey: ["posts", queryType],
-      });
+      if (!postParam) {
+        queryClient.invalidateQueries({
+          queryKey: ["posts", queryType],
+        });
+      } else {
+        queryClient.setQueryData(["post", postParam], (oldData) => {
+          if (!oldData) return;
+          return {
+            ...oldData,
+            userReplies: data.numberReplies,
+          };
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["post", postParam, "reply"],
+        });
+      }
     },
   });
 
   return deleteMutation;
 };
 
-export const useLikePost = (queryType, postId) => {
+export const useLikePost = (queryType, postId, refetchSingle) => {
   const queryClient = useQueryClient();
 
-  const likeMutate = useMutation({
+  const likeMutation = useMutation({
     mutationFn: toggleLikePost,
     onSuccess: (data) => {
       const { likes } = data;
+      // Đảm bảo queryType luôn là mảng
+      const finalQueryType = Array.isArray(queryType) ? queryType : [queryType];
 
-      queryClient.setQueryData(["posts", queryType], (existingPosts) => {
-        return {
-          ...existingPosts,
-          posts: existingPosts.posts.map((currentPost) => {
-            if (currentPost._id === postId) {
-              return { ...currentPost, userLikes: likes };
-            }
-            return currentPost;
-          }),
-        };
-      });
+      if (refetchSingle) {
+        queryClient.setQueryData(["post", postId], (oldData) => {
+          if (!oldData) return; // Nếu không có dữ liệu cũ thì trả về null
+          return {
+            ...oldData, // giữ nguyên các thuộc tính khác
+            userLikes: likes, // cập nhật userLikes với danh sách mới
+          };
+        });
+      } else
+        queryClient.setQueryData(
+          ["posts", ...finalQueryType],
+          (existingPosts) => {
+            return {
+              ...existingPosts,
+              posts: existingPosts.posts.map((currentPost) => {
+                if (currentPost._id === postId) {
+                  return { ...currentPost, userLikes: likes };
+                }
+                return currentPost;
+              }),
+            };
+          }
+        );
     },
     onError: (error) => {
       toast.error(error.message);
@@ -164,33 +219,47 @@ export const useLikePost = (queryType, postId) => {
     },
   });
 
-  return likeMutate;
+  return likeMutation;
 };
 
-export const useSharePost = (queryType, postId) => {
+export const useSharePost = (queryType, postId, refetchSingle) => {
   const queryClient = useQueryClient();
 
-  const likeMutate = useMutation({
+  const shareMutation = useMutation({
     mutationFn: toggleSharePost,
     onSuccess: (data) => {
       const { shares } = data;
+      // Đảm bảo queryType luôn là mảng
+      const finalQueryType = Array.isArray(queryType) ? queryType : [queryType];
 
-      queryClient.setQueryData(["posts", queryType], (existingPosts) => {
-        return {
-          ...existingPosts,
-          posts: existingPosts.posts.map((currentPost) => {
-            if (currentPost._id === postId) {
-              return { ...currentPost, userShared: shares };
-            }
-            return currentPost;
-          }),
-        };
-      });
+      if (refetchSingle) {
+        queryClient.setQueryData(["post", postId], (oldData) => {
+          if (!oldData) return;
+          return {
+            ...oldData,
+            userShared: shares,
+          };
+        });
+      } else
+        queryClient.setQueryData(
+          ["posts", ...finalQueryType],
+          (existingPosts) => {
+            return {
+              ...existingPosts,
+              posts: existingPosts.posts.map((currentPost) => {
+                if (currentPost._id === postId) {
+                  return { ...currentPost, userShared: shares };
+                }
+                return currentPost;
+              }),
+            };
+          }
+        );
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
-  return likeMutate;
+  return shareMutation;
 };

@@ -10,11 +10,7 @@ const Home = () => {
   const [queryType, setFeedType] = useState("forYou");
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: [
-      "posts",
-      // TODO: Consider adding feedType to refetch independently
-      queryType,
-    ],
+    queryKey: ["posts", queryType],
     queryFn: () => {
       if (queryType === "forYou") {
         return getPosts();

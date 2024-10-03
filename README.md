@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [x] Profile
+- [ ] Reply page (Post page with parent)
 
 - [ ] Change avatar -> avatarImg
 - [ ] Change banner -> avatarImg
@@ -24,6 +24,8 @@
 - [ ] Menu
 
 - [ ] Skeleton
+  - [ ] Post (content, image)
+  - [ ] User (profile,...)
 - [ ] Add Emoji Mart, gif-picker-react
 
 ## Problems
