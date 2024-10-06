@@ -9,6 +9,7 @@ import {
   toggleLikePost,
   toggleSharePost,
 } from "../services/postsService";
+import { updatePostField } from "../helper/updateQueryData";
 
 export const useCreatePost = (
   postId,
@@ -179,7 +180,7 @@ export const useDeletePost = (queryType, postParam) => {
   return deleteMutation;
 };
 
-export const useLikePost = (queryType, postId, refetchSingle) => {
+export const useLikePost = (queryType, postId, inPostPage) => {
   const queryClient = useQueryClient();
 
   const likeMutation = useMutation({
@@ -189,40 +190,34 @@ export const useLikePost = (queryType, postId, refetchSingle) => {
       // Đảm bảo queryType luôn là mảng
       const finalQueryType = Array.isArray(queryType) ? queryType : [queryType];
 
-      if (refetchSingle) {
+      if (inPostPage) {
+        // Cập nhật query chi tiết bài đăng
         queryClient.setQueryData(["post", postId], (oldData) => {
-          if (!oldData) return; // Nếu không có dữ liệu cũ thì trả về null
+          if (!oldData) return null;
           return {
-            ...oldData, // giữ nguyên các thuộc tính khác
-            userLikes: likes, // cập nhật userLikes với danh sách mới
+            ...oldData,
+            userLikes: likes,
           };
         });
-      } else
-        queryClient.setQueryData(
-          ["posts", ...finalQueryType],
-          (existingPosts) => {
-            return {
-              ...existingPosts,
-              posts: existingPosts.posts.map((currentPost) => {
-                if (currentPost._id === postId) {
-                  return { ...currentPost, userLikes: likes };
-                }
-                return currentPost;
-              }),
-            };
-          }
-        );
+      }
+
+      updatePostField(
+        queryClient,
+        inPostPage ? ["post", ...finalQueryType] : ["posts", ...finalQueryType],
+        postId,
+        "userLikes",
+        likes
+      );
     },
     onError: (error) => {
-      toast.error(error.message);
-      // console.log(error);
+      toast.error(`Error liking post: ${error.message}`);
     },
   });
 
   return likeMutation;
 };
 
-export const useSharePost = (queryType, postId, refetchSingle) => {
+export const useSharePost = (queryType, postId, inPostPage) => {
   const queryClient = useQueryClient();
 
   const shareMutation = useMutation({
@@ -232,7 +227,7 @@ export const useSharePost = (queryType, postId, refetchSingle) => {
       // Đảm bảo queryType luôn là mảng
       const finalQueryType = Array.isArray(queryType) ? queryType : [queryType];
 
-      if (refetchSingle) {
+      if (inPostPage) {
         queryClient.setQueryData(["post", postId], (oldData) => {
           if (!oldData) return;
           return {
@@ -240,24 +235,18 @@ export const useSharePost = (queryType, postId, refetchSingle) => {
             userShared: shares,
           };
         });
-      } else
-        queryClient.setQueryData(
-          ["posts", ...finalQueryType],
-          (existingPosts) => {
-            return {
-              ...existingPosts,
-              posts: existingPosts.posts.map((currentPost) => {
-                if (currentPost._id === postId) {
-                  return { ...currentPost, userShared: shares };
-                }
-                return currentPost;
-              }),
-            };
-          }
-        );
+      }
+
+      updatePostField(
+        queryClient,
+        inPostPage ? ["post", ...finalQueryType] : ["posts", ...finalQueryType],
+        postId,
+        "userShared",
+        shares
+      );
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(`Error sharing post: ${error.message}`);
     },
   });
 

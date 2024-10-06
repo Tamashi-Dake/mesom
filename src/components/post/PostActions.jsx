@@ -12,10 +12,14 @@ import { FaHeart, FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
 
-const PostActions = ({ post, queryType, postParam }) => {
+const PostActions = ({ post, queryType }) => {
   const currentUser = useCurrentUser();
-  const refetchSingle = postParam ? true : false;
+
+  // tách route home và post/:id
+  const { postId: postParam } = useParams();
+  const inPostPage = postParam ? true : false;
 
   const replyModal = useModal();
 
@@ -31,8 +35,8 @@ const PostActions = ({ post, queryType, postParam }) => {
   const isLiked = post.userLikes.includes(currentUser.data._id);
   const isShared = post.userShared.includes(currentUser.data._id);
 
-  const likeMutation = useLikePost(queryType, post._id, refetchSingle);
-  const shareMutation = useSharePost(queryType, post._id, refetchSingle);
+  const likeMutation = useLikePost(queryType, post._id, inPostPage);
+  const shareMutation = useSharePost(queryType, post._id, inPostPage);
 
   const handleReply = (event) => {
     event.preventDefault();

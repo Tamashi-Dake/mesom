@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { getPost, getRepliesForPost } from "../services/postsService";
 
@@ -27,6 +27,16 @@ const PostPage = () => {
   });
 
   const {
+    data: parentPost,
+    isParentPostLoading,
+    isParentPostError,
+    errorParentPost,
+  } = useQuery({
+    queryKey: ["post", post?.parentPostID],
+    queryFn: () => getPost(post?.parentPostID),
+  });
+
+  const {
     data: replies,
     isReplyLoading,
     isReplyError,
@@ -42,25 +52,44 @@ const PostPage = () => {
       <main>
         {isPostLoading && <div>Loading...</div>}
         {isPostError && <div>Error: {errorPost.message}</div>}
+
+        {parentPost && (
+          <Link
+            to={`/post/${parentPost?._id}`}
+            className="flex flex-1 gap-2 items-start p-4  hover:bg-neutral-100/90 transition-all"
+          >
+            <AuthorAvatar author={parentPost.author} isReply />
+            <div className="flex flex-col flex-1">
+              <div className="flex gap-2 items-center justify-between">
+                <PostInfo
+                  author={parentPost.author}
+                  date={parentPost.createdAt}
+                />
+                <PostOptions
+                  authorId={parentPost._id}
+                  //  queryType={queryType}
+                />
+              </div>
+              <PostContent
+                textContent={parentPost.text}
+                images={parentPost.images}
+              />
+              <PostActions post={parentPost} />
+            </div>
+          </Link>
+        )}
+
         {/* TODO: sửa queryType trong PostPage */}
         {post && (
           <div className="flex flex-1 gap-2 items-start p-4 border-b border-gray-200 hover:bg-neutral-100/90 transition-all">
             <AuthorAvatar author={post.author} />
             <div className="flex flex-col flex-1">
               <div className="flex gap-2 items-center justify-between">
-                <PostInfo author={post.author} createdAt={post.createdAt} />
-                <PostOptions
-                  authorId={post.author._id}
-                  postId={post._id}
-                  //  queryType={queryType}
-                />
+                <PostInfo author={post.author} date={post.createdAt} />
+                <PostOptions authorId={post.author._id} postId={post._id} />
               </div>
               <PostContent textContent={post.text} images={post.images} />
-              <PostActions
-                post={post}
-                postParam={postId}
-                //  queryType={queryType}
-              />
+              <PostActions post={post} />
             </div>
           </div>
         )}

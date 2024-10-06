@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Reply page (Post page with parent)
+- [x] Reply page (Post page with parent)
 
 - [ ] Change avatar -> avatarImg
 - [ ] Change banner -> avatarImg
