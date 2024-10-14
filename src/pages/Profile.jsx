@@ -19,8 +19,8 @@ import { MdEdit } from "react-icons/md";
 const Profile = () => {
   const { username } = useParams();
 
-  const [banner, setCoverImg] = useState(null);
-  const [avatar, setProfileImg] = useState(null);
+  const [coverImg, setCoverImg] = useState(null);
+  const [avatarImg, setProfileImg] = useState(null);
   const [postType, setPostType] = useState("userPosts"); //userPosts/ userReplies/ userMedias/ userLikes
 
   const coverImgRef = useRef(null);
@@ -51,8 +51,8 @@ const Profile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        state === "banner" && setCoverImg(reader.result);
-        state === "avatar" && setProfileImg(reader.result);
+        state === "coverImg" && setCoverImg(reader.result);
+        state === "avatarImg" && setProfileImg(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -76,7 +76,7 @@ const Profile = () => {
           {/* COVER IMG */}
           <div className="relative group/cover">
             <img
-              src={user?.profile.banner || "https://placehold.co/1000x1000"}
+              src={user?.profile.coverImg || "https://placehold.co/1000x1000"}
               className="h-52 w-full object-cover"
               alt="cover image"
             />
@@ -94,26 +94,26 @@ const Profile = () => {
               hidden
               accept="image/*"
               ref={coverImgRef}
-              onChange={(e) => handleImgChange(e, "banner")}
+              onChange={(e) => handleImgChange(e, "coverImg")}
             />
             <input
               type="file"
               hidden
               accept="image/*"
               ref={profileImgRef}
-              onChange={(e) => handleImgChange(e, "avatar")}
+              onChange={(e) => handleImgChange(e, "avatarImg")}
             />
             {/* USER AVATAR */}
-            <div className="avatar absolute -bottom-16 left-4">
-              <div className="w-32 rounded-full relative group/avatar">
+            <div className="avatarImg absolute -bottom-16 left-4">
+              <div className="w-32 rounded-full relative group/avatarImg">
                 <img
                   src={
-                    avatar ||
-                    user?.profile.avatar ||
+                    avatarImg ||
+                    user?.profile.avatarImg ||
                     "https://placehold.co/1000x1000"
                   }
                 />
-                <div className="absolute top-5 right-3 p-1 bg-primary rounded-full group-hover/avatar:opacity-100 opacity-0 cursor-pointer">
+                <div className="absolute top-5 right-3 p-1 bg-primary rounded-full group-hover/avatarImg:opacity-100 opacity-0 cursor-pointer">
                   {isMyProfile && (
                     <MdEdit
                       className="w-4 h-4 text-white"
@@ -136,11 +136,11 @@ const Profile = () => {
 										{!isPending && !amIFollowing && "Follow"}
 									</button>
 								)} */}
-            {(banner || avatar) && (
+            {(coverImg || avatarImg) && (
               <button
                 className="btn btn-primary rounded-full btn-sm text-white px-4 ml-2"
                 // onClick={async () => {
-                //   await updateProfile({ banner, avatar });
+                //   await updateProfile({ coverImg, avatarImg });
                 //   setProfileImg(null);
                 //   setCoverImg(null);
                 // }}

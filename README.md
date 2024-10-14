@@ -2,11 +2,6 @@
 
 ## TODO
 
-- [x] Reply page (Post page with parent)
-
-- [ ] Change avatar -> avatarImg
-- [ ] Change banner -> avatarImg
-
 - [ ] suggested user (temporary get random 2 user + admin)
 
   - [ ] Show more = get 10 suggested user

@@ -45,7 +45,8 @@ const CreatePost = ({ postId, isReply, refetch, queryType, onPost }) => {
         <div className="w-8 rounded-full">
           <img
             src={
-              currentUser.data?.profile.avatar || "https://placehold.co/400x400"
+              currentUser.data?.profile.avatarImg ||
+              "https://placehold.co/400x400"
             }
           />
         </div>
