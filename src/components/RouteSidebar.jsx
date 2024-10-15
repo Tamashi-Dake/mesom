@@ -1,7 +1,7 @@
 import { BiSolidLogOut } from "react-icons/bi";
 import toast from "react-hot-toast";
 
-import { routes } from "./shared/config";
+import { routes as staticRoutes } from "./shared/config";
 import RouteItem from "./shared/RouteItem";
 import RouteCreatePost from "./shared/RouteCreatePost";
 import Button from "./shared/Button";
@@ -9,12 +9,29 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 
 const RouteSidebar = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const currentUser = useCurrentUser();
+
+  // Dùng useMemo để tạo lại routes khi user thay đổi
+  const routes = useMemo(() => {
+    if (!currentUser) return staticRoutes;
+
+    // Nếu có user, thêm username vào route profile
+    return staticRoutes.map((route) => {
+      if (route.path === "/profile") {
+        return {
+          ...route,
+          path: `/profile/${currentUser.data.username}`,
+        };
+      }
+      return route;
+    });
+  }, [currentUser]);
 
   const logoutMutation = useMutation({
     mutationFn: logout,

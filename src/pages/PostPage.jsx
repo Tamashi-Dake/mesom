@@ -34,6 +34,7 @@ const PostPage = () => {
   } = useQuery({
     queryKey: ["post", post?.parentPostID],
     queryFn: () => getPost(post?.parentPostID),
+    enabled: !!post?.parentPostID,
   });
 
   const {

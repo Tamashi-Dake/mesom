@@ -28,7 +28,7 @@ const Button = ({
   );
 };
 Button.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.any.isRequired,
   secondary: PropTypes.bool,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,

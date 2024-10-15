@@ -8,6 +8,7 @@ import {
 } from "react-icons/bs";
 import { CiMail } from "react-icons/ci";
 import { FaFeather } from "react-icons/fa6";
+
 export const routes = [
   { name: "Home", path: "/", icon: <BsHouse size={24} color="black" /> },
   {
@@ -37,6 +38,7 @@ export const routes = [
   },
 ];
 
+// TODO: Move to component => add userid in param
 export const config = {
   "/profile": {
     title: "Messages",
