@@ -3,6 +3,7 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import cn from "clsx";
 
 import { backdropVariant, modalVariant } from "../shared/config";
+import { AiOutlineClose } from "react-icons/ai";
 
 export const Modal = ({
   open,
@@ -39,6 +40,12 @@ export const Modal = ({
               {...(modalAnimation ?? modalVariant)}
               onClick={closePanelOnClick ? closeModal : undefined}
             >
+              <button
+                className="absolute right-0 top-0 p-4 ml-auto border-0 text-neutral-800 hover:opacity-70 transition"
+                onClick={closeModal}
+              >
+                <AiOutlineClose size={20} />
+              </button>
               {children}
             </DialogPanel>
           </div>

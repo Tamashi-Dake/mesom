@@ -10,6 +10,16 @@ export const getFollowingPosts = async () => {
   return response.data;
 };
 
+export const getPostsByUser = async (userId) => {
+  const response = await api.get(`/user/${userId}/posts`);
+  return response.data;
+};
+
+export const getLikesByUser = async (userId) => {
+  const response = await api.get(`/user/${userId}/likes`);
+  return response.data;
+};
+
 export const getPost = async (postId) => {
   const response = await api.get(`/post/${postId}`);
   return response.data;

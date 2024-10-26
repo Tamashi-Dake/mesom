@@ -1,5 +1,4 @@
 import { twMerge } from "tailwind-merge";
-import PropTypes from "prop-types";
 
 const Button = ({
   label,
@@ -27,12 +26,5 @@ const Button = ({
     </button>
   );
 };
-Button.propTypes = {
-  label: PropTypes.any.isRequired,
-  secondary: PropTypes.bool,
-  onClick: PropTypes.func,
-  disabled: PropTypes.bool,
-  outline: PropTypes.bool,
-  classNames: PropTypes.string,
-};
+
 export default Button;

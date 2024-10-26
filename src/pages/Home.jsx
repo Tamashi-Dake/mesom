@@ -21,8 +21,6 @@ const Home = () => {
     },
   });
 
-  // console.log(feedType, data.posts, isLoading, isError, error);
-  // console.log(data);
   const handleTabChange = (tab) => {
     setFeedType(tab);
   };
@@ -34,22 +32,9 @@ const Home = () => {
       <main>
         {isLoading && <div>Loading...</div>}
         {isError && <div>Error: {error.message}</div>}
-        {queryType === "forYou" && (
-          <>
-            {data?.posts?.map((post) => (
-              <Post key={post._id} post={post} queryType={queryType} />
-            ))}
-          </>
-        )}
-        {queryType === "following" && (
-          <>
-            <div>
-              {data?.posts?.map((post) => (
-                <Post key={post._id} post={post} queryType={queryType} />
-              ))}
-            </div>
-          </>
-        )}
+        {data?.posts?.map((post) => (
+          <Post key={post._id} post={post} queryType={queryType} />
+        ))}
       </main>
     </>
   );

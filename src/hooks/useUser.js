@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 import { toggleFollow } from "../services/userService";
 
-export const useFollowUser = (userId) => {
+export const useFollowUser = (userId, refetchSingle = false) => {
   const queryClient = useQueryClient();
 
   const followMutation = useMutation({
@@ -11,17 +11,18 @@ export const useFollowUser = (userId) => {
     onSuccess: (data) => {
       const { followers } = data;
 
-      Promise.all([
-        queryClient.setQueryData(["suggestedUsers"], (existingUsers) => {
+      if (!refetchSingle) {
+        queryClient.setQueryData(["suggestedUsers"], (existingUsers = []) => {
           return existingUsers.map((targetUser) => {
             if (targetUser._id === userId) {
               return { ...targetUser, followers: followers };
             }
             return targetUser;
           });
-        }),
-        queryClient.invalidateQueries({ queryKey: ["authUser"] }),
-      ]);
+        });
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
     },
     onError: (error) => {
       toast.error(error.message);

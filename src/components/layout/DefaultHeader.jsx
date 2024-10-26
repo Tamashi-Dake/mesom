@@ -3,7 +3,8 @@ import BackButton from "../shared/BackButton";
 
 const DefaultHeader = ({ label, additionalContent, showBackArrow = false }) => {
   return (
-    <div className="border-b-[1px] p-4">
+    // TODO: Add blur transparent when scroll down
+    <div className="border-b-[1px] p-4 sticky top-0 bg-white z-10">
       <div className="flex gap-4 items-center ">
         {showBackArrow && <BackButton />}
         <div className="flex flex-col items-start ">

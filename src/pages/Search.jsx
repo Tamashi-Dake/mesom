@@ -3,7 +3,7 @@ import SearchHeader from "../components/layout/SearchHeader";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [activeTab, setActiveTab] = useState("forYou"); // top 5 tags in count
+  const [activeTab, setActiveTab] = useState("users"); // top 5 tags in count
   const onSearchValueChange = (value) => {
     setSearchValue(value);
   };

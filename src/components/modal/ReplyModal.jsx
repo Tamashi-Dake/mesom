@@ -1,4 +1,3 @@
-import { AiOutlineClose } from "react-icons/ai";
 import CreatePost from "../post/CreatePost";
 import { Modal } from "./Modal";
 import AuthorAvatar from "../post/AuthorAvatar";
@@ -17,12 +16,6 @@ const ReplyModal = ({ modal, post }) => {
       open={modal.open}
       closeModal={modal.closeModal}
     >
-      <button
-        className="absolute right-0 top-0 p-4 ml-auto border-0 text-neutral-800 hover:opacity-70 transition"
-        onClick={modal.closeModal}
-      >
-        <AiOutlineClose size={20} />
-      </button>
       <div className="flex gap-2 items-start p-4 ">
         <AuthorAvatar author={post.author} isReply />
         <div className="flex flex-col flex-1">

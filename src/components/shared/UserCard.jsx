@@ -1,16 +1,7 @@
 import { Link } from "react-router-dom";
-import useCurrentUser from "../../hooks/useCurrentUser";
-import { useFollowUser } from "../../hooks/useUser";
+import FollowButton from "./FollowButton";
 
 const UserCard = ({ user }) => {
-  const currentUser = useCurrentUser();
-  const followUserMutation = useFollowUser(user._id);
-
-  const isFollowing = currentUser.data.following.includes(user._id);
-
-  const handleFollow = () => {
-    followUserMutation.mutate({ userId: user._id, notificationType: "follow" });
-  };
   return (
     <Link
       to={`/profile/${user.username}`}
@@ -29,15 +20,8 @@ const UserCard = ({ user }) => {
           <span className="text-sm text-slate-500">@{user.username}</span>
         </div>
       </div>
-      <button
-        className="btn bg-black text-white hover:bg-neutral-700 hover:opacity-90 rounded-full btn-sm"
-        onClick={(e) => {
-          e.preventDefault();
-          handleFollow();
-        }}
-      >
-        {isFollowing ? "Unfollow" : "Follow"}
-      </button>
+
+      <FollowButton userId={user._id} />
     </Link>
   );
 };

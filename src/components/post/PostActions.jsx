@@ -40,16 +40,19 @@ const PostActions = ({ post, queryType }) => {
 
   const handleReply = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     replyModal.openModal();
   };
 
   const handleLikePost = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     likeMutation.mutate({ postId: post._id, notificationType: "like" });
   };
 
   const handleSharePost = (event) => {
     event.preventDefault();
+    event.stopPropagation();
     shareMutation.mutate({ postId: post._id, notificationType: "share" });
   };
   return (

@@ -26,7 +26,7 @@ const RouteSidebar = () => {
       if (route.path === "/profile") {
         return {
           ...route,
-          path: `/profile/${currentUser.data.username}`,
+          path: `/profile/${currentUser.data?.username}`,
         };
       }
       return route;

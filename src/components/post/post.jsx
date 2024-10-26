@@ -10,6 +10,7 @@ const Post = ({ post, queryType }) => {
   console.log("rerender", post.text);
   return (
     <div
+      // TODO: add event.stopPropagation() to avoid navigate
       onClick={() => navigate(`/post/${post?._id}`)}
       className="flex flex-1 gap-2 items-start p-4 border-b border-gray-200 hover:bg-neutral-100/90 transition-all hover:cursor-pointer"
     >
