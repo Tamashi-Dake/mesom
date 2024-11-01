@@ -20,7 +20,7 @@ const RouteItem = ({ name, path, icon }) => {
       <NavLink
         to={path}
         className={twMerge(
-          "relative hidden xm:w-full md:flex items-center gap-4 p-4 rounded-full hover:bg-slate-800 hover:bg-opacity-10 cursor-pointer",
+          "relative hidden xs:w-full md:flex items-center gap-4 p-4 rounded-full hover:bg-slate-800 hover:bg-opacity-10 cursor-pointer",
           match ? "bg-teal-600 bg-opacity-10" : ""
         )}
       >

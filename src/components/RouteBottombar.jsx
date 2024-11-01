@@ -23,7 +23,7 @@ const RouteBottomBar = () => {
   }, [currentUser]);
 
   return (
-    <div className="block xm:hidden col-span-4 border-[1px] border-neutral-200">
+    <div className="block xs:hidden col-span-4 border-[1px] border-neutral-200">
       <div className="flex justify-between sm:space-y-1 sm:m-1 [&>*:nth-child(6)]:hidden">
         {routes.map((route) => (
           <RouteItem

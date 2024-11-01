@@ -51,7 +51,9 @@ const UserProfile = ({ userQuery }) => {
             )}
           </div>
 
-          {updateUserModal.open && <UpdateUserModal modal={updateUserModal} />}
+          {updateUserModal.open && (
+            <UpdateUserModal modal={updateUserModal} user={user} />
+          )}
 
           <ProfileInfo user={user} />
         </>

@@ -16,7 +16,10 @@ const ReplyModal = ({ modal, post }) => {
       open={modal.open}
       closeModal={modal.closeModal}
     >
-      <div className="flex gap-2 items-start p-4 ">
+      <Link
+        to={`/post/${post._id}`}
+        className="flex gap-2 items-start p-4 hover:bg-neutral-100 transition-all ease-in-out duration-500"
+      >
         <AuthorAvatar author={post.author} isReply />
         <div className="flex flex-col flex-1">
           <div className="flex items-center justify-start">
@@ -34,7 +37,7 @@ const ReplyModal = ({ modal, post }) => {
             </Link>
           </div>
         </div>
-      </div>
+      </Link>
       {/* TODO: update queryType  */}
       <CreatePost
         queryType={"forYou"}

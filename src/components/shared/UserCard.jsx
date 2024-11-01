@@ -10,7 +10,7 @@ const UserCard = ({ user }) => {
       <div className="flex gap-2 items-center">
         <div className="avatar">
           <div className="w-8 rounded-full">
-            <img src={user.profile?.avatar || "https://placehold.co/400x400"} />
+            <img src={user.profile?.avatar || "/placeholder.png"} />
           </div>
         </div>
         <div className="flex flex-col">

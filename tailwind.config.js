@@ -11,7 +11,7 @@ export default {
   ],
   theme: {
     screens: {
-      xm: "500px",
+      xs: "500px",
       ...defaultTheme.screens,
       // => @media (min-width: 480px) { ... }
     },

@@ -7,7 +7,7 @@ const AuthorAvatar = ({ author, isReply = false }) => {
         to={`/profile/${author.username}`}
         className="w-8 h-8 rounded-full overflow-hidden block"
       >
-        <img src={author.profile.avatarImg || "https://placehold.co/400x400"} />
+        <img src={author.profile.avatarImg || "/placeholder.png"} />
       </Link>
       {isReply && (
         <div className="reply-line-wrapper flex flex-1 justify-center">

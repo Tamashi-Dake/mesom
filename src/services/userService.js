@@ -11,6 +11,11 @@ export const getUserByUsername = async (username) => {
   return response.data;
 };
 
+export const updateUser = async ({ userId, postData }) => {
+  const response = await api.patch(`/user/${userId}`, postData);
+  return response.data;
+};
+
 export const toggleFollow = async ({ userId, notificationType }) => {
   const response = await api.post(`/follow/${userId}`, { notificationType });
   return response.data;

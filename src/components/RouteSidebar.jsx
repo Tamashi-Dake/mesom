@@ -48,7 +48,7 @@ const RouteSidebar = () => {
 
   return (
     <>
-      <div className=" h-screen col-span-1 lg:p-2 xl:p-4 hidden xm:block sticky top-0">
+      <div className=" h-screen col-span-1 lg:p-2 xl:p-4 hidden xs:block sticky top-0">
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col space-y-4 m-2">
             {routes.map((route) => (
