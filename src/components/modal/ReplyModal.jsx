@@ -44,6 +44,7 @@ const ReplyModal = ({ modal, post }) => {
         isReply={true}
         onPost={modal.closeModal}
         postId={post._id}
+        modal
       />
     </Modal>
   );

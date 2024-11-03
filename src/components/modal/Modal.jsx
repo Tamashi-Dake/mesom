@@ -4,6 +4,7 @@ import cn from "clsx";
 
 import { backdropVariant, modalVariant } from "../shared/config";
 import { AiOutlineClose } from "react-icons/ai";
+import { twMerge } from "tailwind-merge";
 
 export const Modal = ({
   open,
@@ -13,6 +14,7 @@ export const Modal = ({
   modalClassName,
   closePanelOnClick,
   closeModal,
+  imageModal = false,
 }) => {
   return (
     <AnimatePresence>
@@ -40,12 +42,26 @@ export const Modal = ({
               {...(modalAnimation ?? modalVariant)}
               onClick={closePanelOnClick ? closeModal : undefined}
             >
-              <button
-                className="absolute right-0 top-0 p-4 ml-auto border-0 text-neutral-800 hover:opacity-70 transition"
-                onClick={closeModal}
-              >
-                <AiOutlineClose size={20} />
-              </button>
+              {!imageModal && (
+                <motion.button
+                  initial={{
+                    opacity: 0,
+                  }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    delay: 0.2,
+                  }}
+                  className={twMerge(
+                    "absolute right-0 top-0 p-4 ml-auto border-0 hover:opacity-70 transition",
+                    imageModal
+                      ? "text-white bg-neutral-700 rounded-full"
+                      : "text-neutral-800"
+                  )}
+                  onClick={closeModal}
+                >
+                  <AiOutlineClose size={20} />
+                </motion.button>
+              )}
               {children}
             </DialogPanel>
           </div>

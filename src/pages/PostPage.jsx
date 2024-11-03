@@ -94,7 +94,7 @@ const PostPage = () => {
             </div>
           </div>
         )}
-        <CreatePost postId={postId} isReply />
+        <CreatePost postId={postId} isReply modal />
         {replies?.posts?.map((reply) => (
           <Post key={reply._id} post={reply} queryType={[postId, "reply"]} />
         ))}

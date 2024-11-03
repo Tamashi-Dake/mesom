@@ -2,7 +2,7 @@ import Tab from "../common/Tab";
 
 const HomeHeader = ({ activeTab, onTabChange }) => {
   return (
-    <div className="border-b-[1px] flex sticky top-0 bg-white">
+    <div className="border-b-[1px] flex sticky top-0 bg-white z-10">
       <Tab
         label="For you"
         isActive={activeTab === "forYou"}

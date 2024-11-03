@@ -12,9 +12,7 @@
 
 - [ ] Modal
 
-  - [ ] Image Modal
-    - [ ] Zoom
-    - [ ] Image + Post
+  - [x] Image Modal
   - [x] Default Modal
   - [ ] Action Modal (Confirm actions)
 
