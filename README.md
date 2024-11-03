@@ -10,6 +10,14 @@
 
 - [ ] Refactor useCurrentUser -> dùng contextApi hoặc zustand
 
+- [ ] Infinity scroll
+
+  - [ ] Home (Post, Reply in Post page)
+  - [ ] Search (Username/Display name, Tag)
+  - [ ] Notification ( All, Mention)
+  - [ ] Message?
+  - [ ] Profile (Post , Reply, Media, Like)
+
 - [ ] Modal
 
   - [x] Image Modal

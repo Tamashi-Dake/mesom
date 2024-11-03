@@ -14,6 +14,7 @@ import { updatePostField } from "../helper/updateQueryData";
 export const useCreatePost = (
   postId,
   isReply = false,
+  authorName,
   inReplyModal = false,
   queryType,
   refetch = false
@@ -80,6 +81,7 @@ export const useCreatePost = (
       postData.append("parentPost", postId);
     }
     postData.append("text", text);
+    postData.append("authorName", authorName);
     images.forEach((image) => postData.append("images", image));
 
     postMutate.mutate(postData);

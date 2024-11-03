@@ -42,6 +42,7 @@ const ReplyModal = ({ modal, post }) => {
       <CreatePost
         queryType={"forYou"}
         isReply={true}
+        authorName={post.author.username}
         onPost={modal.closeModal}
         postId={post._id}
         modal

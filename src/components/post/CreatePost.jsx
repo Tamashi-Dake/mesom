@@ -12,6 +12,7 @@ import ImageView from "../shared/ImageView";
 const CreatePost = ({
   postId,
   isReply,
+  authorName,
   refetch,
   queryType,
   onPost,
@@ -31,7 +32,14 @@ const CreatePost = ({
     handleSubmit,
     handleImgChange,
     handleRemoveImage,
-  } = useCreatePost(postId, isReply, inReplyModal, queryType, refetch);
+  } = useCreatePost(
+    postId,
+    isReply,
+    authorName,
+    inReplyModal,
+    queryType,
+    refetch
+  );
 
   // TODO: cần check khi reply trong Post page
   useEffect(() => {

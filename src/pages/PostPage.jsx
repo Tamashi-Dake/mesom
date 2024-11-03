@@ -32,9 +32,9 @@ const PostPage = () => {
     isParentPostError,
     errorParentPost,
   } = useQuery({
-    queryKey: ["post", post?.parentPostID],
-    queryFn: () => getPost(post?.parentPostID),
-    enabled: !!post?.parentPostID,
+    queryKey: ["post", post?.parent?.parentPostID],
+    queryFn: () => getPost(post?.parent?.parentPostID),
+    enabled: !!post?.parent?.parentPostID,
   });
 
   const {
@@ -80,7 +80,6 @@ const PostPage = () => {
           </Link>
         )}
 
-        {/* TODO: sửa queryType trong PostPage */}
         {post && (
           <div className="flex flex-1 gap-2 items-start p-4 border-b border-gray-200 transition-all">
             <AuthorAvatar author={post.author} />
@@ -94,7 +93,12 @@ const PostPage = () => {
             </div>
           </div>
         )}
-        <CreatePost postId={postId} isReply modal />
+        <CreatePost
+          postId={postId}
+          isReply
+          authorName={parentPost?.author.username}
+          modal
+        />
         {replies?.posts?.map((reply) => (
           <Post key={reply._id} post={reply} queryType={[postId, "reply"]} />
         ))}
