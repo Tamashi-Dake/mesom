@@ -79,9 +79,9 @@ export const useCreatePost = (
     if (isReply) {
       postData?.append("notificationType", "reply");
       postData.append("parentPost", postId);
+      postData.append("authorName", authorName);
     }
     postData.append("text", text);
-    postData.append("authorName", authorName);
     images.forEach((image) => postData.append("images", image));
 
     postMutate.mutate(postData);

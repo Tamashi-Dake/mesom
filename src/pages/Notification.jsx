@@ -8,6 +8,8 @@ import {
 
 import NotificationHeader from "../components/layout/NotificationHeader";
 import Notification from "../components/notification/Notification";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import Post from "../components/post/Post";
 
 const Notifications = () => {
   const [activeTab, setActiveTab] = useState("allNotifications");
@@ -33,8 +35,7 @@ const Notifications = () => {
       <div>
         {isLoading && (
           <div className="flex justify-center h-full items-center">
-            {/* <LoadingSpinner size='lg' /> */}
-            <p>Loading...</p>
+            <LoadingSpinner />
           </div>
         )}
         {data?.totalNotifications === 0 && (
@@ -43,9 +44,20 @@ const Notifications = () => {
           </div>
         )}
 
-        {data?.notifications?.map((notification) => (
-          <Notification key={notification._id} notification={notification} />
-        ))}
+        {activeTab === "allNotifications" &&
+          data?.notifications?.map((notification) => (
+            <Notification key={notification._id} notification={notification} />
+          ))}
+        {activeTab === "mentions" &&
+          data?.mentions?.map((mention) => (
+            // TODO: Bug : mention.from chỉ có id?
+            <Post
+              key={mention.post._id}
+              post={mention.post}
+              author={mention?.from}
+              queryType={activeTab}
+            />
+          ))}
       </div>
     </>
   );

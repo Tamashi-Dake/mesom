@@ -96,7 +96,7 @@ const PostPage = () => {
         <CreatePost
           postId={postId}
           isReply
-          authorName={parentPost?.author.username}
+          authorName={post?.author.username}
           modal
         />
         {replies?.posts?.map((reply) => (
