@@ -1,6 +1,7 @@
 import { BiSearch } from "react-icons/bi";
 import {
   BsBell,
+  BsBookmark,
   BsChatDots,
   BsHouse,
   BsInfoCircle,
@@ -27,14 +28,14 @@ export const routes = [
     icon: <BsChatDots size={24} color="black" />,
   },
   {
+    name: "Bookmarks",
+    path: "/bookmarks",
+    icon: <BsBookmark size={24} color="black" />,
+  },
+  {
     name: "Profile",
     path: "/profile",
     icon: <BsPerson size={24} color="black" />,
-  },
-  {
-    name: "About",
-    path: "/about",
-    icon: <BsInfoCircle size={24} color="black" />,
   },
 ];
 

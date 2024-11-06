@@ -1,8 +1,9 @@
 import Tab from "../common/Tab";
+import HeaderWrapper from "./HeaderWrapper";
 
 const HomeHeader = ({ activeTab, onTabChange }) => {
   return (
-    <div className="border-b-[1px] flex sticky top-0 bg-white z-10">
+    <HeaderWrapper classname={"p-0 pt-2 flex"}>
       <Tab
         label="For you"
         isActive={activeTab === "forYou"}
@@ -13,7 +14,7 @@ const HomeHeader = ({ activeTab, onTabChange }) => {
         isActive={activeTab === "following"}
         onClick={() => onTabChange("following")}
       />
-    </div>
+    </HeaderWrapper>
   );
 };
 

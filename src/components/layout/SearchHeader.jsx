@@ -1,4 +1,5 @@
 import Tab from "../common/Tab";
+import HeaderWrapper from "./HeaderWrapper";
 
 const SearchHeader = ({
   searchValue,
@@ -7,7 +8,7 @@ const SearchHeader = ({
   onTabChange,
 }) => {
   return (
-    <div className="flex justify-between py-2 flex-col sticky top-0 bg-white">
+    <HeaderWrapper classname={"flex justify-between p-0 pt-2 flex-col"}>
       <form className="px-4 py-2">
         <label
           htmlFor="default-search"
@@ -57,7 +58,7 @@ const SearchHeader = ({
           onClick={() => onTabChange("tags")}
         />
       </div>
-    </div>
+    </HeaderWrapper>
   );
 };
 

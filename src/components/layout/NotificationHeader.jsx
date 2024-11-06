@@ -1,10 +1,11 @@
 import { BiCog } from "react-icons/bi";
 import Tab from "../common/Tab";
+import HeaderWrapper from "./HeaderWrapper";
 
 const NotificationHeader = ({ activeTab, onTabChange }) => {
   return (
-    <div className="flex justify-between py-2 flex-col sticky top-0 bg-white">
-      <div className="px-4 py-2 flex justify-between">
+    <HeaderWrapper classname={"flex justify-between flex-col p-0"}>
+      <div className="p-4 pb-2 flex justify-between">
         <h1 className=" text-xl leading-none font-semibold ">Notifications</h1>
         <button
           onClick={() => alert("open menu: Setting, delete all(premium)")}
@@ -25,7 +26,7 @@ const NotificationHeader = ({ activeTab, onTabChange }) => {
           onClick={() => onTabChange("mentions")}
         />
       </div>
-    </div>
+    </HeaderWrapper>
   );
 };
 

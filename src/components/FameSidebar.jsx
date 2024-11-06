@@ -4,7 +4,7 @@ import UserCardSkeleton from "./skeleton/UserCardSkeleton";
 import UserCard from "./shared/UserCard";
 
 const FameSidebar = () => {
-  const suggestedUsers = useQuery({
+  const userQuery = useQuery({
     queryKey: ["suggestedUsers"],
     queryFn: getSuggestedUsers,
   });
@@ -15,17 +15,21 @@ const FameSidebar = () => {
         <h2 className="text-xl p-2 font-semibold">Who to follow</h2>
         <div className="flex flex-col gap-4">
           {/* item */}
-          {suggestedUsers.isLoading && (
+          {userQuery.isLoading && (
             <>
               <UserCardSkeleton />
               <UserCardSkeleton />
               <UserCardSkeleton />
             </>
           )}
-          {!suggestedUsers.isLoading &&
-            suggestedUsers.data?.map((user) => (
-              <UserCard key={user._id} user={user} />
-            ))}
+          {userQuery.data && (
+            <>
+              <UserCard user={userQuery.data.admin} />
+              {userQuery.data.suggestedUsers.map((suggestedUser) => (
+                <UserCard key={suggestedUser._id} user={suggestedUser} />
+              ))}
+            </>
+          )}
         </div>
       </div>
     </div>

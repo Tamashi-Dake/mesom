@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import BackButton from "../shared/BackButton";
+import HeaderWrapper from "./HeaderWrapper";
 
 const DefaultHeader = ({ label, additionalContent, showBackArrow = false }) => {
   return (
-    // TODO: Add blur transparent when scroll down
-    <div className="border-b-[1px] p-4 sticky top-0 bg-white z-10">
+    <HeaderWrapper>
       <div className="flex gap-4 items-center ">
         {showBackArrow && <BackButton />}
         <div className="flex flex-col items-start ">
@@ -12,7 +12,7 @@ const DefaultHeader = ({ label, additionalContent, showBackArrow = false }) => {
           <h2 className="text-sm text-neutral-500">{additionalContent}</h2>
         </div>
       </div>
-    </div>
+    </HeaderWrapper>
   );
 };
 

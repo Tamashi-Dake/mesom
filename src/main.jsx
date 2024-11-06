@@ -16,6 +16,7 @@ import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/Auth/Login.jsx";
 import SignUpPage from "./pages/Auth/SignUp.jsx";
 import PostPage from "./pages/PostPage.jsx";
+import Bookmark from "./pages/Bookmarks.jsx";
 
 // Create a new instance of QueryClient
 const queryClient = new QueryClient({
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "/messages",
         element: <Messages />,
+      },
+      {
+        path: "/bookmarks",
+        element: <Bookmark />,
       },
       {
         path: "/profile/:username",

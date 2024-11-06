@@ -27,20 +27,21 @@ const Notification = ({ notification }) => {
       <div className="flex gap-2 p-4">
         <NotificationIcon type={notification?.type} />
         <Link className="flex-1" to={link}>
-          <div className="avatar">
-            <div className="w-8">
-              <img
-                src={
-                  notification?.from.profile.avatarImg ||
-                  "https://placehold.co/200x200"
-                }
-                className="rounded-full"
-              />
-            </div>
+          <div className="avatar w-8 h-8">
+            <img
+              src={
+                notification?.from.profile.avatarImg ||
+                "https://placehold.co/200x200"
+              }
+              className="rounded-full object-cover h-full w-full"
+            />
           </div>
           <div className="flex gap-1">
             <span className="font-bold">@{notification?.from.username}</span>{" "}
-            {notification?.type}
+            {notification?.type === "reply" && "replied to your post"}
+            {notification?.type === "follow" && "started following you"}
+            {notification?.type === "like" && "liked your post"}
+            {notification?.type === "share" && "shared your post"}
           </div>
         </Link>
       </div>
