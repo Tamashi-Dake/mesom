@@ -68,6 +68,7 @@ const PostPage = () => {
                 />
                 <PostOptions
                   authorId={parentPost._id}
+                  // TODO: Might need queryType
                   //  queryType={queryType}
                 />
               </div>

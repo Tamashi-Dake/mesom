@@ -71,3 +71,7 @@ export const toggleSharePost = async ({ postId, notificationType }) => {
   });
   return response.data;
 };
+export const toggleBookmarkPost = async ({ postId }) => {
+  const response = await api.post(`/post/${postId}/bookmark`);
+  return response.data;
+};

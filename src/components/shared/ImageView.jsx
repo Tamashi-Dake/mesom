@@ -92,9 +92,11 @@ const ImageView = ({
           >
             <img
               className={twMerge(
-                "relative h-full w-full cursor-pointer transition hover:brightness-75 hover:duration-200 ",
+                "relative h-full cursor-pointer transition hover:brightness-75 hover:duration-200 ",
                 previewImage && "rounded-2xl",
-                imagesCount === 1 ? "object-contain" : "object-cover"
+                imagesCount === 1
+                  ? "object-contain w-fit m-auto rounded-2xl"
+                  : "object-cover w-full"
               )}
               src={imageUrl}
               alt={"Post Image"}

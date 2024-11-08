@@ -29,10 +29,7 @@ const Notification = ({ notification }) => {
         <Link className="flex-1" to={link}>
           <div className="avatar w-8 h-8">
             <img
-              src={
-                notification?.from.profile.avatarImg ||
-                "https://placehold.co/200x200"
-              }
+              src={notification?.from.profile.avatarImg || "/placeholder.png"}
               className="rounded-full object-cover h-full w-full"
             />
           </div>

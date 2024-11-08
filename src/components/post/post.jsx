@@ -12,7 +12,7 @@ const Post = ({ post, author, queryType }) => {
   return (
     <Link
       to={`/post/${post?._id}`}
-      className="flex flex-1 gap-2 items-start p-4 border-b border-gray-200 transition-all hover:cursor-pointer"
+      className="flex flex-1 gap-2 items-start px-4 py-3 border-b border-gray-200 transition-all hover:cursor-pointer"
     >
       <AuthorAvatar author={author || post.author} />
       <div className="flex flex-col flex-1">

@@ -6,6 +6,7 @@ import {
   createPost,
   createReply,
   deletePost,
+  toggleBookmarkPost,
   toggleLikePost,
   toggleSharePost,
 } from "../services/postsService";
@@ -253,4 +254,48 @@ export const useSharePost = (queryType, postId, inPostPage) => {
   });
 
   return shareMutation;
+};
+
+export const useBookmarkPost = (
+  queryType = "bookmarks",
+  postId,
+  inPostPage
+) => {
+  const queryClient = useQueryClient();
+
+  const bookmarkMutation = useMutation({
+    mutationFn: toggleBookmarkPost,
+    onSuccess: (data) => {
+      const { userBookmarks } = data;
+      // Đảm bảo queryType luôn là mảng
+      const finalQueryType = Array.isArray(queryType) ? queryType : [queryType];
+
+      if (inPostPage) {
+        queryClient.setQueryData(["post", postId], (oldData) => {
+          if (!oldData) return;
+          queryClient.invalidateQueries({ queryKey: ["authUser"] });
+          return {
+            ...oldData,
+            userBookmarks: userBookmarks,
+          };
+        });
+      }
+
+      updatePostField(
+        queryClient,
+        inPostPage ? ["post", ...finalQueryType] : ["posts", ...finalQueryType],
+        postId,
+        "userBookmarks",
+        userBookmarks
+      );
+
+      queryClient.invalidateQueries({ queryKey: ["posts", "bookmarks"] });
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+    },
+    onError: (error) => {
+      toast.error(`Error when bookmark: ${error.message}`);
+    },
+  });
+
+  return bookmarkMutation;
 };
