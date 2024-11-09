@@ -11,6 +11,8 @@ import PostOptions from "../components/post/PostOptions";
 import PostContent from "../components/post/PostContent";
 import PostActions from "../components/post/PostActions";
 import Post from "../components/post/Post";
+import PostDate from "../components/post/PostDate";
+import PostStatus from "../components/post/PostStatus";
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -64,7 +66,8 @@ const PostPage = () => {
               <div className="flex gap-2 items-center justify-between">
                 <PostInfo
                   author={parentPost.author}
-                  date={parentPost.createdAt}
+                  createDate={parentPost.createdAt}
+                  postId={parentPost._id}
                 />
                 <PostOptions
                   authorId={parentPost._id}
@@ -84,12 +87,39 @@ const PostPage = () => {
         {post && (
           <div className="flex flex-1 gap-2 items-start p-4 border-b border-gray-200 transition-all">
             <AuthorAvatar author={post.author} />
+
             <div className="flex flex-col flex-1">
               <div className="flex gap-2 items-center justify-between">
-                <PostInfo author={post.author} date={post.createdAt} />
+                <PostInfo
+                  author={post.author}
+                  createDate={post.createdAt}
+                  postId={post._id}
+                />
                 <PostOptions authorId={post.author._id} postId={post._id} />
               </div>
+              {parentPost && (
+                <p className="text-light-secondary text-gray-400 text-sm dark:text-dark-secondary">
+                  Replying to{" "}
+                  <Link to={`/user/${parentPost.author.username}`}>
+                    <a className="custom-underline text-main-accent text-blue-500">
+                      @{parentPost.author.username}
+                    </a>
+                  </Link>
+                </p>
+              )}
               <PostContent textContent={post.text} images={post.images} />
+              <div className="flex gap-1 items-center">
+                <PostDate createdAt={post.createdAt} />
+                <span>·</span>
+                <span className="text-neutral-600 text-sm">
+                  {post.views} {post.views > 1 ? "views" : "view"}
+                </span>
+              </div>
+              <PostStatus
+                totalReplies={post.userReplies}
+                userLikes={post.userLikes}
+                userShares={post.userShared}
+              />
               <PostActions post={post} />
             </div>
           </div>

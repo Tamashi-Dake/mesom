@@ -2,13 +2,7 @@
 
 ## TODO
 
-- [ ] add author's username in reply post
-
-- [ ] suggested user (temporary get random 2 user + admin)
-
-  - [ ] Show more = get 10 suggested user
-
-- [ ] Refactor useCurrentUser -> dùng contextApi hoặc zustand
+- [ ] Show more = get 10 suggested user
 
 - [ ] Infinity scroll
 

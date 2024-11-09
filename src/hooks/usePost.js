@@ -38,7 +38,6 @@ export const useCreatePost = (
       }
       if (isReply) {
         const { numberReplies } = data;
-        console.log(numberReplies);
 
         if (inReplyModal) {
           queryClient.setQueryData(["posts", queryType], (existingPosts) => {

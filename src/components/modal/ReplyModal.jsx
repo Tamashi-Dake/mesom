@@ -3,12 +3,9 @@ import { Modal } from "./Modal";
 import AuthorAvatar from "../post/AuthorAvatar";
 import PostInfo from "../post/PostInfo";
 import PostContent from "../post/PostContent";
-import { formatPostDate } from "../../helper/formatDate";
 import { Link } from "react-router-dom";
 
 const ReplyModal = ({ modal, post }) => {
-  const date = formatPostDate(post.createdAt);
-
   return (
     <Modal
       className="flex items-start justify-center "
@@ -23,7 +20,11 @@ const ReplyModal = ({ modal, post }) => {
         <AuthorAvatar author={post.author} isReply />
         <div className="flex flex-col flex-1">
           <div className="flex items-center justify-start">
-            <PostInfo author={post.author} date={date} />
+            <PostInfo
+              author={post.author}
+              createDate={post.createdAt}
+              postId={post._id}
+            />
           </div>
           <PostContent textContent={post.text} images={post.images} />
           <div className="reply-hint flex gap-1 mt-2">

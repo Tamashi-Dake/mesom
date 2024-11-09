@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
@@ -9,21 +12,21 @@ import {
 } from "../../hooks/usePost";
 
 import { omit } from "../../helper/omit";
+import { increasePostView } from "../../services/postsService";
 
 import ReplyModal from "../modal/ReplyModal";
+import { Button } from "@headlessui/react";
 
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
-import { Button } from "@headlessui/react";
-import { useEffect, useState } from "react";
-import { IoShareOutline } from "react-icons/io5";
+import { IoShareOutline, IoStatsChartSharp } from "react-icons/io5";
 
 const PostActions = ({ post, queryType }) => {
   const { postId: postParam } = useParams();
   const inPostPage = postParam ? true : false;
+  const isViewingPost = postParam === post._id;
   const keysToOmit = [
     "userLikes",
     "userShared",
@@ -33,7 +36,6 @@ const PostActions = ({ post, queryType }) => {
   ];
   const simplifiedPost = omit(post, keysToOmit);
 
-  // tách route home và post/:id
   const [debouncedPending, setDebouncedPending] = useState(false);
 
   const currentUser = useCurrentUser();
@@ -46,10 +48,23 @@ const PostActions = ({ post, queryType }) => {
   const likeMutation = useLikePost(queryType, post._id, inPostPage);
   const shareMutation = useSharePost(queryType, post._id, inPostPage);
   const bookmarkMutation = useBookmarkPost(queryType, post._id, inPostPage);
+
   const mutatePending =
     likeMutation.isPending ||
     shareMutation.isPending ||
     bookmarkMutation.isPending;
+
+  const viewMutation = useMutation({
+    mutationFn: increasePostView,
+    onError: (error) => {
+      console.error(`Error increase view: ${error.message}`);
+    },
+  });
+
+  useEffect(() => {
+    // TODO: Test view again in Production - trong dev vẫn bị call 2 lần do strict mode
+    if (isViewingPost) viewMutation.mutate(postParam);
+  }, [isViewingPost]);
 
   useEffect(() => {
     if (mutatePending) {
@@ -76,14 +91,12 @@ const PostActions = ({ post, queryType }) => {
     shareMutation.mutate({ postId: post._id, notificationType: "share" });
   };
 
-  const handleBookmark = (event) => {
-    event.preventDefault();
+  const handleBookmark = () => {
     if (debouncedPending) return;
     bookmarkMutation.mutate({ postId: post._id });
   };
 
   // TODO: invalidate queries cho mỗi actions
-  // + Chuyển thành button + disable tránh spam
   return (
     <div className="flex justify-between mt-2">
       <div className="flex gap-4 items-center w-4/5 justify-between">
@@ -121,7 +134,7 @@ const PostActions = ({ post, queryType }) => {
             <BiRepost
               className={twMerge(
                 "w-6 h-6 text-slate-500 group-hover:text-green-500 ",
-                isShared ? "text-green-500" : ""
+                isShared ? "text-green-500 group-hover:text-green-600" : ""
               )}
             />
           </span>
@@ -139,9 +152,11 @@ const PostActions = ({ post, queryType }) => {
         >
           <span className="w-8 h-8 p-2 flex justify-center items-center group-hover:bg-pink-500/10 rounded-full transition-all ease-in-out">
             {!isLiked && (
-              <FaRegHeart className=" text-slate-500 group-hover:text-pink-500 " />
+              <FaRegHeart className=" text-slate-500 group-hover:text-pink-500" />
             )}
-            {isLiked && <FaHeart className=" text-pink-500 " />}
+            {isLiked && (
+              <FaHeart className=" text-pink-500 group-hover:text-pink-600" />
+            )}
           </span>
 
           <span
@@ -158,37 +173,75 @@ const PostActions = ({ post, queryType }) => {
             mutatePending && "cursor-not-allowed"
           )}
           disabled={mutatePending}
-          onClick={handleBookmark}
+          onClick={(e) => {
+            e.preventDefault();
+            inPostPage ? handleBookmark() : alert("Open Action modal - View");
+          }}
         >
           <span className="w-8 h-8 p-2 flex justify-center items-center group-hover:bg-blue-500/10 rounded-full transition-all ease-in-out">
-            {!isBookmarked && <FaRegBookmark className=" text-slate-500" />}
-            {isBookmarked && <FaBookmark className=" text-blue-500" />}
+            {isViewingPost ? (
+              <>
+                {!isBookmarked && (
+                  <FaRegBookmark className=" text-slate-500 group-hover:text-blue-500" />
+                )}
+                {isBookmarked && (
+                  <FaBookmark className=" text-blue-500 group-hover:text-blue-600" />
+                )}
+              </>
+            ) : (
+              <IoStatsChartSharp className=" text-slate-500 group-hover:text-blue-500" />
+            )}
           </span>
-
           <span
             className={`text-sm group-hover:text-blue-500 ${
-              isBookmarked ? "text-blue-500" : "text-slate-500"
+              (isBookmarked ? "text-blue-500" : "text-slate-500",
+              !inPostPage && "text-slate-500")
             }`}
           >
-            {post.userBookmarks > 0 ? post.userBookmarks : ""}
+            {isViewingPost
+              ? post.userBookmarks > 0
+                ? post.userBookmarks
+                : ""
+              : post.views}
           </span>
         </Button>
       </div>
-      <Button
-        className={twMerge(
-          "flex w-1/5 justify-end items-center group",
-          mutatePending && "cursor-not-allowed"
+      <div className="w-1/5 flex justify-end items-center">
+        {!isViewingPost && (
+          <Button
+            className={twMerge(
+              "flex items-center group",
+              mutatePending && "cursor-not-allowed"
+            )}
+            disabled={mutatePending}
+            onClick={(e) => {
+              e.preventDefault();
+              handleBookmark();
+            }}
+          >
+            <span className="w-8 h-8 p-2 flex justify-center items-center group-hover:bg-blue-500/10 rounded-full transition-all ease-in-out">
+              {!isBookmarked && (
+                <FaRegBookmark className=" text-slate-500 group-hover:text-blue-500" />
+              )}
+              {isBookmarked && (
+                <FaBookmark className=" text-blue-500 group-hover:text-blue-600" />
+              )}
+            </span>
+          </Button>
         )}
-        disabled={mutatePending}
-        onClick={(e) => {
-          e.preventDefault();
-          alert("Share options");
-        }}
-      >
-        <span className="w-8 h-8 p-2 flex justify-center items-center group-hover:bg-blue-500/10 rounded-full transition-all ease-in-out">
-          <IoShareOutline className=" text-slate-500" />
-        </span>
-      </Button>
+        <Button
+          className={twMerge("group", mutatePending && "cursor-not-allowed")}
+          disabled={mutatePending}
+          onClick={(e) => {
+            e.preventDefault();
+            alert("Share options");
+          }}
+        >
+          <span className="w-8 h-8 p-1.5 flex justify-center items-center group-hover:bg-blue-500/10 rounded-full transition-all ease-in-out">
+            <IoShareOutline className="w-full h-full text-slate-500" />
+          </span>
+        </Button>
+      </div>
     </div>
   );
 };

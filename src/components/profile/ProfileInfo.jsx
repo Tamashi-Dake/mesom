@@ -1,10 +1,10 @@
-import { formatMemberSinceDate } from "../../helper/formatDate";
+import { formatDate } from "../../helper/formatDate";
 
 import { IoCalendarOutline } from "react-icons/io5";
 import { FaLink } from "react-icons/fa";
 
 const ProfileInfo = ({ user }) => {
-  const memberSinceDate = formatMemberSinceDate(user?.createdAt);
+  const memberSinceDate = formatDate(user?.createdAt, "user");
 
   return (
     <div className="flex flex-col gap-4 mt-4 px-4">
@@ -31,7 +31,9 @@ const ProfileInfo = ({ user }) => {
         </div>
         <div className="flex gap-2 items-center">
           <IoCalendarOutline className="w-4 h-4 text-slate-500" />
-          <span className="text-sm text-slate-500">{memberSinceDate}</span>
+          <span className="text-sm text-slate-500">
+            Joined {memberSinceDate}
+          </span>
         </div>
       </div>
       <div className="flex gap-2">

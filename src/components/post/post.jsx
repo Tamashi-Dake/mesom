@@ -17,7 +17,11 @@ const Post = ({ post, author, queryType }) => {
       <AuthorAvatar author={author || post.author} />
       <div className="flex flex-col flex-1">
         <div className="flex gap-2 items-center justify-between">
-          <PostInfo author={author || post.author} date={post.createdAt} />
+          <PostInfo
+            author={author || post.author}
+            createDate={post.createdAt}
+            postId={post._id}
+          />
           <PostOptions
             authorId={author?._id || post.author._id}
             postId={post._id}

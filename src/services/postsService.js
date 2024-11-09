@@ -75,3 +75,7 @@ export const toggleBookmarkPost = async ({ postId }) => {
   const response = await api.post(`/post/${postId}/bookmark`);
   return response.data;
 };
+export const increasePostView = async (postId) => {
+  const response = await api.post(`/post/${postId}/increase-view`);
+  return response.data;
+};
