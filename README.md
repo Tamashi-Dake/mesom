@@ -12,17 +12,24 @@
   - [ ] Message?
   - [ ] Profile (Post , Reply, Media, Like)
 
-- [ ] Modal
-
-  - [x] Image Modal
-  - [x] Default Modal
-  - [ ] Action Modal (Confirm actions)
-
 - [ ] Menu
+
+  - [x] Post Options (Follow/Block author, Block notification from post)
+    - [x] Owner: Delete, Pin/Unpin
+    - [x] User: Follow, Block author
+  - [x] Post Action - Share: Copy post link
+  - [ ] Display (custom theme)
+  - [ ] User sidebar (logout)
+  - [ ] User card (hover on @username / user)
 
 - [ ] Skeleton
   - [ ] Post (content, image)
   - [ ] User (profile,...)
-- [ ] Add Emoji Mart, gif-picker-react
 
 ## Problems
+
+- [ ] Default dark mode
+
+## Upcomming features
+
+- [ ] Add gif-picker-react

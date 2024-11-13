@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+import cn from "clsx";
 
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { useModal } from "../../hooks/useModal";
@@ -15,18 +16,32 @@ import { omit } from "../../helper/omit";
 import { increasePostView } from "../../services/postsService";
 
 import ReplyModal from "../modal/ReplyModal";
-import { Button } from "@headlessui/react";
+import {
+  Button,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+} from "@headlessui/react";
 
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import { BiRepost } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
-import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
+import { FaBookmark, FaCopy, FaRegBookmark } from "react-icons/fa6";
 import { IoShareOutline, IoStatsChartSharp } from "react-icons/io5";
+import { ToolTip } from "../common/Tooltip";
+import { AnimatePresence, motion } from "framer-motion";
+import { popupVariant } from "../shared/config";
+import toast from "react-hot-toast";
 
 const PostActions = ({ post, queryType }) => {
-  const { postId: postParam } = useParams();
-  const inPostPage = postParam ? true : false;
+  const { postId: postParam, username: userParam } = useParams();
+  const [debouncedPending, setDebouncedPending] = useState(false);
+  const currentUser = useCurrentUser();
+  const replyModal = useModal();
+
+  const inPostPage = !!postParam;
   const isViewingPost = postParam === post._id;
+  const isViewingMyProfile = userParam === currentUser.data.username;
   const keysToOmit = [
     "userLikes",
     "userShared",
@@ -35,20 +50,17 @@ const PostActions = ({ post, queryType }) => {
     "views",
   ];
   const simplifiedPost = omit(post, keysToOmit);
-
-  const [debouncedPending, setDebouncedPending] = useState(false);
-
-  const currentUser = useCurrentUser();
-  const replyModal = useModal();
-
   const isLiked = post.userLikes.includes(currentUser.data._id);
   const isShared = post.userShared.includes(currentUser.data._id);
   const isBookmarked = currentUser.data.bookmarks.includes(post._id);
-
   const likeMutation = useLikePost(queryType, post._id, inPostPage);
-  const shareMutation = useSharePost(queryType, post._id, inPostPage);
+  const shareMutation = useSharePost(
+    queryType,
+    post._id,
+    inPostPage,
+    isViewingMyProfile
+  );
   const bookmarkMutation = useBookmarkPost(queryType, post._id, inPostPage);
-
   const mutatePending =
     likeMutation.isPending ||
     shareMutation.isPending ||
@@ -96,7 +108,18 @@ const PostActions = ({ post, queryType }) => {
     bookmarkMutation.mutate({ postId: post._id });
   };
 
-  // TODO: invalidate queries cho mỗi actions
+  const handleCopy = async (event, close) => {
+    event.preventDefault();
+    try {
+      const postUrl = `${window.location.origin}/post/${post._id}`;
+      await navigator.clipboard.writeText(postUrl);
+      toast.success("Copied to clipboard!");
+    } catch (error) {
+      toast.error("Failed to copy to clipboard. Please try again.");
+    }
+    close();
+  };
+
   return (
     <div className="flex justify-between mt-2">
       <div className="flex gap-4 items-center w-4/5 justify-between">
@@ -229,18 +252,43 @@ const PostActions = ({ post, queryType }) => {
             </span>
           </Button>
         )}
-        <Button
-          className={twMerge("group", mutatePending && "cursor-not-allowed")}
-          disabled={mutatePending}
-          onClick={(e) => {
-            e.preventDefault();
-            alert("Share options");
-          }}
-        >
-          <span className="w-8 h-8 p-1.5 flex justify-center items-center group-hover:bg-blue-500/10 rounded-full transition-all ease-in-out">
-            <IoShareOutline className="w-full h-full text-slate-500" />
-          </span>
-        </Button>
+        <Popover>
+          {({ open, close }) => (
+            <>
+              <PopoverButton
+                as={Button}
+                className={cn(
+                  `main-tab group rounded-full top-2 right-2 p-2 hover:bg-accent-blue/10 focus-visible:bg-accent-blue/10 focus-visible:!ring-accent-blue/80 active:bg-accent-blue/20`,
+                  open && "bg-accent-blue/10 [&>div>svg]:text-accent-blue"
+                )}
+              >
+                <div className="group relative">
+                  <IoShareOutline className=" h-5 w-5 text-light-secondary group-hover:text-accent-blue  group-focus-visible:text-accent-blue dark:text-dark-secondary/80" />
+                  {!open && <ToolTip tip="Share this post" />}
+                </div>
+              </PopoverButton>
+              <AnimatePresence>
+                {open && (
+                  <PopoverPanel
+                    className="menu-container bg-white group absolute z-[9] right-2 whitespace-nowrap text-light-primary dark:text-dark-primary dark:text-neutral-700"
+                    as={motion.div}
+                    {...popupVariant}
+                    static
+                  >
+                    <PopoverButton
+                      as={Button}
+                      className="accent-tab flex w-full items-center gap-3 rounded-md rounded-b-none p-4 text-light-primary hover:bg-main-sidebar-background"
+                      onClick={(event) => handleCopy(event, close)}
+                    >
+                      <FaCopy />
+                      Copy to clipboard
+                    </PopoverButton>
+                  </PopoverPanel>
+                )}
+              </AnimatePresence>
+            </>
+          )}
+        </Popover>
       </div>
     </div>
   );

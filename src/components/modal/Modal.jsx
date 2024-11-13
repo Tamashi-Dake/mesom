@@ -15,6 +15,7 @@ export const Modal = ({
   closePanelOnClick,
   closeModal,
   imageModal = false,
+  actionModal = false,
 }) => {
   return (
     <AnimatePresence>
@@ -42,7 +43,7 @@ export const Modal = ({
               {...(modalAnimation ?? modalVariant)}
               onClick={closePanelOnClick ? closeModal : undefined}
             >
-              {!imageModal && (
+              {!(imageModal || actionModal) && (
                 <motion.button
                   initial={{
                     opacity: 0,

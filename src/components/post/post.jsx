@@ -24,6 +24,7 @@ const Post = ({ post, author, queryType }) => {
           />
           <PostOptions
             authorId={author?._id || post.author._id}
+            authorName={author?.username || post.author.username}
             postId={post._id}
             queryType={queryType}
           />

@@ -27,7 +27,7 @@ const PostContent = ({ textContent, images }) => {
       <span
         ref={textRef}
         className={twMerge(
-          `whitespace-pre-line`,
+          `whitespace-pre-line font-thin`,
           readMore ? "line-clamp-none" : "line-clamp-3"
         )}
       >

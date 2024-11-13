@@ -4,7 +4,6 @@ import {
   BsBookmark,
   BsChatDots,
   BsHouse,
-  BsInfoCircle,
   BsPerson,
 } from "react-icons/bs";
 import { CiMail } from "react-icons/ci";
@@ -77,4 +76,14 @@ export const modalVariant = {
     transition: { type: "spring", duration: 0.5, bounce: 0.4 },
   },
   exit: { opacity: 0, scale: 0.8, transition: { duration: 0.15 } },
+};
+
+export const popupVariant = {
+  initial: { opacity: 0, y: -25 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", duration: 0.4 },
+  },
+  exit: { opacity: 0, y: -25, transition: { duration: 0.2 } },
 };

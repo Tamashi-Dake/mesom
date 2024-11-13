@@ -219,7 +219,7 @@ export const useLikePost = (queryType, postId, inPostPage) => {
   return likeMutation;
 };
 
-export const useSharePost = (queryType, postId, inPostPage) => {
+export const useSharePost = (queryType, postId, inPostPage, refetch) => {
   const queryClient = useQueryClient();
 
   const shareMutation = useMutation({
@@ -246,6 +246,11 @@ export const useSharePost = (queryType, postId, inPostPage) => {
         "userShared",
         shares
       );
+
+      if (refetch)
+        queryClient.invalidateQueries({
+          queryKey: ["posts", ...finalQueryType],
+        });
     },
     onError: (error) => {
       toast.error(`Error sharing post: ${error.message}`);

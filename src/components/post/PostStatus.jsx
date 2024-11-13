@@ -22,8 +22,6 @@ const PostStatus = ({ totalReplies, userLikes, userShares }) => {
 
   const isStatsVisible = !!(totalReplies || totalShares || totalLikes);
 
-  console.log(totalReplies, totalShares, totalLikes);
-
   const allStats = [
     ["Reply", null, currentReplies],
     ["Share", "Shares", currentTweets],
