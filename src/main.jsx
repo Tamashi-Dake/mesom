@@ -13,8 +13,7 @@ import Notifications from "./pages/Notification.jsx";
 import Search from "./pages/Search.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
-import LoginPage from "./pages/Auth/Login.jsx";
-import SignUpPage from "./pages/Auth/SignUp.jsx";
+import LoginPage from "./pages/Auth.jsx";
 import PostPage from "./pages/PostPage.jsx";
 import Bookmark from "./pages/Bookmarks.jsx";
 
@@ -73,12 +72,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/login",
+    path: "/auth",
     element: <LoginPage />,
-  },
-  {
-    path: "/signup",
-    element: <SignUpPage />,
   },
 ]);
 
@@ -87,6 +82,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <Toaster
         toastOptions={{
+          position: "bottom-center",
           style: {
             background: "#333",
             color: "#fff",
@@ -95,5 +91,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       />
       <RouterProvider router={router} />
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

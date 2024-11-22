@@ -6,11 +6,12 @@
 
 - [ ] Infinity scroll
 
-  - [ ] Home (Post, Reply in Post page)
+  - [x] Home (Post, Reply in Post page)
   - [ ] Search (Username/Display name, Tag)
   - [ ] Notification ( All, Mention)
   - [ ] Message?
   - [ ] Profile (Post , Reply, Media, Like)
+  - [ ] All post action must be refactor to fit with infinity query
 
 - [ ] Menu
 
@@ -23,8 +24,17 @@
   - [ ] User card (hover on @username / user)
 
 - [ ] Skeleton
+
   - [ ] Post (content, image)
   - [ ] User (profile,...)
+
+- [ ] Validate form
+
+  - [ ] Login / Sign up
+  - [ ] Search
+  - [ ] Update User modal
+
+- [ ] Darkmode
 
 ## Problems
 

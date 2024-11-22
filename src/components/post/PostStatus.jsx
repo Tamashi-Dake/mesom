@@ -33,7 +33,7 @@ const PostStatus = ({ totalReplies, userLikes, userShares }) => {
     <>
       {isStatsVisible && (
         <div
-          className="flex gap-4 px-1 py-4 text-light-secondary dark:text-dark-secondary
+          className="flex gap-4 py-4 text-light-secondary dark:text-dark-secondary
                      [&>button>div]:font-bold [&>button>div]:text-light-primary 
                      dark:[&>button>div]:text-dark-primary border-y-[1px]"
         >

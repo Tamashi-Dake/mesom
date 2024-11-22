@@ -18,7 +18,7 @@ export const useCreatePost = (
   authorName,
   inReplyModal = false,
   queryType,
-  refetch = false
+  refetch = false,
 ) => {
   const queryClient = useQueryClient();
   const [text, setText] = useState("");
@@ -43,12 +43,14 @@ export const useCreatePost = (
           queryClient.setQueryData(["posts", queryType], (existingPosts) => {
             return {
               ...existingPosts,
-              posts: existingPosts.posts.map((currentPost) => {
-                if (currentPost._id === postId) {
-                  return { ...currentPost, userReplies: numberReplies };
-                }
-                return currentPost;
-              }),
+              pages: existingPosts.pages.map((page) => ({
+                ...page,
+                posts: page.posts.map((currentPost) =>
+                  currentPost._id === postId
+                    ? { ...currentPost, userReplies: numberReplies }
+                    : currentPost,
+                ),
+              })),
             };
           });
         } else {
@@ -97,7 +99,7 @@ export const useCreatePost = (
     });
     if (oversizedFiles.length > 0) {
       return toast.error(
-        "One or more images are too large! Please select images smaller than 5MB."
+        "One or more images are too large! Please select images smaller than 5MB.",
       );
     }
 
@@ -132,11 +134,11 @@ export const useCreatePost = (
     (index) => {
       setImages((prevImages) => prevImages.filter((_, i) => i !== index)); // Xóa ảnh tại vị trí index
       setPreviewImages((prevPreview) =>
-        prevPreview.filter((_, i) => i !== index)
+        prevPreview.filter((_, i) => i !== index),
       );
       imgRef.current.value = null; // Đặt lại input file
     },
-    [images, previewImages]
+    [images, previewImages],
   );
 
   return {
@@ -208,7 +210,7 @@ export const useLikePost = (queryType, postId, inPostPage) => {
         inPostPage ? ["post", ...finalQueryType] : ["posts", ...finalQueryType],
         postId,
         "userLikes",
-        likes
+        likes,
       );
     },
     onError: (error) => {
@@ -244,7 +246,7 @@ export const useSharePost = (queryType, postId, inPostPage, refetch) => {
         inPostPage ? ["post", ...finalQueryType] : ["posts", ...finalQueryType],
         postId,
         "userShared",
-        shares
+        shares,
       );
 
       if (refetch)
@@ -263,7 +265,7 @@ export const useSharePost = (queryType, postId, inPostPage, refetch) => {
 export const useBookmarkPost = (
   queryType = "bookmarks",
   postId,
-  inPostPage
+  inPostPage,
 ) => {
   const queryClient = useQueryClient();
 
@@ -290,7 +292,7 @@ export const useBookmarkPost = (
         inPostPage ? ["post", ...finalQueryType] : ["posts", ...finalQueryType],
         postId,
         "userBookmarks",
-        userBookmarks
+        userBookmarks,
       );
 
       queryClient.invalidateQueries({ queryKey: ["posts", "bookmarks"] });

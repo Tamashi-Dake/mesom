@@ -78,14 +78,15 @@ const blockPostNotificationsData = [
 
 const PostOptions = ({ authorId, authorName, postId, queryType }) => {
   const currentUser = useCurrentUser();
-
   const isOwner = currentUser.data._id === authorId;
-  const deleteMutation = useDeletePost(queryType, postId);
-  const followMutation = useFollowUser(authorId);
   const isPinned = currentUser.data.pinnedPost === postId;
-  const userIsFollowed = currentUser.data.following.includes(authorId);
   const [userIsBlocked, setUserIsBlocked] = useState(false);
   const [allowNotifications, setAllowNotifications] = useState(true);
+  const userIsFollowed = currentUser.data.following.includes(authorId);
+
+  const deleteMutation = useDeletePost(queryType, postId);
+  const followMutation = useFollowUser(authorId, true);
+
   const {
     open: removeOpen,
     openModal: removeOpenModal,
@@ -106,7 +107,6 @@ const PostOptions = ({ authorId, authorName, postId, queryType }) => {
     openModal: allowNotiOpenModal,
     closeModal: allowNotiCloseModal,
   } = useModal();
-
   const currentPinModalData = useMemo(() => pinModalData[+isPinned], [pinOpen]);
   const currentBlockUserModalData = useMemo(
     () => blockUserModalData[+userIsBlocked],
@@ -116,6 +116,7 @@ const PostOptions = ({ authorId, authorName, postId, queryType }) => {
     () => blockPostNotificationsData[+allowNotifications],
     [allowNotiOpen]
   );
+
   const handleDeletePost = (event) => {
     event.preventDefault();
     removeCloseModal();
@@ -126,23 +127,26 @@ const PostOptions = ({ authorId, authorName, postId, queryType }) => {
     pinCloseModal();
     toast.success("pin post");
   };
+  const handleFollow = (event, closeMenu) => {
+    event.preventDefault();
+    followMutation.mutate({ userId: authorId, notificationType: "follow" });
+    closeMenu();
+  };
   const handleBlock = (event) => {
     event.preventDefault();
     setUserIsBlocked(!userIsBlocked);
     blockCloseModal();
-    toast.success("User blocked/unblocked");
   };
   const handleBlockNotifications = (event) => {
     event.preventDefault();
     setAllowNotifications(!allowNotifications);
     allowNotiCloseModal();
-    toast.success("Post blocked/unblocked notifications");
   };
 
   return (
     <>
       <Popover>
-        {({ open }) => (
+        {({ open, close }) => (
           <>
             <PopoverButton
               as={Button}
@@ -204,10 +208,9 @@ const PostOptions = ({ authorId, authorName, postId, queryType }) => {
                       <PopoverButton
                         className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none p-4 hover:bg-main-sidebar-background"
                         as={Button}
-                        onClick={
-                          // handleFollow(close, "unfollow", userId, createdBy)
-                          null
-                        }
+                        onClick={(e) => {
+                          handleFollow(e, close);
+                        }}
                       >
                         {userIsFollowed ? (
                           <>

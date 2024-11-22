@@ -43,14 +43,14 @@ const RouteSidebar = () => {
 
   const handleLogout = () => {
     logoutMutation.mutate();
-    navigate("/login");
+    navigate("/auth");
   };
 
   return (
     <>
-      <div className=" h-screen col-span-1 lg:p-2 xl:p-4 hidden xs:block sticky top-0">
-        <div className="flex flex-col h-full justify-between">
-          <div className="flex flex-col space-y-4 m-2">
+      <div className="sticky top-0 col-span-1 hidden h-screen xs:block lg:p-2 xl:p-4">
+        <div className="flex h-full flex-col justify-between">
+          <div className="m-2 flex flex-col space-y-4">
             {routes.map((route) => (
               <RouteItem
                 key={route.path}
@@ -61,7 +61,7 @@ const RouteSidebar = () => {
             ))}
             <RouteCreatePost />
           </div>
-          <div className="space-y-4 m-2">
+          <div className="m-2 space-y-4">
             {/*TODO: Chuyển button sang RouteItem hoặc custom button logout */}
 
             <Button

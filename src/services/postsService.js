@@ -1,7 +1,11 @@
 import api from "../helper/api";
 
-export const getPosts = async () => {
-  const response = await api.get("/posts");
+export const getPosts = async ({ skip }) => {
+  const response = await api.get("/posts", {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 
@@ -44,7 +48,7 @@ export const createPost = async (postData) => {
 export const createReply = async (replyData) => {
   const response = await api.post(
     `/post/${replyData.get("parentPost")}`,
-    replyData
+    replyData,
   );
   return response.data;
 };

@@ -13,16 +13,26 @@ export const useFollowUser = (userId, refetchSingle = false) => {
 
       if (!refetchSingle) {
         queryClient.setQueryData(["suggestedUsers"], (existingUsers = []) => {
-          return existingUsers.map((targetUser) => {
+          const suggestedUsers = existingUsers.suggestedUsers;
+          suggestedUsers.map((targetUser) => {
             if (targetUser._id === userId) {
               return { ...targetUser, followers: followers };
             }
             return targetUser;
           });
+          // Invalid: Cannot read properties of undefined (reading 'map')?
+          // return suggestedUsers.map((targetUser) => {
+          //   if (targetUser._id === userId) {
+          //     return { ...targetUser, followers: followers };
+          //   }
+          //   return targetUser;
+          // });
         });
       }
 
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
+
+      toast.success(data.message);
     },
     onError: (error) => {
       toast.error(error.message);

@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     if (!currentUser.isLoading && !currentUser.data) {
-      navigate("/login");
+      navigate("/auth");
     }
   }, [currentUser.isLoading, currentUser.data, navigate]);
 
@@ -31,10 +31,10 @@ function App() {
   }
 
   return (
-    <div className="container mx-auto h-full xl:px-30 max-w-6xl">
-      <div className="grid grid-cols-[auto,1fr,1fr,1fr] grid-rows-[1fr,auto] xs:grid-rows-1 md:grid-cols-4 h-full">
+    <div className="xl:px-30 container mx-auto h-full max-w-6xl">
+      <div className="grid h-full grid-cols-[auto,1fr,1fr,1fr] grid-rows-[1fr,auto] xs:grid-rows-1 md:grid-cols-4">
         <RouteSidebar />
-        <div className="col-span-4 xs:col-span-3 lg:col-span-2 sm:border-x-[1px] border-neutral-200 relative">
+        <div className="relative col-span-4 border-neutral-200 xs:col-span-3 sm:border-x-[1px] lg:col-span-2">
           <Outlet />
         </div>
         {isMobile && <RouteBottomBar />}

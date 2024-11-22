@@ -17,6 +17,7 @@ export default {
     extend: {
       fontFamily: {
         "twitter-chirp": ["TwitterChirp", "sans-serif"],
+        // BUG: Not working
         "twitter-chirp-extended": ["TwitterChirpExtendedHeavy", "sans-serif"],
       },
       // prettier-ignore
