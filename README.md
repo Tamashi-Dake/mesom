@@ -2,9 +2,9 @@
 
 ## TODO
 
-- [ ] Show more = get 10 suggested user
+- [ ] Responsive
 
-- [ ] Infinity scroll
+- [ ] Infinite scroll
 
   - [x] Home (Post, Reply in Post page)
   - [ ] Search (Username/Display name, Tag)
@@ -35,6 +35,8 @@
   - [ ] Update User modal
 
 - [ ] Darkmode
+
+- [ ] Show more = get 10 suggested user
 
 ## Problems
 

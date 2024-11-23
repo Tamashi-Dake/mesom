@@ -34,12 +34,12 @@ const Notifications = () => {
       <NotificationHeader activeTab={activeTab} onTabChange={onTabChange} />
       <div>
         {isLoading && (
-          <div className="flex justify-center h-full items-center">
+          <div className="flex h-full items-center justify-center">
             <LoadingSpinner />
           </div>
         )}
         {data?.totalNotifications === 0 && (
-          <div className="text-center p-4 font-bold">
+          <div className="p-4 text-center font-bold">
             You have no notifications{" "}
           </div>
         )}
@@ -50,7 +50,7 @@ const Notifications = () => {
           ))}
         {activeTab === "mentions" &&
           data?.mentions?.map((mention) => (
-            // TODO: Bug : mention.from chỉ có id?
+            // Invalid: mention.from chỉ có id?
             <Post
               key={mention.post._id}
               post={mention.post}
