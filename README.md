@@ -36,6 +36,8 @@
 
 - [ ] Darkmode
 
+- [ ] Error elements
+
 - [ ] Show more = get 10 suggested user
 
 ## Problems

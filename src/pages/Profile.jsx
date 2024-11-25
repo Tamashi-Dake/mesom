@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
-import { useDelayedQuery } from "../hooks/useDelayAPI";
-
 import { getUserByUsername } from "../services/userService";
-import { getLikesByUser, getPostsByUser } from "../services/postsService";
+import {
+  getLikesByUser,
+  getMediasByUser,
+  getPostsByUser,
+  getRepliesByUser,
+} from "../services/postsService";
 
 import Tab from "../components/common/Tab";
 import UserProfile from "../components/profile/UserProfile";
@@ -14,23 +17,30 @@ import Post from "../components/post/Post";
 const Profile = () => {
   const { username } = useParams();
   const [postType, setPostType] = useState("userPosts");
-
-  const userQuery = useDelayedQuery({
+  const userQuery = useQuery({
     queryKey: ["userProfile"],
     queryFn: () => getUserByUsername(username),
-    delay: 1000,
   });
+  const userId = userQuery.data?._id;
 
   const postQuery = useQuery({
     queryKey: ["posts", postType],
     queryFn: () => {
-      if (postType === "userPosts") {
-        return getPostsByUser(userQuery.data._id);
-      }
-      if (postType === "userLikes") {
-        return getLikesByUser(userQuery.data._id);
+      if (!userId) return null;
+      switch (postType) {
+        case "userPosts":
+          return getPostsByUser(userId);
+        case "userReplies":
+          return getRepliesByUser(userId);
+        case "userMedias":
+          return getMediasByUser(userId);
+        case "userLikes":
+          return getLikesByUser(userId);
+        default:
+          return null;
       }
     },
+    enabled: !!userId, // Chỉ gửi request khi có userId
   });
 
   useEffect(() => {
@@ -39,13 +49,13 @@ const Profile = () => {
 
   useEffect(() => {
     postQuery?.refetch();
-  }, [userQuery.data?._id]);
+  }, [userId]);
 
   return (
     <>
       <UserProfile userQuery={userQuery} />
 
-      <div className="border-b-[1px] flex">
+      <div className="flex border-b-[1px]">
         <Tab
           label="Posts"
           isActive={postType === "userPosts"}
@@ -58,8 +68,8 @@ const Profile = () => {
         />
         <Tab
           label="Media"
-          isActive={postType === "userMedia"}
-          onClick={() => setPostType("userMedia")}
+          isActive={postType === "userMedias"}
+          onClick={() => setPostType("userMedias")}
         />
         <Tab
           label="Likes"

@@ -24,6 +24,16 @@ export const getPostsByUser = async (userId) => {
   return response.data;
 };
 
+export const getRepliesByUser = async (userId) => {
+  const response = await api.get(`/user/${userId}/replies`);
+  return response.data;
+};
+
+export const getMediasByUser = async (userId) => {
+  const response = await api.get(`/user/${userId}/medias`);
+  return response.data;
+};
+
 export const getLikesByUser = async (userId) => {
   const response = await api.get(`/user/${userId}/likes`);
   return response.data;

@@ -5,13 +5,13 @@ import Post from "../post/Post";
 const ReplyModal = ({ modal, post }) => {
   return (
     <Modal
-      className="flex items-start justify-center "
+      className="flex items-start justify-center"
       modalClassName="bg-white relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
       open={modal.open}
       closeModal={modal.closeModal}
     >
       <Post post={post} inReplyModal />
-      {/* TODO: update queryType - create reply in user page (all, replies, media, like), bookmark */}
+      {/* TODO: update queryType - create reply in user page (all, replies, medias, like), bookmark */}
       <CreatePost
         queryType={"forYou"}
         isReply={true}
