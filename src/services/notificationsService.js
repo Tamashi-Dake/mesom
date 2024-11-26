@@ -1,12 +1,20 @@
 import api from "../helper/api";
 
-export const getNotifications = async () => {
-  const response = await api.get("/notifications");
+export const getNotifications = async ({ skip }) => {
+  const response = await api.get("/notifications", {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 
-export const getMentions = async () => {
-  const response = await api.get("/notifications/mentions");
+export const getMentions = async ({ skip }) => {
+  const response = await api.get("/notifications/mentions", {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 

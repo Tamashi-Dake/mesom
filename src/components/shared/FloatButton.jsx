@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const FloatButton = ({ title, link, icon }) => {
   return (
-    <div className="rounded-full absolute bottom-20 right-5 bg-sky-500 hover:bg-opacity-80 transition cursor-pointer p-4">
-      <Link href={link} title={title}>
+    <div className="absolute bottom-20 right-5 cursor-pointer rounded-full bg-sky-500 p-4 transition hover:bg-opacity-80">
+      <Link to={link} title={title}>
         {icon}
       </Link>
     </div>

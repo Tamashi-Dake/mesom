@@ -1,5 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { getUserBookmarks } from "../services/postsService";
 import { useModal } from "../hooks/useModal";
 
@@ -9,16 +7,19 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import { Modal } from "../components/modal/Modal";
 import { ActionModal } from "../components/modal/ActionModal";
 import toast from "react-hot-toast";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const Bookmark = () => {
   const deleteAllBookmarkModal = useModal();
 
-  const bookmarkQuery = useQuery({
-    queryKey: ["posts", "bookmarks"],
-    queryFn: () => {
-      return getUserBookmarks();
-    },
-  });
+  const { data, error, isError, isLoading, isFetchingNextPage, ref } =
+    useInfiniteScroll(
+      ["posts", "bookmarks"],
+      ({ pageParam = 0 }) => {
+        return getUserBookmarks({ skip: pageParam });
+      },
+      (lastPage) => lastPage.nextSkip || undefined,
+    );
 
   const handleClear = () => {
     // TODO: Delete all bookmark + only allow Premium user
@@ -30,18 +31,16 @@ const Bookmark = () => {
     <>
       <BookmarkHeader modal={deleteAllBookmarkModal} />
       <main>
-        {bookmarkQuery.isLoading && <LoadingSpinner />}
-        {bookmarkQuery.isError && (
-          <div>Error: {bookmarkQuery.error.message}</div>
-        )}
-        {bookmarkQuery.data?.posts.length === 0 && (
+        {isLoading && <LoadingSpinner />}
+        {isError && <div>Error: {error.message}</div>}
+        {data?.pages[0]?.message ? (
           <section className="mt-0.5 flex justify-center p-8">
-            <div className="max-w-sm flex flex-col items-center gap-6">
-              <span className="overflow-hidden relative w-full h-52">
+            <div className="flex max-w-sm flex-col items-center gap-6">
+              <span className="relative h-52 w-full overflow-hidden">
                 <img
                   alt="No bookmarks"
                   src="/no-bookmarks.png"
-                  className="object-cover absolute inset-0 p-0 m-auto "
+                  className="absolute inset-0 m-auto object-cover p-0"
                 />
               </span>
               <div className="flex flex-col gap-2 text-center">
@@ -53,10 +52,23 @@ const Bookmark = () => {
               </div>
             </div>
           </section>
+        ) : (
+          data?.pages.map((bookmarkPageInfo) =>
+            bookmarkPageInfo.posts.map((post, index) => {
+              const isPostBeforeLastPost =
+                index === bookmarkPageInfo.posts.length - 1;
+              return (
+                <Post
+                  innerRef={isPostBeforeLastPost ? ref : null}
+                  key={post._id}
+                  post={post}
+                  queryType={"bookmarks"}
+                />
+              );
+            }),
+          )
         )}
-        {bookmarkQuery.data?.posts.map((post) => (
-          <Post key={post._id} post={post} queryType={"bookmarks"} />
-        ))}
+        {isFetchingNextPage && <LoadingSpinner />}
       </main>
       <Modal
         modalClassName="max-w-xs relative bg-main-background bg-white w-full p-8 rounded-2xl"

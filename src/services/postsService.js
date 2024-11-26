@@ -9,13 +9,21 @@ export const getPosts = async ({ skip }) => {
   return response.data;
 };
 
-export const getFollowingPosts = async () => {
-  const response = await api.get("/posts/following");
+export const getFollowingPosts = async ({ skip }) => {
+  const response = await api.get("/posts/following", {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 
-export const getUserBookmarks = async () => {
-  const response = await api.get(`/posts/bookmarks`);
+export const getUserBookmarks = async ({ skip }) => {
+  const response = await api.get(`/posts/bookmarks`, {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 

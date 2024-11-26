@@ -8,8 +8,9 @@ import { Link } from "react-router-dom";
 const Post = ({ post, author, queryType, inReplyModal, innerRef }) => {
   const isReply = !!post.parent;
   const authorName = post?.parent?.authorName;
-  console.log("rerender post", post.text);
+  // console.log("rerender post", post.text);
   return (
+    // Invalid: bị lồng thẻ a
     <Link
       ref={innerRef}
       to={`/post/${post?._id}`}
@@ -35,10 +36,11 @@ const Post = ({ post, author, queryType, inReplyModal, innerRef }) => {
         {isReply && (
           <p className="text-sm text-gray-400 text-light-secondary dark:text-dark-secondary">
             Replying to{" "}
-            <Link to={`/user/${authorName}`}>
-              <a className="custom-underline text-blue-500 text-main-accent">
-                @{authorName}
-              </a>
+            <Link
+              to={`/user/${authorName}`}
+              className="custom-underline text-blue-500 text-main-accent"
+            >
+              @{authorName}
             </Link>
           </p>
         )}

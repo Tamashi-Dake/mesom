@@ -8,8 +8,9 @@
 
   - [x] Home (Post, Reply in Post page)
   - [ ] Search (Username/Display name, Tag)
-  - [ ] Notification ( All, Mention)
+  - [x] Notification ( All, Mention)
   - [ ] Message?
+  - [x] Bookmark
   - [ ] Profile (Post , Reply, Media, Like)
   - [ ] All post action must be refactor to fit with infinity query
 

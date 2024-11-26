@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 
 import {
   getMentions,
@@ -10,21 +9,23 @@ import NotificationHeader from "../components/layout/NotificationHeader";
 import Notification from "../components/notification/Notification";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import Post from "../components/post/Post";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const Notifications = () => {
   const [activeTab, setActiveTab] = useState("allNotifications");
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["notifications", activeTab],
-    queryFn: () => {
+  const { data, isLoading, isFetchingNextPage, ref } = useInfiniteScroll(
+    ["notifications", activeTab],
+    ({ pageParam = 0 }) => {
       if (activeTab === "allNotifications") {
-        return getNotifications();
+        return getNotifications({ skip: pageParam });
       }
       if (activeTab === "mentions") {
-        return getMentions();
+        return getMentions({ skip: pageParam });
       }
     },
-  });
+    (lastPage) => lastPage.nextSkip || undefined,
+  );
 
   const onTabChange = (tab) => {
     setActiveTab(tab);
@@ -45,20 +46,38 @@ const Notifications = () => {
         )}
 
         {activeTab === "allNotifications" &&
-          data?.notifications?.map((notification) => (
-            <Notification key={notification._id} notification={notification} />
-          ))}
+          data?.pages.map((notificationPageInfo) =>
+            notificationPageInfo?.notifications?.map((notification, index) => {
+              const isAlmostLastNotification =
+                index === notificationPageInfo.notifications.length - 1;
+
+              return (
+                <Notification
+                  innerRef={isAlmostLastNotification ? ref : null}
+                  key={notification._id}
+                  notification={notification}
+                />
+              );
+            }),
+          )}
         {activeTab === "mentions" &&
-          data?.mentions?.map((mention) => (
-            // Invalid: mention.from chỉ có id?
-            <Post
-              key={mention.post._id}
-              post={mention.post}
-              author={mention?.from}
-              queryType={activeTab}
-            />
-          ))}
+          data?.pages.map((mentionPageInfo) =>
+            mentionPageInfo?.mentions?.map((mention, index) => {
+              const isAlmostLastMention =
+                index === mentionPageInfo.mentions.length - 1;
+              return (
+                <Post
+                  innerRef={isAlmostLastMention ? ref : null}
+                  key={mention.post._id}
+                  post={mention.post}
+                  author={mention?.from}
+                  queryType={activeTab}
+                />
+              );
+            }),
+          )}
       </div>
+      {isFetchingNextPage && <LoadingSpinner />}
     </>
   );
 };

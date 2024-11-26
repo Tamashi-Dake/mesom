@@ -6,11 +6,11 @@ const PostInfo = ({ author, createDate, postId }) => {
   const { postId: postParam } = useParams();
   const isViewingPost = postParam === postId;
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <Link to={`/profile/${author.username}`} className="font-bold">
         {author.displayName || author.username}
       </Link>
-      <span className="text-gray-700 flex gap-1 text-sm">
+      <div className="flex gap-1 text-sm text-gray-700">
         <Link to={`/profile/${author.username}`}>@{author.username}</Link>
         {!isViewingPost && (
           <>
@@ -18,7 +18,7 @@ const PostInfo = ({ author, createDate, postId }) => {
             <span>{date}</span>
           </>
         )}
-      </span>
+      </div>
     </div>
   );
 };

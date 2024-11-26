@@ -4,33 +4,37 @@ import { FaUser, FaHeart, FaRetweet, FaReply } from "react-icons/fa";
 const NotificationIcon = ({ type }) => {
   switch (type) {
     case "follow":
-      return <FaUser className="w-7 h-7 text-sky-500" />;
+      return <FaUser className="h-7 w-7 text-sky-500" />;
     case "like":
-      return <FaHeart className="w-7 h-7 text-red-500" />;
+      return <FaHeart className="h-7 w-7 text-red-500" />;
     case "share":
-      return <FaRetweet className="w-7 h-7 text-green-500" />;
+      return <FaRetweet className="h-7 w-7 text-green-500" />;
     case "reply":
-      return <FaReply className="w-7 h-7 text-blue-500" />;
+      return <FaReply className="h-7 w-7 text-blue-500" />;
     default:
       return null;
   }
 };
 
-const Notification = ({ notification }) => {
+const Notification = ({ notification, innerRef }) => {
   const link =
     notification?.type === "follow"
       ? `/profile/${notification.from.username}`
       : `/post/${notification.post}`;
 
   return (
-    <div className="border-b border-gray-200" key={notification?._id}>
+    <div
+      ref={innerRef}
+      className="border-b border-gray-200"
+      key={notification?._id}
+    >
       <div className="flex gap-2 p-4">
         <NotificationIcon type={notification?.type} />
         <Link className="flex-1" to={link}>
-          <div className="avatar w-8 h-8">
+          <div className="avatar h-8 w-8">
             <img
               src={notification?.from.profile.avatarImg || "/placeholder.png"}
-              className="rounded-full object-cover h-full w-full"
+              className="h-full w-full rounded-full object-cover"
             />
           </div>
           <div className="flex gap-1">

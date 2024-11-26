@@ -9,7 +9,6 @@ const useInfiniteScroll = (queryKey, queryFn, getNextPageParam) => {
     isError,
     isLoading,
     isFetchingNextPage,
-
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery({

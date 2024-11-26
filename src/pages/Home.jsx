@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getPosts } from "../services/postsService";
-import useInfiniteScroll from "../hooks/useInfinityScroll";
+import { getFollowingPosts, getPosts } from "../services/postsService";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 import HomeHeader from "../components/layout/HomeHeader";
 import CreatePost from "../components/post/CreatePost";
@@ -13,7 +13,14 @@ const Home = () => {
   const { data, error, isError, isLoading, isFetchingNextPage, ref } =
     useInfiniteScroll(
       ["posts", queryType],
-      ({ pageParam = 0 }) => getPosts({ skip: pageParam }),
+      ({ pageParam = 0 }) => {
+        if (queryType === "forYou") {
+          return getPosts({ skip: pageParam });
+        }
+        if (queryType === "following") {
+          return getFollowingPosts({ skip: pageParam });
+        }
+      },
       (lastPage) => lastPage.nextSkip || undefined,
     );
 
