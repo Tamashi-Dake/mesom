@@ -11,8 +11,8 @@
   - [x] Notification ( All, Mention)
   - [ ] Message?
   - [x] Bookmark
-  - [ ] Profile (Post , Reply, Media, Like)
-  - [ ] All post action must be refactor to fit with infinity query
+  - [x] Profile (Post , Reply, Media, Like)
+  - [x] All post action must be refactor to fit with infinity query
 
 - [ ] Menu
 

@@ -27,23 +27,39 @@ export const getUserBookmarks = async ({ skip }) => {
   return response.data;
 };
 
-export const getPostsByUser = async (userId) => {
-  const response = await api.get(`/user/${userId}/posts`);
+export const getPostsByUser = async ({ userId, skip }) => {
+  const response = await api.get(`/user/${userId}/posts`, {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 
-export const getRepliesByUser = async (userId) => {
-  const response = await api.get(`/user/${userId}/replies`);
+export const getRepliesByUser = async ({ userId, skip }) => {
+  const response = await api.get(`/user/${userId}/replies`, {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 
-export const getMediasByUser = async (userId) => {
-  const response = await api.get(`/user/${userId}/medias`);
+export const getMediasByUser = async ({ userId, skip }) => {
+  const response = await api.get(`/user/${userId}/medias`, {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 
-export const getLikesByUser = async (userId) => {
-  const response = await api.get(`/user/${userId}/likes`);
+export const getLikesByUser = async ({ userId, skip }) => {
+  const response = await api.get(`/user/${userId}/likes`, {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 
@@ -52,8 +68,12 @@ export const getPost = async (postId) => {
   return response.data;
 };
 
-export const getRepliesForPost = async (postId) => {
-  const response = await api.get(`/post/${postId}/replies`);
+export const getRepliesForPost = async ({ postId, skip }) => {
+  const response = await api.get(`/post/${postId}/replies`, {
+    params: {
+      skip: skip,
+    },
+  });
   return response.data;
 };
 

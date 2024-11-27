@@ -4,6 +4,7 @@ import PostOptions from "./PostOptions";
 import PostContent from "./PostContent";
 import PostActions from "./PostActions";
 import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
 const Post = ({ post, author, queryType, inReplyModal, innerRef }) => {
   const isReply = !!post.parent;
@@ -14,7 +15,10 @@ const Post = ({ post, author, queryType, inReplyModal, innerRef }) => {
     <Link
       ref={innerRef}
       to={`/post/${post?._id}`}
-      className="flex flex-1 items-start gap-2 border-b border-gray-200 px-4 py-3 transition-all ease-in-out hover:cursor-pointer"
+      className={twMerge(
+        "flex flex-1 items-start gap-2 px-4 py-3 transition-all ease-in-out hover:cursor-pointer",
+        inReplyModal ? "" : "border-b border-gray-200",
+      )}
     >
       <AuthorAvatar author={author || post.author} isReply={inReplyModal} />
       <div className="flex flex-1 flex-col">

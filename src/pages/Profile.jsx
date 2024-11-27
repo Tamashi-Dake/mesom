@@ -13,6 +13,8 @@ import {
 import Tab from "../components/common/Tab";
 import UserProfile from "../components/profile/UserProfile";
 import Post from "../components/post/Post";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 
 const Profile = () => {
   const { username } = useParams();
@@ -23,32 +25,31 @@ const Profile = () => {
   });
   const userId = userQuery.data?._id;
 
-  const postQuery = useQuery({
-    queryKey: ["posts", postType],
-    queryFn: () => {
-      if (!userId) return null;
+  const { data, isFetchingNextPage, ref, refetch } = useInfiniteScroll(
+    ["posts", postType],
+    ({ pageParam = 0 }) => {
+      if (!userId) return;
       switch (postType) {
         case "userPosts":
-          return getPostsByUser(userId);
+          return getPostsByUser({ userId: userId, skip: pageParam });
         case "userReplies":
-          return getRepliesByUser(userId);
+          return getRepliesByUser({ userId: userId, skip: pageParam });
         case "userMedias":
-          return getMediasByUser(userId);
+          return getMediasByUser({ userId: userId, skip: pageParam });
         case "userLikes":
-          return getLikesByUser(userId);
-        default:
-          return null;
+          return getLikesByUser({ userId: userId, skip: pageParam });
       }
     },
-    enabled: !!userId, // Chỉ gửi request khi có userId
-  });
+    (lastPage) => lastPage?.nextSkip || undefined,
+    { enabled: !!userId && !userQuery.isLoading },
+  );
 
   useEffect(() => {
     userQuery?.refetch();
   }, [username]);
 
   useEffect(() => {
-    postQuery?.refetch();
+    refetch();
   }, [userId]);
 
   return (
@@ -77,10 +78,20 @@ const Profile = () => {
           onClick={() => setPostType("userLikes")}
         />
       </div>
-
-      {postQuery.data?.posts?.map((post) => (
-        <Post key={post._id} post={post} queryType={postType} />
-      ))}
+      {data?.pages.map((postPageInfo) =>
+        postPageInfo?.posts.map((post, index) => {
+          const isPostBeforeLastPost = index === postPageInfo.posts.length - 1;
+          return (
+            <Post
+              innerRef={isPostBeforeLastPost ? ref : null}
+              key={post._id}
+              post={post}
+              queryType={postType}
+            />
+          );
+        }),
+      )}
+      {isFetchingNextPage && <LoadingSpinner />}
     </>
   );
 };

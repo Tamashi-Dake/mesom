@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 
-const useInfiniteScroll = (queryKey, queryFn, getNextPageParam) => {
+const useInfiniteScroll = (queryKey, queryFn, getNextPageParam, options) => {
   const {
     data,
     error,
@@ -11,13 +11,14 @@ const useInfiniteScroll = (queryKey, queryFn, getNextPageParam) => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
+    refetch,
   } = useInfiniteQuery({
     queryKey,
     queryFn,
     getNextPageParam,
     staleTime: 30000,
+    ...options,
   });
-
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const useInfiniteScroll = (queryKey, queryFn, getNextPageParam) => {
     isLoading,
     isFetchingNextPage,
     ref,
+    refetch,
   };
 };
 

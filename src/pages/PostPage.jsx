@@ -13,6 +13,8 @@ import PostActions from "../components/post/PostActions";
 import Post from "../components/post/Post";
 import PostDate from "../components/post/PostDate";
 import PostStatus from "../components/post/PostStatus";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -20,20 +22,15 @@ const PostPage = () => {
   // TODO: Like không cập nhật khi mở nhiều tabs
   const {
     data: post,
-    isPostLoading,
-    isPostError,
-    errorPost,
+    isLoading: isPostLoading,
+    isError: isPostError,
+    error: errorPost,
   } = useQuery({
     queryKey: ["post", postId],
     queryFn: () => getPost(postId),
   });
 
-  const {
-    data: parentPost,
-    isParentPostLoading,
-    isParentPostError,
-    errorParentPost,
-  } = useQuery({
+  const { data: parentPost } = useQuery({
     queryKey: ["post", post?.parent?.parentPostID],
     queryFn: () => getPost(post?.parent?.parentPostID),
     enabled: !!post?.parent?.parentPostID,
@@ -41,13 +38,14 @@ const PostPage = () => {
 
   const {
     data: replies,
-    isReplyLoading,
-    isReplyError,
-    errorReply,
-  } = useQuery({
-    queryKey: ["post", postId, "reply"],
-    queryFn: () => getRepliesForPost(postId),
-  });
+    isFetchingNextPage,
+    ref,
+  } = useInfiniteScroll(
+    ["post", postId, "reply"],
+    ({ pageParam = 0 }) =>
+      getRepliesForPost({ postId: postId, skip: pageParam }),
+    (lastPage) => lastPage.nextSkip || undefined,
+  );
   return (
     <>
       <DefaultHeader label="Post" showBackArrow />
@@ -103,7 +101,12 @@ const PostPage = () => {
                       createDate={post.createdAt}
                       postId={post._id}
                     />
-                    <PostOptions authorId={post.author._id} postId={post._id} />
+                    <PostOptions
+                      authorName={post.author.username}
+                      authorId={post.author._id}
+                      postId={post._id}
+                      queryType={postId}
+                    />
                   </div>
                   {parentPost && (
                     <p className="text-sm text-gray-400 text-light-secondary dark:text-dark-secondary">
@@ -138,13 +141,22 @@ const PostPage = () => {
                 authorName={post?.author?.username}
                 modal
               />
-              {replies?.posts?.map((reply) => (
-                <Post
-                  key={reply._id}
-                  post={reply}
-                  queryType={[postId, "reply"]}
-                />
-              ))}
+              {!replies?.pages[0]?.message &&
+                replies?.pages.map((replyPageInfo) =>
+                  replyPageInfo.posts.map((reply, index) => {
+                    const isPostBeforeLastPost =
+                      index === replyPageInfo.posts.length - 1;
+                    return (
+                      <Post
+                        innerRef={isPostBeforeLastPost ? ref : null}
+                        key={reply._id}
+                        post={reply}
+                        queryType={[postId, "reply"]}
+                      />
+                    );
+                  }),
+                )}
+              {isFetchingNextPage && <LoadingSpinner />}
             </>
           ) : (
             <div className="text-center">

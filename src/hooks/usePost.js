@@ -167,6 +167,7 @@ export const useDeletePost = (queryType, postParam) => {
           queryKey: ["posts", queryType],
         });
       } else {
+        // TODO: sửa lại theo infinite page
         queryClient.setQueryData(["post", postParam], (oldData) => {
           if (!oldData) return;
           return {
