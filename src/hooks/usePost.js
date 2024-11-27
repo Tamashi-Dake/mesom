@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -25,6 +25,7 @@ export const useCreatePost = (
   const [images, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const imgRef = useRef(null);
+  const maxFileSize = 5 * 1024 * 1024; // 5MB
 
   const postMutate = useMutation({
     mutationFn: isReply ? createReply : createPost,
@@ -69,6 +70,16 @@ export const useCreatePost = (
     },
   });
 
+  useEffect(() => {
+    if (images)
+      setPreviewImages(
+        images.map((image) => ({
+          id: image.id, // Tạo id duy nhất cho mỗi ảnh
+          previewURL: image.previewURL, // Lưu URL base64 của ảnh
+        })),
+      );
+  }, [images]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -84,19 +95,16 @@ export const useCreatePost = (
       postData.append("authorName", authorName);
     }
     postData.append("text", text);
-    images.forEach((image) => postData.append("images", image));
+    images.forEach((image) => postData.append("images", image.file));
 
     postMutate.mutate(postData);
   };
 
   const handleImgChange = (e) => {
     const files = Array.from(e.target.files);
-    const maxFileSize = 5 * 1024 * 1024; // 5MB
 
     // Kiểm tra kích thước file
-    const oversizedFiles = files.filter((file) => {
-      return file.size > maxFileSize;
-    });
+    const oversizedFiles = files.filter((file) => file.size > maxFileSize);
     if (oversizedFiles.length > 0) {
       return toast.error(
         "One or more images are too large! Please select images smaller than 5MB.",
@@ -107,12 +115,18 @@ export const useCreatePost = (
       return toast.error("Maximum number of images reached!");
     }
 
-    const newPreviewImagesPromises = files.map((file) => {
+    const newImagesPromises = files.map((file) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result); // Resolve với kết quả từ FileReader
+        reader.onload = () =>
+          resolve({
+            id: `${file.name}-${Date.now()}`, // Dùng tên file và thời gian để tạo key
+            name: file.name, // Lưu tên file
+            previewURL: reader.result, // Lưu dữ liệu Base64
+            file, // Lưu file gốc để upload
+          });
         reader.onerror = (error) => {
-          console.error("FileReader error:", error);
+          console.error("Error when reading images:", error);
           reject(error);
         };
         reader.readAsDataURL(file);
@@ -120,32 +134,23 @@ export const useCreatePost = (
     });
 
     // Sử dụng Promise.all để chờ tất cả các ảnh được đọc hoàn tất
-    Promise.all(newPreviewImagesPromises)
+    Promise.all(newImagesPromises)
       .then((newImages) => {
         if (images.length + newImages.length <= 4) {
-          setImages((prevImages) => [...prevImages, ...files]);
-          setPreviewImages((prevPreview) => [...prevPreview, ...newImages]);
+          setImages((prevImages) => [...prevImages, ...newImages]);
         }
       })
       .catch((error) => console.error("Error loading images:", error));
   };
-
-  const handleRemoveImage = useCallback(
-    (index) => {
-      setImages((prevImages) => prevImages.filter((_, i) => i !== index)); // Xóa ảnh tại vị trí index
-      setPreviewImages((prevPreview) =>
-        prevPreview.filter((_, i) => i !== index),
-      );
-      imgRef.current.value = null; // Đặt lại input file
-    },
-    [images, previewImages],
-  );
+  const handleRemoveImage = useCallback((index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index)); // Xóa ảnh tại vị trí index
+    imgRef.current.value = null; // Đặt lại input file
+  }, []);
 
   return {
     postMutate,
     text,
     setText,
-    images,
     previewImages,
     imgRef,
     handleSubmit,

@@ -32,8 +32,8 @@ const ImageView = ({
   const { open, openModal, closeModal } = useModal();
   useEffect(() => {
     const imageData = images[selectedIndex];
-    setSelectedImage(imageData);
-  }, [selectedIndex]);
+    setSelectedImage(previewImage ? imageData?.previewURL : imageData);
+  }, [images, previewImage, selectedIndex]);
 
   const handleSelectedImage = (index) => {
     setSelectedIndex(index);
@@ -49,13 +49,13 @@ const ImageView = ({
   return (
     <div
       className={twMerge(
-        "grid grid-cols-2 grid-rows-2 rounded-2xl max-h-80 select-none xs:h-[37vw] md:h-[271px]",
-        !previewImage ? " gap-0.5 rounded-lg overflow-hidden" : "gap-2"
+        "grid max-h-80 select-none grid-cols-2 grid-rows-2 rounded-2xl xs:h-[37vw] md:h-[271px]",
+        !previewImage ? "gap-0.5 overflow-hidden rounded-lg" : "gap-2",
       )}
     >
       <Modal
         modalClassName={twMerge(
-          "flex justify-center w-full items-center relative"
+          "flex justify-center w-full items-center relative",
         )}
         imageModal
         open={open}
@@ -70,14 +70,14 @@ const ImageView = ({
         />
       </Modal>
       <AnimatePresence mode="popLayout">
-        {images.map((imageUrl, index) => (
+        {images.map((image, index) => (
           <motion.div
             className={twMerge(
-              "accent-tab group relative transition-shadow  h-full max-h-80",
+              "accent-tab group relative h-full max-h-80 transition-shadow",
               imagesCount === 1 ? "col-span-2 row-span-2" : "",
               imagesCount === 2 || (index === 0 && imagesCount === 3)
                 ? "row-span-2"
-                : ""
+                : "",
             )}
             variants={variants}
             initial="initial"
@@ -88,22 +88,23 @@ const ImageView = ({
               e.preventDefault();
               handleSelectedImage(index);
             }}
-            key={imageUrl.slice(-10)}
+            // lấy tối thiểu 20 kí tự cuối do 10 vẫn trùng key được
+            key={image.id || image?.slice(-20)}
           >
             <img
               className={twMerge(
-                "relative h-full cursor-pointer transition hover:brightness-75 hover:duration-200 ",
+                "relative h-full cursor-pointer transition hover:brightness-75 hover:duration-200",
                 previewImage && "rounded-2xl",
                 imagesCount === 1
-                  ? "object-contain w-fit m-auto rounded-2xl"
-                  : "object-cover w-full"
+                  ? "m-auto w-fit rounded-2xl object-contain"
+                  : "w-full object-cover",
               )}
-              src={imageUrl}
+              src={image.previewURL || image}
               alt={"Post Image"}
             />
             {removeImage && (
               <Button
-                className=" absolute top-0 left-0 translate-x-1 translate-y-1 bg-gray-800 rounded-full p-1 backdrop-blur-sm hover:bg-image-preview-hover/75"
+                className="absolute left-0 top-0 translate-x-1 translate-y-1 rounded-full bg-gray-800 p-1 backdrop-blur-sm hover:bg-image-preview-hover/75"
                 onClick={(e) => {
                   e.stopPropagation();
                   removeImage(index);
