@@ -15,15 +15,21 @@ import UserProfile from "../components/profile/UserProfile";
 import Post from "../components/post/Post";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import useCurrentUser from "../hooks/useCurrentUser";
+import getMessageForTab from "../helper/getMessageForTab";
 
 const Profile = () => {
   const { username } = useParams();
+  const currentUser = useCurrentUser();
+
   const [postType, setPostType] = useState("userPosts");
   const userQuery = useQuery({
     queryKey: ["userProfile"],
     queryFn: () => getUserByUsername(username),
   });
   const userId = userQuery.data?._id;
+  const isMyProfile = currentUser.data?._id === userId;
+  const currentTabMessage = getMessageForTab(postType, isMyProfile, username);
 
   const { data, isFetchingNextPage, ref, refetch } = useInfiniteScroll(
     ["posts", postType],
@@ -54,7 +60,7 @@ const Profile = () => {
 
   return (
     <>
-      <UserProfile userQuery={userQuery} />
+      <UserProfile userQuery={userQuery} isMyProfile={isMyProfile} />
 
       <div className="flex border-b-[1px]">
         <Tab
@@ -78,18 +84,35 @@ const Profile = () => {
           onClick={() => setPostType("userLikes")}
         />
       </div>
-      {data?.pages.map((postPageInfo) =>
-        postPageInfo?.posts.map((post, index) => {
-          const isPostBeforeLastPost = index === postPageInfo.posts.length - 1;
-          return (
-            <Post
-              innerRef={isPostBeforeLastPost ? ref : null}
-              key={post._id}
-              post={post}
-              queryType={postType}
-            />
-          );
-        }),
+
+      {data?.pages[0]?.message ? (
+        <section className="mt-0.5 flex justify-center p-8">
+          <div className="flex max-w-sm flex-col items-center gap-6">
+            <div className="flex flex-col gap-2 text-center">
+              <p className="text-3xl font-extrabold">
+                {currentTabMessage.title}
+              </p>
+              <p className="text-light-secondary dark:text-dark-secondary">
+                {currentTabMessage.description}
+              </p>
+            </div>
+          </div>
+        </section>
+      ) : (
+        data?.pages.map((postPageInfo) =>
+          postPageInfo?.posts.map((post, index) => {
+            const isPostBeforeLastPost =
+              index === postPageInfo.posts.length - 1;
+            return (
+              <Post
+                innerRef={isPostBeforeLastPost ? ref : null}
+                key={post._id}
+                post={post}
+                queryType={postType}
+              />
+            );
+          }),
+        )
       )}
       {isFetchingNextPage && <LoadingSpinner />}
     </>

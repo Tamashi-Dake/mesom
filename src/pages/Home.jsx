@@ -37,19 +37,33 @@ const Home = () => {
       <HomeHeader activeTab={queryType} onTabChange={handleTabChange} />
       <CreatePost queryType={queryType} refetch />
       <main>
-        {data?.pages.map((postPageInfo) =>
-          postPageInfo.posts.map((post, index) => {
-            const isPostBeforeLastPost =
-              index === postPageInfo.posts.length - 1;
-            return (
-              <Post
-                innerRef={isPostBeforeLastPost ? ref : null}
-                key={post._id}
-                post={post}
-                queryType={queryType}
-              />
-            );
-          }),
+        {data?.pages[0]?.message ? (
+          <section className="mt-0.5 flex justify-center p-8">
+            <div className="flex max-w-sm flex-col items-center gap-6">
+              <div className="flex flex-col gap-2 text-center">
+                <p className="text-3xl font-extrabold">Welcome to Mesom!</p>
+                <p className="text-light-secondary dark:text-dark-secondary">
+                  When you follow someone, their posts will show up here. Find
+                  some people to follow now.
+                </p>
+              </div>
+            </div>
+          </section>
+        ) : (
+          data?.pages.map((postPageInfo) =>
+            postPageInfo.posts.map((post, index) => {
+              const isPostBeforeLastPost =
+                index === postPageInfo.posts.length - 1;
+              return (
+                <Post
+                  innerRef={isPostBeforeLastPost ? ref : null}
+                  key={post._id}
+                  post={post}
+                  queryType={queryType}
+                />
+              );
+            }),
+          )
         )}
         {isFetchingNextPage && <LoadingSpinner />}
       </main>

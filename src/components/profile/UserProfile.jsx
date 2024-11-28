@@ -1,24 +1,17 @@
-// import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
-import useCurrentUser from "../../hooks/useCurrentUser";
 import { useModal } from "../../hooks/useModal";
 
 // import ProfileHeaderSkeleton from "../../components/skeletons/ProfileHeaderSkeleton";
 import DefaultHeader from "../layout/DefaultHeader";
 import UpdateUserModal from "../modal/UpdateUserModal";
 import Button from "../shared/Button";
-// import EditProfileModal from "./EditProfileModal";
 
 import FollowButton from "../shared/FollowButton";
 import ProfileImages from "./ProfileImages";
 import ProfileInfo from "./ProfileInfo";
 
-const UserProfile = ({ userQuery }) => {
-  const currentUser = useCurrentUser();
-  const updateUserModal = useModal();
-
+const UserProfile = ({ userQuery, isMyProfile }) => {
   const { data: user, isFetching, isLoading } = userQuery;
-
-  const isMyProfile = currentUser.data?._id === user?._id;
+  const updateUserModal = useModal();
 
   return (
     <>
@@ -38,7 +31,7 @@ const UserProfile = ({ userQuery }) => {
             coverImg={user?.profile.coverImg}
           />
 
-          <div className="flex justify-end px-4 mt-5">
+          <div className="mt-5 flex justify-end px-4">
             {isMyProfile ? (
               <Button
                 secondary
