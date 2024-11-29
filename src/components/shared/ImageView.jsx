@@ -84,10 +84,6 @@ const ImageView = ({
             animate="animate"
             exit="exit"
             transition="transition"
-            onClick={(e) => {
-              e.preventDefault();
-              handleSelectedImage(index);
-            }}
             // lấy tối thiểu 20 kí tự cuối do 10 vẫn trùng key được
             key={image.id || image?.slice(-20)}
           >
@@ -101,6 +97,10 @@ const ImageView = ({
               )}
               src={image.previewURL || image}
               alt={"Post Image"}
+              onClick={(e) => {
+                e.preventDefault();
+                handleSelectedImage(index);
+              }}
             />
             {removeImage && (
               <Button

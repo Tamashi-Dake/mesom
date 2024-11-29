@@ -6,7 +6,14 @@ import PostActions from "./PostActions";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
-const Post = ({ post, author, queryType, inReplyModal, innerRef }) => {
+const Post = ({
+  post,
+  author,
+  queryType,
+  inReplyModal,
+  innerRef,
+  postParam,
+}) => {
   const isReply = !!post.parent;
   const authorName = post?.parent?.authorName;
   // console.log("rerender post", post.text);
@@ -33,6 +40,7 @@ const Post = ({ post, author, queryType, inReplyModal, innerRef }) => {
               authorId={author?._id || post.author._id}
               authorName={author?.username || post.author.username}
               postId={post._id}
+              postParam={postParam}
               queryType={queryType}
             />
           )}

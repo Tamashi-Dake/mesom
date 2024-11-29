@@ -41,6 +41,10 @@
 
 - [ ] Show more = get 10 suggested user
 
+- [ ] thêm post vào block notification (user Setting)
+  - [ ] user vào block user
+  - [ ] post vào pined post
+
 ## Problems
 
 - [ ] Default dark mode

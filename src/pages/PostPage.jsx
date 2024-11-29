@@ -68,9 +68,10 @@ const PostPage = () => {
                     postId={parentPost._id}
                   />
                   <PostOptions
-                    authorId={parentPost._id}
-                    // TODO: Might need queryType
-                    //  queryType={queryType}
+                    authorId={parentPost.author._id}
+                    authorName={parentPost.author.username}
+                    postId={parentPost._id}
+                    postParam={postId}
                   />
                 </div>
                 <PostContent
@@ -102,10 +103,10 @@ const PostPage = () => {
                       postId={post._id}
                     />
                     <PostOptions
-                      authorName={post.author.username}
                       authorId={post.author._id}
+                      authorName={post.author.username}
                       postId={post._id}
-                      queryType={postId}
+                      postParam={postId}
                     />
                   </div>
                   {parentPost && (
@@ -152,6 +153,7 @@ const PostPage = () => {
                         key={reply._id}
                         post={reply}
                         queryType={[postId, "reply"]}
+                        postParam={postId}
                       />
                     );
                   }),

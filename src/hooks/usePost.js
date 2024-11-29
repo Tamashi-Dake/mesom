@@ -11,6 +11,7 @@ import {
   toggleSharePost,
 } from "../services/postsService";
 import { updatePostField } from "../helper/updateQueryData";
+import { useNavigate } from "react-router-dom";
 
 export const useCreatePost = (
   postId,
@@ -159,20 +160,22 @@ export const useCreatePost = (
   };
 };
 
-// TODO: Change to soft delete
-export const useDeletePost = (queryType, postParam) => {
+export const useDeletePost = (queryType, postId, postParam) => {
   const queryClient = useQueryClient();
+  const navigation = useNavigate();
 
   const deleteMutation = useMutation({
     mutationFn: deletePost,
     onSuccess: (data) => {
       toast.success("Post deleted successfully");
-      if (!postParam) {
+
+      // Kiểm tra nếu queryType chứa "reply"
+      if (queryType?.includes("reply")) {
         queryClient.invalidateQueries({
-          queryKey: ["posts", queryType],
+          queryKey: ["post", postParam, "reply"],
         });
-      } else {
-        // TODO: sửa lại theo infinite page
+
+        // Cập nhật số lượng userReplies cho bài viết gốc (post)
         queryClient.setQueryData(["post", postParam], (oldData) => {
           if (!oldData) return;
           return {
@@ -180,8 +183,17 @@ export const useDeletePost = (queryType, postParam) => {
             userReplies: data.numberReplies,
           };
         });
+      } else if (postParam && postId) {
+        // Nếu xóa post đang xem
+        navigation("/");
+        queryClient.invalidateQueries({ queryKey: ["post", postId] });
         queryClient.invalidateQueries({
-          queryKey: ["post", postParam, "reply"],
+          queryKey: ["post", postId, "reply"],
+        });
+      } else {
+        // Nếu không phải reply và không ở trong post page
+        queryClient.invalidateQueries({
+          queryKey: ["posts", queryType],
         });
       }
     },
