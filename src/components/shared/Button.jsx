@@ -11,13 +11,13 @@ const Button = ({
   return (
     <button
       className={twMerge(
-        "px-4 py-2 rounded-full font-semibold transition duration-300 ease-in-out hover:opacity-90",
+        "rounded-full px-4 py-2 font-semibold transition duration-300 ease-in-out hover:opacity-90",
         secondary
-          ? "bg-neutral-800 border-neutral-700 text-white"
-          : "bg-sky-500 text-white border-sky-600",
-        outline ? "bg-transparent border-sky-500 text-sky-500" : "",
-        disabled ? "opacity-70 cursor-not-allowed" : "hover:bg-primary-600",
-        classNames
+          ? "border-neutral-700 bg-neutral-800 text-white"
+          : "border-sky-600 bg-sky-500 text-white",
+        outline ? "border-sky-500 bg-transparent text-sky-500" : "",
+        disabled ? "cursor-not-allowed opacity-70" : "hover:bg-primary-600",
+        classNames,
       )}
       onClick={onClick}
       disabled={disabled}

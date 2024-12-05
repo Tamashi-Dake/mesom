@@ -31,14 +31,15 @@ function App() {
   }
 
   return (
+    // Invalid: Weird layout shift + abnormal white space in mobile
     <div className="xl:px-30 container mx-auto h-full max-w-6xl">
-      <div className="grid h-full grid-cols-[auto,1fr,1fr,1fr] grid-rows-[1fr,auto] xs:grid-rows-1 md:grid-cols-4">
+      <div className="grid h-full w-full grid-cols-none grid-rows-[1fr,auto] xs:grid-cols-[minmax(auto,5rem),1fr,1fr,1fr] xs:grid-rows-1 lg:grid-cols-4">
         <RouteSidebar />
-        <div className="relative col-span-4 border-neutral-200 xs:col-span-3 sm:border-x-[1px] lg:col-span-2">
+        <div className="relative col-span-3 w-full border-neutral-200 xs:border-x-[1px] md:col-span-2">
           <Outlet />
         </div>
-        {isMobile && <RouteBottomBar />}
-        {isMobile && <FloatButton title={title} link={link} icon={icon} />}
+        <RouteBottomBar />
+        <FloatButton title={title} link={link} icon={icon} />
         <FameSidebar />
       </div>
     </div>

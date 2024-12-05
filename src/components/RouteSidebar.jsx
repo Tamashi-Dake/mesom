@@ -48,7 +48,7 @@ const RouteSidebar = () => {
 
   return (
     <>
-      <div className="sticky top-0 col-span-1 hidden h-screen xs:block lg:p-2 xl:p-4">
+      <div className="sticky left-0 top-0 hidden h-screen xs:block lg:p-2">
         <div className="flex h-full flex-col justify-between">
           <div className="m-2 flex flex-col space-y-4">
             {routes.map((route) => (
@@ -75,7 +75,8 @@ const RouteSidebar = () => {
               onClick={handleLogout}
               label={
                 <>
-                  <BiSolidLogOut size={24} color="black" /> Logout
+                  <BiSolidLogOut size={24} color="black" />
+                  <p className="hidden lg:block">Logout</p>
                 </>
               }
             />

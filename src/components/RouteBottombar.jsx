@@ -23,8 +23,10 @@ const RouteBottomBar = () => {
   }, [currentUser]);
 
   return (
-    <div className="block xs:hidden col-span-4 border-[1px] border-neutral-200">
-      <div className="flex justify-between sm:space-y-1 sm:m-1 [&>*:nth-child(6)]:hidden">
+    // <div className="sticky bottom-0 col-span-4 border-t-[1px] border-neutral-200 bg-white/60 backdrop-blur-xl xs:hidden">
+    //   <div className="flex justify-between sm:m-1 sm:space-y-1 [&>*:nth-child(6)]:hidden">
+    <div className="fixed bottom-0 flex w-screen overflow-hidden border-t-[1px] border-neutral-200 bg-neutral-100 xs:hidden">
+      <div className="m-1 flex w-full justify-between space-y-1 [&>*:nth-child(6)]:hidden">
         {routes.map((route) => (
           <RouteItem
             key={route.path}

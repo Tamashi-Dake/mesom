@@ -2,17 +2,10 @@
 
 ## TODO
 
-- [ ] Responsive
-
 - [ ] Infinite scroll
 
-  - [x] Home (Post, Reply in Post page)
   - [ ] Search (Username/Display name, Tag)
-  - [x] Notification ( All, Mention)
   - [ ] Message?
-  - [x] Bookmark
-  - [x] Profile (Post , Reply, Media, Like)
-  - [x] All post action must be refactor to fit with infinity query
 
 - [ ] Menu
 
@@ -48,6 +41,7 @@
 ## Problems
 
 - [ ] Default dark mode
+- [ ] Responsive abnormal white space
 
 ## Upcomming features
 

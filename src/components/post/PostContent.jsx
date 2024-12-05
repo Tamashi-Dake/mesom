@@ -12,7 +12,7 @@ const PostContent = ({ textContent, images }) => {
   useEffect(() => {
     if (textRef.current) {
       setShowReadMoreButton(
-        textRef.current.scrollHeight !== textRef.current.clientHeight
+        textRef.current.scrollHeight !== textRef.current.clientHeight,
       );
     }
   }, []);
@@ -27,8 +27,8 @@ const PostContent = ({ textContent, images }) => {
       <span
         ref={textRef}
         className={twMerge(
-          `whitespace-pre-line font-thin`,
-          readMore ? "line-clamp-none" : "line-clamp-3"
+          `truncate whitespace-pre-line break-all font-thin`,
+          readMore ? "line-clamp-none" : "line-clamp-3",
         )}
       >
         {textContent}
@@ -40,7 +40,7 @@ const PostContent = ({ textContent, images }) => {
           //   event.stopPropagation();
           // }}
           onClick={handleReadMore}
-          className="bg-neutral-200 hover:bg-neutral-100 w-fit py-2 px-4 rounded-lg text-sm font-semibold "
+          className="w-fit rounded-lg bg-neutral-200 px-4 py-2 text-sm font-semibold hover:bg-neutral-100"
         >
           {readMore ? "Show less" : "Show more"}
         </Button>
