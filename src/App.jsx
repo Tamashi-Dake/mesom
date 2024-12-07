@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useMediaQuery } from "usehooks-ts";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router";
 import { config } from "./components/shared/config";
@@ -14,7 +13,6 @@ import "./App.css";
 import useCurrentUser from "./hooks/useCurrentUser";
 
 function App() {
-  const isMobile = useMediaQuery("(max-width: 500px)");
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   let location = useLocation();

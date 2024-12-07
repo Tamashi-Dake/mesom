@@ -8,6 +8,7 @@ const Input = ({
   disabled,
   onChange,
   className,
+  wrapperClassname,
   ...props
 }) => {
   const [show, setShow] = useState(false);
@@ -17,7 +18,7 @@ const Input = ({
     setShow(!show);
   };
   return (
-    <div className="relative flex">
+    <div className={twMerge("relative flex", wrapperClassname)}>
       <input
         type={isPassword ? (show ? "text" : "password") : type}
         onChange={onChange}

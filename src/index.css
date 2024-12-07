@@ -3,48 +3,33 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: TwitterChirpExtendedHeavy;
-  src: url(/fonts/chirp-extended-heavy-web.woff2) format("woff2");
-  src: url(/fonts/chirp-extended-heavy-web.woff) format("woff");
-  font-weight: 700;
-  font-style: "normal";
-  font-display: "swap";
+  font-family: MesomInterTight;
+  src: url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700&display=swap")
+    format("woff");
 }
 
 @font-face {
-  font-family: TwitterChirp;
-  src: url(/fonts/chirp-regular-web.woff2) format("woff2");
-  src: url(/fonts/chirp-regular-web.woff) format("woff");
-  font-weight: 400;
-  font-style: "normal";
-  font-display: "swap";
+  font-family: MesomInter;
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap")
+    format("woff");
 }
 
 @font-face {
-  font-family: TwitterChirp;
-  src: url(/fonts/chirp-medium-web.woff2) format("woff2");
-  src: url(/fonts/chirp-medium-web.woff) format("woff");
-  font-weight: 500;
-  font-style: "normal";
-  font-display: "swap";
+  font-family: MesomInter;
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap")
+    format("woff");
 }
 
 @font-face {
-  font-family: TwitterChirp;
-  src: url(/fonts/chirp-bold-web.woff2) format("woff2");
-  src: url(/fonts/chirp-bold-web.woff) format("woff");
-  font-weight: 700;
-  font-style: "normal";
-  font-display: "swap";
+  font-family: MesomInter;
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap")
+    format("woff");
 }
 
 @font-face {
-  font-family: TwitterChirp;
-  src: url(/fonts/chirp-heavy-web.woff2) format("woff2");
-  src: url(/fonts/chirp-heavy-web.woff) format("woff");
-  font-weight: 800;
-  font-style: "normal";
-  font-display: "swap";
+  font-family: MesomInter;
+  src: url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap")
+    format("woff");
 }
 
 /* TODO: Add theme with useTheme */
@@ -84,10 +69,8 @@
   }
 
   body {
-    @apply /* hover-animation */
-     /* bg-main-background  */
-     font-twitter-chirp
-      /* text-light-primary dark:text-dark-primary; */;
+    /* hover-animation bg-main-background text-light-primary dark:text-dark-primary; */
+    @apply font-twitter-chirp;
   }
 }
 
@@ -101,13 +84,11 @@
   }
 
   .custom-underline {
-    @apply hover-animation underline decoration-transparent outline-none transition [text-decoration-thickness:1px] 
-             hover:decoration-inherit focus-visible:decoration-inherit;
+    @apply hover-animation underline decoration-transparent outline-none transition [text-decoration-thickness:1px] hover:decoration-inherit focus-visible:decoration-inherit;
   }
 
   .main-tab {
-    @apply outline-none focus-visible:ring-2 focus-visible:ring-[#878a8c] focus-visible:transition-shadow 
-             focus-visible:duration-200 dark:focus-visible:ring-white;
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-[#878a8c] focus-visible:transition-shadow focus-visible:duration-200 dark:focus-visible:ring-white;
   }
 
   .accent-tab {
@@ -127,24 +108,27 @@
   }
 
   .trim-alt {
-    @apply overflow-hidden text-ellipsis break-all [display:-webkit-box] [-webkit-line-clamp:1] [-webkit-box-orient:vertical];
+    @apply overflow-hidden text-ellipsis break-all [-webkit-box-orient:vertical] [-webkit-line-clamp:1] [display:-webkit-box];
   }
 
   .hover-card {
-    @apply hover:bg-black/[0.03] focus-visible:bg-black/[0.03] dark:hover:bg-white/[0.03]
-             dark:focus-visible:bg-white/[0.03];
+    @apply hover:bg-black/[0.03] focus-visible:bg-black/[0.03] dark:hover:bg-white/[0.03] dark:focus-visible:bg-white/[0.03];
   }
 
   .menu-container {
-    @apply z-10 rounded-md bg-main-background outline-none shadow-custom dark:shadow-custom-dark;
+    @apply shadow-custom dark:shadow-custom-dark z-10 rounded-md bg-main-background outline-none;
   }
 }
 @layer utilities {
   .shadow-custom {
-    box-shadow: 0px 0px 15px #65778633, 0px 0px 3px 1px #65778626;
+    box-shadow:
+      0px 0px 15px #65778633,
+      0px 0px 3px 1px #65778626;
   }
 
   .dark .shadow-custom-dark {
-    box-shadow: 0px 0px 15px #ffffff33, 0px 0px 3px 1px #ffffff26;
+    box-shadow:
+      0px 0px 15px #ffffff33,
+      0px 0px 3px 1px #ffffff26;
   }
 }
