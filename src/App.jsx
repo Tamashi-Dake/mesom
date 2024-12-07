@@ -11,6 +11,7 @@ import FloatButton from "./components/shared/FloatButton";
 import "./App.css";
 
 import useCurrentUser from "./hooks/useCurrentUser";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -25,7 +26,7 @@ function App() {
   }, [currentUser.isLoading, currentUser.data, navigate]);
 
   if (currentUser.isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

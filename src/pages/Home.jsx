@@ -6,6 +6,7 @@ import HomeHeader from "../components/layout/HomeHeader";
 import CreatePost from "../components/post/CreatePost";
 import Post from "../components/post/Post";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import { SEO } from "../components/common/SEO";
 
 const Home = () => {
   const [queryType, setFeedType] = useState("forYou");
@@ -34,6 +35,10 @@ const Home = () => {
 
   return (
     <>
+      <SEO
+        title="Home / Mesom"
+        description="This is Mesom, where you join discussions about the latest news."
+      />
       <HomeHeader activeTab={queryType} onTabChange={handleTabChange} />
       <CreatePost queryType={queryType} refetch />
       <main>

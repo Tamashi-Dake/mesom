@@ -3,18 +3,20 @@ import { Link, useParams } from "react-router-dom";
 
 import { getPost, getRepliesForPost } from "../services/postsService";
 
-import CreatePost from "../components/post/CreatePost";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
+
+import { SEO } from "../components/common/SEO";
+import LoadingSpinner from "../components/common/LoadingSpinner";
 import DefaultHeader from "../components/layout/DefaultHeader";
+import CreatePost from "../components/post/CreatePost";
 import AuthorAvatar from "../components/post/AuthorAvatar";
+import Post from "../components/post/Post";
 import PostInfo from "../components/post/PostInfo";
 import PostOptions from "../components/post/PostOptions";
 import PostContent from "../components/post/PostContent";
 import PostActions from "../components/post/PostActions";
-import Post from "../components/post/Post";
-import PostDate from "../components/post/PostDate";
 import PostStatus from "../components/post/PostStatus";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
-import LoadingSpinner from "../components/common/LoadingSpinner";
+import PostDate from "../components/post/PostDate";
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -48,6 +50,9 @@ const PostPage = () => {
   );
   return (
     <>
+      <SEO
+        title={`${post?.author.displayName || post?.author.username} on Mesom: "${post?.text ?? ""}`}
+      />
       <DefaultHeader label="Post" showBackArrow />
       <main>
         {isPostLoading && <div>Loading...</div>}

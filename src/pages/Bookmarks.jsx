@@ -8,6 +8,7 @@ import { Modal } from "../components/modal/Modal";
 import { ActionModal } from "../components/modal/ActionModal";
 import toast from "react-hot-toast";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { SEO } from "../components/common/SEO";
 
 const Bookmark = () => {
   const deleteAllBookmarkModal = useModal();
@@ -29,6 +30,7 @@ const Bookmark = () => {
 
   return (
     <>
+      <SEO title="Bookmarks / Mesom" />
       <BookmarkHeader modal={deleteAllBookmarkModal} />
       <main>
         {isLoading && <LoadingSpinner />}

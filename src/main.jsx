@@ -9,7 +9,7 @@ import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import About from "./pages/About.jsx";
 import Messages from "./pages/Messages.jsx";
-import Notifications from "./pages/Notification.jsx";
+import Notifications from "./pages/Notifications.jsx";
 import Search from "./pages/Search.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";

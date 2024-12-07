@@ -17,12 +17,15 @@ import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import useCurrentUser from "../hooks/useCurrentUser";
 import getMessageForTab from "../helper/getMessageForTab";
+import { SEO } from "../components/common/SEO";
 
 const Profile = () => {
   const { username } = useParams();
   const currentUser = useCurrentUser();
 
   const [postType, setPostType] = useState("userPosts");
+  // const [pageTitle, setPageTitle] = useState("userPosts");
+
   const userQuery = useQuery({
     queryKey: ["userProfile"],
     queryFn: () => getUserByUsername(username),
@@ -30,6 +33,7 @@ const Profile = () => {
   const userId = userQuery.data?._id;
   const isMyProfile = currentUser.data?._id === userId;
   const currentTabMessage = getMessageForTab(postType, isMyProfile, username);
+  let pageTitle = "";
 
   const { data, isFetchingNextPage, ref, refetch } = useInfiniteScroll(
     ["posts", postType],
@@ -50,6 +54,16 @@ const Profile = () => {
     { enabled: !!userId && !userQuery.isLoading },
   );
 
+  if (postType === "userPosts") {
+    pageTitle = `${userQuery.data?.displayName} (${userQuery.data?.username}) on Mesom`;
+  } else if (postType === "userReplies") {
+    pageTitle = `Replies by ${userQuery.data?.displayName} (${userQuery.data?.username}) on Mesom`;
+  } else if (postType === "userMedias") {
+    pageTitle = `Medias by ${userQuery.data?.displayName} (${userQuery.data?.username}) on Mesom`;
+  } else if (postType === "userLikes") {
+    pageTitle = `Likes by ${userQuery.data?.displayName} (${userQuery.data?.username}) on Mesom`;
+  }
+
   useEffect(() => {
     userQuery?.refetch();
   }, [username]);
@@ -60,6 +74,7 @@ const Profile = () => {
 
   return (
     <>
+      <SEO title={pageTitle} />
       <UserProfile userQuery={userQuery} isMyProfile={isMyProfile} />
 
       <div className="flex border-b-[1px]">

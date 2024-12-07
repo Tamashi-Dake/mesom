@@ -10,6 +10,7 @@ import Notification from "../components/notification/Notification";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import Post from "../components/post/Post";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { SEO } from "../components/common/SEO";
 
 const Notifications = () => {
   const [activeTab, setActiveTab] = useState("allNotifications");
@@ -32,6 +33,7 @@ const Notifications = () => {
   };
   return (
     <>
+      <SEO title="Notifications / Mesom" />
       <NotificationHeader activeTab={activeTab} onTabChange={onTabChange} />
       <div>
         {isLoading && (

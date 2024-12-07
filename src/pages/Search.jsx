@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SearchHeader from "../components/layout/SearchHeader";
+import { SEO } from "../components/common/SEO";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -12,6 +13,7 @@ const Search = () => {
   };
   return (
     <>
+      <SEO title={"Search / Mesom"} />
       <SearchHeader
         searchValue={searchValue}
         onSearchValueChange={onSearchValueChange}
