@@ -1,13 +1,13 @@
 import { BiSolidLogOut } from "react-icons/bi";
 import toast from "react-hot-toast";
 
-import { routes as staticRoutes } from "./shared/config";
-import RouteItem from "./shared/RouteItem";
-import RouteCreatePost from "./shared/RouteCreatePost";
-import Button from "./shared/Button";
-import useCurrentUser from "../hooks/useCurrentUser";
+import { routes as staticRoutes } from "../shared/config";
+import RouteItem from "../shared/RouteItem";
+import RouteCreatePost from "../shared/RouteCreatePost";
+import Button from "../shared/Button";
+import useCurrentUser from "../../hooks/useCurrentUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { logout } from "../services/authService";
+import { logout } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 
@@ -48,7 +48,7 @@ const RouteSidebar = () => {
 
   return (
     <>
-      <div className="sticky left-0 top-0 hidden h-screen xs:block lg:p-2">
+      <div className="sticky left-0 top-0 hidden h-screen xs:block xl:p-2">
         <div className="flex h-full flex-col justify-between">
           <div className="m-2 flex flex-col space-y-4">
             {routes.map((route) => (
@@ -76,7 +76,7 @@ const RouteSidebar = () => {
               label={
                 <>
                   <BiSolidLogOut size={24} color="black" />
-                  <p className="hidden lg:block">Logout</p>
+                  <p className="hidden xl:block">Logout</p>
                 </>
               }
             />

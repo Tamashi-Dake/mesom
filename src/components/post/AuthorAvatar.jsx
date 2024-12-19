@@ -2,16 +2,19 @@ import { Link } from "react-router-dom";
 
 const AuthorAvatar = ({ author, isReply = false }) => {
   return (
-    <div className="flex flex-col self-stretch items-center gap-4 ">
+    <div className="flex flex-col items-center gap-4 self-stretch">
       <Link
         to={`/profile/${author?.username}`}
-        className="w-8 h-8 rounded-full overflow-hidden block"
+        className="h-12 w-12 overflow-hidden rounded-full"
       >
-        <img src={author?.profile?.avatarImg || "/placeholder.png"} />
+        <img
+          className="h-full w-full object-cover"
+          src={author?.profile?.avatarImg || "/placeholder.png"}
+        />
       </Link>
       {isReply && (
         <div className="reply-line-wrapper flex flex-1 justify-center">
-          <div className="reply-line border-[1px] border-neutral-400 "></div>
+          <div className="reply-line border-[1px] border-neutral-400"></div>
         </div>
       )}
     </div>

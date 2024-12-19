@@ -3,17 +3,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router";
 import { config } from "./components/shared/config";
 
-import FameSidebar from "./components/FameSidebar";
-import RouteSidebar from "./components/RouteSidebar";
-import RouteBottomBar from "./components/RouteBottombar";
+import FameSidebar from "./components/layout/FameSidebar";
+import RouteSidebar from "./components/layout/RouteSidebar";
+import RouteBottomBar from "./components/layout/RouteBottombar";
 import FloatButton from "./components/shared/FloatButton";
 
 import "./App.css";
 
 import useCurrentUser from "./hooks/useCurrentUser";
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import { useMediaQuery } from "usehooks-ts";
+import { twMerge } from "tailwind-merge";
 
 function App() {
+  const inBigScreen = useMediaQuery("(min-width: 1000px)");
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   let location = useLocation();
@@ -31,15 +34,27 @@ function App() {
 
   return (
     // Invalid: Weird layout shift + abnormal white space in mobile
-    <div className="xl:px-30 container mx-auto h-full max-w-6xl">
-      <div className="grid h-full w-full grid-cols-none grid-rows-[1fr,auto] xs:grid-cols-[minmax(auto,5rem),1fr,1fr,1fr] xs:grid-rows-1 lg:grid-cols-4">
+    <div className="xl:px-30 container mx-auto h-full md:max-w-7xl">
+      <div
+        className={twMerge(
+          "grid h-full w-full grid-cols-none grid-rows-[1fr,auto] xs:grid-rows-1 xl:grid-cols-[1fr,1fr,1fr,1fr]",
+          inBigScreen
+            ? "xs:grid-cols-[minmax(auto,4rem),1fr,1fr,1fr]"
+            : "xs:grid-cols-[minmax(auto,5rem),1fr]",
+        )}
+      >
         <RouteSidebar />
-        <div className="relative col-span-3 w-full border-neutral-200 xs:border-x-[1px] md:col-span-2">
+        <div
+          className={twMerge(
+            "relative w-full border-neutral-200 xs:border-x-[1px]",
+            inBigScreen ? "col-span-2" : "",
+          )}
+        >
           <Outlet />
         </div>
+        <FameSidebar />
         <RouteBottomBar />
         <FloatButton title={title} link={link} icon={icon} />
-        <FameSidebar />
       </div>
     </div>
   );

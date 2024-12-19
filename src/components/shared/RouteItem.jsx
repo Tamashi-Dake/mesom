@@ -12,14 +12,14 @@ const RouteItem = ({ name, path, icon }) => {
         className={twMerge(
           "relative cursor-pointer items-center rounded-full p-4 hover:bg-slate-400 hover:bg-opacity-10",
           // Mobile: small square icon, desktop: full width and gap
-          "lg:h-auto lg:w-full lg:justify-start lg:gap-4 lg:bg-opacity-10 lg:p-4 lg:hover:bg-slate-800",
+          "xl:h-auto xl:w-full xl:justify-start xl:gap-4 xl:bg-opacity-10 xl:p-4",
           "flex h-14 w-14 justify-center xs:w-full",
           match ? "bg-teal-600 bg-opacity-10 font-semibold" : "",
         )}
       >
         {icon}
         {/* Text for large screens only */}
-        <p className="hidden pb-[0.1rem] text-xl lg:block">{name}</p>
+        <p className="hidden pb-[0.1rem] text-xl xl:block">{name}</p>
       </NavLink>
     </div>
   );

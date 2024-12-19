@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { routes as staticRoutes } from "./shared/config";
+import { routes as staticRoutes } from "../shared/config";
 
-import RouteItem from "./shared/RouteItem";
-import useCurrentUser from "../hooks/useCurrentUser";
+import RouteItem from "../shared/RouteItem";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 const RouteBottomBar = () => {
   const currentUser = useCurrentUser();

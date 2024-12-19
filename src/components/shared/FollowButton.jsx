@@ -1,3 +1,4 @@
+import { Button } from "@headlessui/react";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import { useFollowUser } from "../../hooks/useUser";
 
@@ -11,15 +12,29 @@ const FollowButton = ({ userId, refetchSingle }) => {
     followUserMutation.mutate({ userId: userId, notificationType: "follow" });
   };
   return (
-    <button
-      className="btn bg-black text-white hover:bg-neutral-700 hover:opacity-90 rounded-full btn-sm"
-      onClick={(e) => {
-        e.preventDefault();
-        handleFollow();
-      }}
-    >
-      {isFollowing ? "Unfollow" : "Follow"}
-    </button>
+    <>
+      {isFollowing ? (
+        <Button
+          className='dark-bg-tab inner:hover:hidden min-w-28 self-start rounded-2xl border border-light-line-reply px-4 py-1.5 font-bold hover:border-accent-red hover:bg-accent-red/10 hover:text-accent-red hover:before:content-["Unfollow"] dark:border-light-secondary'
+          onClick={(e) => {
+            e.preventDefault();
+            handleFollow();
+          }}
+        >
+          <span>Following</span>
+        </Button>
+      ) : (
+        <Button
+          className="self-start rounded-2xl border bg-light-primary px-4 py-1.5 font-bold text-white hover:bg-light-primary/90 focus-visible:bg-light-primary/90 active:bg-light-border/75 dark:bg-light-border dark:text-light-primary dark:hover:bg-light-border/80 dark:focus-visible:bg-light-border/90 dark:active:bg-light-border/75"
+          onClick={(e) => {
+            e.preventDefault();
+            handleFollow();
+          }}
+        >
+          Follow
+        </Button>
+      )}
+    </>
   );
 };
 

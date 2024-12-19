@@ -51,15 +51,14 @@ const CreatePost = ({
   }, [isReply, postId, postMutate.isSuccess]);
 
   return (
-    <div className="flex items-start gap-4 border-b border-gray-200 p-4">
-      <div className="avatar">
-        <div className="w-8 rounded-full">
-          <img
-            src={currentUser.data?.profile.avatarImg || "/placeholder.png"}
-          />
-        </div>
+    <div className="flex flex-1 items-start gap-4 border-b border-gray-200 p-4">
+      <div className="avatar h-12 w-12 overflow-hidden rounded-full">
+        <img
+          className="h-full w-full object-cover"
+          src={currentUser.data?.profile.avatarImg || "/placeholder.png"}
+        />
       </div>
-      <form className="flex w-full flex-col gap-2" onSubmit={handleSubmit}>
+      <form className="flex w-[90%] flex-col gap-2" onSubmit={handleSubmit}>
         {/* TODO: Add Paste image from clipboard */}
         <TextArea
           maxLength={currentUser.data?.verified ? 1000 : 400}

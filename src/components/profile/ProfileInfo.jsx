@@ -7,43 +7,48 @@ const ProfileInfo = ({ user }) => {
   const memberSinceDate = formatDate(user?.createdAt, "user");
 
   return (
-    <div className="flex flex-col gap-4 mt-4 px-4">
+    <div className="mt-4 flex flex-col gap-4 px-4">
       <div className="flex flex-col">
-        <span className="font-bold text-lg">
+        <span className="text-lg font-bold">
           {user?.displayName || user.username}
         </span>
         <span className="text-sm text-slate-500">@{user?.username}</span>
-        <span className="text-sm my-1">{user?.profile.bio}</span>
+        <span className="my-1 text-sm">{user?.profile.bio}</span>
       </div>
 
       {/* TODO: Add missing user fields */}
-      <div className="flex gap-2 flex-wrap">
-        <div className="flex gap-1 items-center ">
-          <FaLink className="w-3 h-3 text-slate-500" />
+      <div className="flex flex-wrap gap-2">
+        <div className="flex items-center gap-1">
+          <FaLink className="h-3 w-3 text-slate-500" />
+          {/* Check if user website has http or https, if not add https:// */}
           <a
-            href={user?.profile.website || ""}
+            href={
+              user?.profile?.website?.includes("http")
+                ? user?.profile.website
+                : `https://${user?.profile.website}`
+            }
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="text-sm text-blue-500 hover:underline"
           >
             {user?.profile.website || ""}
           </a>
         </div>
-        <div className="flex gap-2 items-center">
-          <IoCalendarOutline className="w-4 h-4 text-slate-500" />
+        <div className="flex items-center gap-2">
+          <IoCalendarOutline className="h-4 w-4 text-slate-500" />
           <span className="text-sm text-slate-500">
             Joined {memberSinceDate}
           </span>
         </div>
       </div>
       <div className="flex gap-2">
-        <div className="flex gap-1 items-center">
-          <span className="font-bold text-xs">{user?.following.length}</span>
-          <span className="text-slate-500 text-xs">Following</span>
+        <div className="flex items-center gap-1">
+          <span className="text-xs font-bold">{user?.following.length}</span>
+          <span className="text-xs text-slate-500">Following</span>
         </div>
-        <div className="flex gap-1 items-center">
-          <span className="font-bold text-xs">{user?.followers.length}</span>
-          <span className="text-slate-500 text-xs">Followers</span>
+        <div className="flex items-center gap-1">
+          <span className="text-xs font-bold">{user?.followers.length}</span>
+          <span className="text-xs text-slate-500">Followers</span>
         </div>
       </div>
     </div>

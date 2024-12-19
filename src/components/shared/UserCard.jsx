@@ -5,24 +5,25 @@ const UserCard = ({ user }) => {
   return (
     <Link
       to={`/profile/${user.username}`}
-      className="flex items-center justify-between gap-4"
+      className="grid grid-cols-[auto,1fr] items-center justify-between gap-2"
     >
-      <div className="flex gap-2 items-center">
-        <div className="avatar w-8 h-8 rounded-full overflow-hidden">
-          <img
-            className="h-full w-full object-cover"
-            src={user.profile?.avatar || "/placeholder.png"}
-          />
-        </div>
+      <div className="avatar h-12 w-12 overflow-hidden rounded-full">
+        <img
+          className="h-full w-full object-cover"
+          src={user.profile?.avatar || "/placeholder.png"}
+        />
+      </div>
+      <div className="flex items-center justify-between gap-2 p-2">
         <div className="flex flex-col">
-          <span className="font-semibold tracking-tight truncate w-28">
+          <span className="w-28 truncate font-semibold tracking-tight">
             {user.displayName || user.username}
           </span>
-          <span className="text-sm text-slate-500">@{user.username}</span>
+          <span className="w-28 truncate text-sm text-slate-500">
+            @{user.username}
+          </span>
         </div>
+        <FollowButton userId={user._id} />
       </div>
-
-      <FollowButton userId={user._id} />
     </Link>
   );
 };

@@ -12,7 +12,7 @@ const RouteCreatePost = () => {
         onClick={authModal.onOpen}
       >
         <FaFeather size={24} color="white" />
-        <span className="hidden text-white lg:block">Create Post</span>
+        <span className="hidden text-white xl:block">Create Post</span>
       </Link>
     </div>
   );

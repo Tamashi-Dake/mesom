@@ -77,6 +77,7 @@ const UpdateUserModal = ({ modal, user }) => {
       inputId: "website",
       inputValue: editUserData.website,
       inputLimit: 100,
+      type: "url",
     },
   ];
 
@@ -85,7 +86,7 @@ const UpdateUserModal = ({ modal, user }) => {
 
     if (file?.size > maxFileSize) {
       return toast.error(
-        "Seleted image are too large! Please select image smaller than 5MB."
+        "Seleted image are too large! Please select image smaller than 5MB.",
       );
     }
     const reader = new FileReader();
@@ -153,7 +154,7 @@ const UpdateUserModal = ({ modal, user }) => {
 
   return (
     <Modal
-      className="flex items-start justify-center "
+      className="flex items-start justify-center"
       modalClassName="bg-white relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
       open={modal.open}
       closeModal={modal.closeModal}
@@ -162,11 +163,11 @@ const UpdateUserModal = ({ modal, user }) => {
       <DefaultHeader label="Edit profile">{/* ... */}</DefaultHeader>
       <section
         className={twMerge(
-          "h-full overflow-y-auto transition-opacity"
+          "h-full overflow-y-auto transition-opacity",
           // loading && 'pointer-events-none opacity-50'
         )}
       >
-        <div className="group relative h-36 xs:h-44 sm:h-48 overflow-hidden">
+        <div className="group relative h-36 overflow-hidden xs:h-44 sm:h-48">
           <input
             className="hidden"
             type="file"
@@ -176,28 +177,26 @@ const UpdateUserModal = ({ modal, user }) => {
           />
           {userImages.coverImg || user.profile.coverImg ? (
             <img
-              className="relative h-full w-full object-center object-cover transition group-hover:brightness-75 duration-200 group-focus-within:brightness-75 "
+              className="relative h-full w-full object-cover object-center transition duration-200 group-focus-within:brightness-75 group-hover:brightness-75"
               src={previewImages.coverImg || user.profile.coverImg}
             />
           ) : (
             <div className="h-full w-full bg-neutral-200"></div>
           )}
-          <div className="absolute left-1/2 top-1/2 flex -translate-y-1/2 -translate-x-1/2 gap-4">
+          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-4">
             <Button
-              className="group/inner relative bg-neutral-700/50 rounded-full p-3 hover:bg-neutral-600/50
-                         focus-visible:bg-neutral-600/50 "
+              className="group/inner relative rounded-full bg-neutral-700/50 p-3 hover:bg-neutral-600/50 focus-visible:bg-neutral-600/50"
               onClick={() => coverInputFileRef.current.click()}
             >
-              <FaCamera className="hover-animation h-6 w-6 text-neutral-100 group-hover/inner:text-white  focus-visible:text-white" />
+              <FaCamera className="hover-animation h-6 w-6 text-neutral-100 focus-visible:text-white group-hover/inner:text-white" />
               <ToolTip groupInner tip="Add photo" />
             </Button>
             {userImages.coverImg && (
               <Button
-                className="group/inner relative bg-neutral-700/50 rounded-full p-3 hover:bg-neutral-600/50
-                           focus-visible:bg-neutral-600/50"
+                className="group/inner relative rounded-full bg-neutral-700/50 p-3 hover:bg-neutral-600/50 focus-visible:bg-neutral-600/50"
                 onClick={removeCoverImage}
               >
-                <AiOutlineClose className="hover-animation h-6 w-6 text-neutral-100 group-hover/inner:text-white  focus-visible:text-white" />
+                <AiOutlineClose className="hover-animation h-6 w-6 text-neutral-100 focus-visible:text-white group-hover/inner:text-white" />
                 <ToolTip groupInner tip="Remove photo" />
               </Button>
             )}
@@ -215,19 +214,17 @@ const UpdateUserModal = ({ modal, user }) => {
             <div className="group absolute aspect-square w-24 -translate-y-1/2 overflow-hidden rounded-full xs:w-32 sm:w-36">
               {userImages.avatarImg || user.profile.avatarImg ? (
                 <img
-                  className="h-full w-full object-center object-cover bg-white border-4 border-white inner:!m-1 inner:rounded-full rounded-full transition group-hover:brightness-75 duration-200 group-focus-within:brightness-75"
+                  className="inner:!m-1 inner:rounded-full h-full w-full rounded-full border-4 border-white bg-white object-cover object-center transition duration-200 group-focus-within:brightness-75 group-hover:brightness-75"
                   src={previewImages.avatarImg || user.profile.avatarImg}
                 />
               ) : (
-                <div className="h-full w-full bg-neutral-200 border-4 border-white rounded-full"></div>
+                <div className="h-full w-full rounded-full border-4 border-white bg-neutral-200"></div>
               )}
               <Button
-                className="group/inner absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-              bg-neutral-700/50 rounded-full p-3 hover:bg-neutral-600/50 
-              focus-visible:bg-neutral-600/50"
+                className="group/inner absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-neutral-700/50 p-3 hover:bg-neutral-600/50 focus-visible:bg-neutral-600/50"
                 onClick={() => avatarInputFileRef.current.click()}
               >
-                <FaCamera className="hover-animation h-6 w-6 text-neutral-100 group-hover/inner:text-white  focus-visible:text-white" />
+                <FaCamera className="hover-animation h-6 w-6 text-neutral-100 focus-visible:text-white group-hover/inner:text-white" />
                 <ToolTip groupInner tip="Add photo" />
               </Button>
             </div>
@@ -247,13 +244,13 @@ const UpdateUserModal = ({ modal, user }) => {
                   value={field.inputValue}
                   maxLength={field.inputLimit}
                   onChange={(e) => handleChange(e, field.inputId)}
-                  className="h-[12ch] resize-none mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm text-9xl"
+                  className="mt-1 block h-[12ch] w-full resize-none rounded-md border-gray-300 text-9xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   placeholder={`Enter your ${field.label.toLowerCase()}`}
                 />
               ) : (
                 <input
                   id={field.inputId}
-                  type="text"
+                  type={field.type || "text"}
                   value={field.inputValue}
                   maxLength={field.inputLimit}
                   onChange={(e) => handleChange(e, field.inputId)}
@@ -269,11 +266,7 @@ const UpdateUserModal = ({ modal, user }) => {
             </div>
           ))}
           <Button onClick={handleSubmit}>Update</Button>
-          <Button
-            className="accent-tab -mx-4 mb-4 flex cursor-not-allowed items-center justify-between rounded-none
-                       py-2 hover:bg-light-primary/10 active:bg-light-primary/20 disabled:brightness-100
-                       dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20"
-          >
+          <Button className="accent-tab -mx-4 mb-4 flex cursor-not-allowed items-center justify-between rounded-none py-2 hover:bg-light-primary/10 active:bg-light-primary/20 disabled:brightness-100 dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20">
             <span className="mx-2 text-xl">Switch to professional</span>
             <i>
               <FaChevronRight className="h-6 w-6 text-light-secondary dark:text-dark-secondary" />
