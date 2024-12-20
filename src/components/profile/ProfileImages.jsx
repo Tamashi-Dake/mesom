@@ -1,15 +1,30 @@
-const ProfileImages = ({ avatarImg, coverImg }) => {
+import { twMerge } from "tailwind-merge";
+
+const ProfileImages = ({ avatarImg, coverImg, inUserTooltip }) => {
   return (
-    <div className="relative group/cover">
+    <div className="group/cover relative">
       <img
         src={coverImg || "/placeholder.png"}
-        className="h-52 w-full object-cover"
+        className={twMerge(
+          "w-full object-cover",
+          inUserTooltip ? "h-20" : "h-52",
+        )}
         alt="cover image"
       />
-      <div className="avatarImg absolute -bottom-16 left-4">
-        <div className="w-32 h-32 rounded-full border-4 border-white relative group/avatarImg">
+      <div
+        className={twMerge(
+          "avatarImg absolute",
+          inUserTooltip ? "-bottom-8 left-2" : "-bottom-16 left-4",
+        )}
+      >
+        <div
+          className={twMerge(
+            "group/avatarImg relative rounded-full border-4 border-white",
+            inUserTooltip ? "h-20 w-20" : "h-32 w-32",
+          )}
+        >
           <img
-            className="w-full h-full object-cover rounded-full"
+            className="h-full w-full rounded-full object-cover"
             src={avatarImg || "/placeholder.png"}
           />
         </div>

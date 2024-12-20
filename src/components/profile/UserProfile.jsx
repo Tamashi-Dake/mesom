@@ -31,7 +31,7 @@ const UserProfile = ({ userQuery, isMyProfile }) => {
             coverImg={user?.profile.coverImg}
           />
 
-          <div className="mt-5 flex justify-end px-4">
+          <div className="mt-4 flex justify-end px-4">
             {isMyProfile ? (
               <Button
                 secondary

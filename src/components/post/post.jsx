@@ -27,13 +27,18 @@ const Post = ({
         inReplyModal ? "" : "border-b border-gray-200",
       )}
     >
-      <AuthorAvatar author={author || post.author} isReply={inReplyModal} />
+      <AuthorAvatar
+        author={author || post.author}
+        isReply={inReplyModal}
+        inModal={inReplyModal}
+      />
       <div className="flex flex-1 flex-col">
         <div className="flex items-center justify-between gap-2">
           <PostInfo
             author={author || post.author}
             createDate={post.createdAt}
             postId={post._id}
+            inModal={inReplyModal}
           />
           {!inReplyModal && (
             <PostOptions
@@ -46,7 +51,7 @@ const Post = ({
           )}
         </div>
         {isReply && (
-          <p className="text-sm text-gray-400 text-light-secondary dark:text-dark-secondary">
+          <p className="text-sm text-light-secondary dark:text-dark-secondary">
             Replying to{" "}
             <Link
               to={`/user/${authorName}`}

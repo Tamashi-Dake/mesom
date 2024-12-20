@@ -15,10 +15,11 @@
   - [x] Post Action - Share: Copy post link
   - [ ] Display (custom theme)
   - [ ] User sidebar (logout)
-  - [ ] User card (hover on @username / user)
+  - [x] User card (hover on @username / user)
 
 - [ ] Skeleton
 
+  - [x] User Card (suggested user)
   - [ ] Post (content, image)
   - [ ] User (profile,...)
 

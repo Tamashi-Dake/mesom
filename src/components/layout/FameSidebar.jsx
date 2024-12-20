@@ -11,7 +11,6 @@ const FameSidebar = () => {
     queryKey: ["suggestedUsers"],
     queryFn: getSuggestedUsers,
   });
-  console.log(inBigScreen);
   return (
     <div
       className={twMerge(
@@ -22,15 +21,13 @@ const FameSidebar = () => {
       <div className="rounded-xl bg-neutral-100 px-4">
         <h2 className="p-2 text-xl font-semibold">Who to follow</h2>
         <div className="flex flex-col gap-4">
-          {/* item */}
-          {userQuery.isLoading ||
-            (userQuery.data && (
-              <>
-                <UserCardSkeleton />
-                <UserCardSkeleton />
-                <UserCardSkeleton />
-              </>
-            ))}
+          {userQuery.isLoading && (
+            <>
+              <UserCardSkeleton />
+              <UserCardSkeleton />
+              <UserCardSkeleton />
+            </>
+          )}
           {userQuery.data && (
             <>
               <UserCard user={userQuery.data.admin} />
