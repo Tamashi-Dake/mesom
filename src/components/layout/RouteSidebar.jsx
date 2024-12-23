@@ -1,21 +1,18 @@
-import { BiSolidLogOut } from "react-icons/bi";
-import toast from "react-hot-toast";
+import { useMemo } from "react";
+
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 import { routes as staticRoutes } from "../shared/config";
 import RouteItem from "../shared/RouteItem";
 import RouteCreatePost from "../shared/RouteCreatePost";
 import Button from "../shared/Button";
-import useCurrentUser from "../../hooks/useCurrentUser";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { logout } from "../../services/authService";
-import { useNavigate } from "react-router-dom";
-import { useMemo } from "react";
+import { TbLogout } from "react-icons/tb";
+import ActionLogout from "../modal/ActionLogout";
+import { useModal } from "../../hooks/useModal";
 
 const RouteSidebar = () => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
   const currentUser = useCurrentUser();
+  const logoutModal = useModal();
 
   // Dùng useMemo để tạo lại routes khi user thay đổi
   const routes = useMemo(() => {
@@ -32,19 +29,6 @@ const RouteSidebar = () => {
       return route;
     });
   }, [currentUser]);
-
-  const logoutMutation = useMutation({
-    mutationFn: logout,
-    onSuccess: () => {
-      toast.success("Logged out successfully");
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-    },
-  });
-
-  const handleLogout = () => {
-    logoutMutation.mutate();
-    navigate("/auth");
-  };
 
   return (
     <>
@@ -69,13 +53,13 @@ const RouteSidebar = () => {
               // if the user is not logged in, hide the logout button
               classNames={
                 currentUser
-                  ? "flex items-center justify-center w-full rounded-lg p-2 bg-neutral-100 text-neutral-600"
+                  ? "flex gap-2 items-center justify-center w-full rounded-lg p-2 bg-neutral-100 text-neutral-600"
                   : "hidden"
               }
-              onClick={handleLogout}
+              onClick={logoutModal.openModal}
               label={
                 <>
-                  <BiSolidLogOut size={24} color="black" />
+                  <TbLogout size={24} color="black" />
                   <p className="hidden xl:block">Logout</p>
                 </>
               }
@@ -83,6 +67,7 @@ const RouteSidebar = () => {
           </div>
         </div>
       </div>
+      {logoutModal.open && <ActionLogout modal={logoutModal} />}
     </>
   );
 };

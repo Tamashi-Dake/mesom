@@ -1,4 +1,3 @@
-import { BiSearch } from "react-icons/bi";
 import {
   BsBell,
   BsBookmark,
@@ -6,8 +5,11 @@ import {
   BsHouse,
   BsPerson,
 } from "react-icons/bs";
+
+import { BiCog, BiSearch } from "react-icons/bi";
 import { CiMail } from "react-icons/ci";
 import { FaFeather } from "react-icons/fa6";
+import { GrCircleInformation } from "react-icons/gr";
 
 export const routes = [
   { name: "Home", path: "/", icon: <BsHouse size={24} color="black" /> },
@@ -35,6 +37,44 @@ export const routes = [
     name: "Profile",
     path: "/profile",
     icon: <BsPerson size={24} color="black" />,
+  },
+];
+
+export const mobileRoutes = [
+  {
+    name: "Profile",
+    path: "/profile",
+    icon: <BsPerson size={24} color="black" />,
+  },
+  {
+    name: "Bookmarks",
+    path: "/bookmarks",
+    icon: <BsBookmark size={24} color="black" />,
+  },
+  {
+    name: "Notifications",
+    path: "/notifications",
+    icon: <BsBell size={24} color="black" className="shrink-0" />,
+  },
+  {
+    name: "Messages",
+    path: "/messages",
+    icon: <BsChatDots size={24} color="black" />,
+  },
+  {
+    name: "Search",
+    path: "/search",
+    icon: <BiSearch size={24} color="black" />,
+  },
+  {
+    name: "About Mesom",
+    path: "/about",
+    icon: <GrCircleInformation size={24} color="black" />,
+  },
+  {
+    name: "Settings and Privacy",
+    path: "/settings",
+    icon: <BiCog size={24} color="black" />,
   },
 ];
 
