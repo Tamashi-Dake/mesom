@@ -1,9 +1,15 @@
 import BackButton from "../shared/BackButton";
 import HeaderWrapper from "./HeaderWrapper";
 
-const DefaultHeader = ({ label, additionalContent, showBackArrow = false }) => {
+const DefaultHeader = ({
+  label,
+  additionalContent,
+  showBackArrow = false,
+  children,
+  className,
+}) => {
   return (
-    <HeaderWrapper>
+    <HeaderWrapper classname={className}>
       <div className="flex items-center gap-4">
         {showBackArrow && <BackButton />}
         <div className="flex flex-col items-start">
@@ -11,6 +17,7 @@ const DefaultHeader = ({ label, additionalContent, showBackArrow = false }) => {
           <h2 className="text-sm text-neutral-500">{additionalContent}</h2>
         </div>
       </div>
+      {children}
     </HeaderWrapper>
   );
 };

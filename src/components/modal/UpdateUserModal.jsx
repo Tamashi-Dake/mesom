@@ -1,18 +1,17 @@
 import { twMerge } from "tailwind-merge";
 import DefaultHeader from "../layout/DefaultHeader";
 import { Modal } from "./Modal";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { FaCamera, FaChevronRight } from "react-icons/fa";
 import { ToolTip } from "../common/Tooltip";
-import { Button } from "@headlessui/react";
 import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateUser } from "../../services/userService";
+import InputField from "../shared/LabeledInput";
+import { Button as DefaultButton } from "@headlessui/react";
+import Button from "../shared/Button";
 
 // TODO: Refactor + Add skeleton loading while update
-const UpdateUserModal = ({ modal, user }) => {
-  const queryClient = useQueryClient();
+const UpdateUserModal = ({ modal, user, userMutate }) => {
   const [userImages, setUserImages] = useState({
     avatarImg: null,
     coverImg: null,
@@ -27,30 +26,17 @@ const UpdateUserModal = ({ modal, user }) => {
     location: user.profile.location || "",
     website: user.profile.website || "",
   });
-  const [inputNameError, setInputNameError] = useState(null);
+  const inputNameError = !editUserData.displayName?.trim()
+    ? "Name can't be blank"
+    : "";
 
   const coverInputFileRef = useRef(null);
   const avatarInputFileRef = useRef(null);
 
-  const userMutate = useMutation({
-    mutationFn: updateUser,
-    onMutate: () => {
-      console.log("changing");
-    },
-    onSuccess: () => {
-      toast.success("Updated successfully");
+  const maxFileSize = useMemo(() => {
+    5 * 1024 * 1024;
+  }, []);
 
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  // use memo
-  const maxFileSize = 5 * 1024 * 1024;
-
-  // TODO: Validate Form input (trim)
   const inputFields = [
     {
       label: "Name",
@@ -106,20 +92,10 @@ const UpdateUserModal = ({ modal, user }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleChange = (e, inputId) => {
-    const value = e.target.value;
-
-    setEditUserData((prevData) => ({
-      ...prevData,
-      [inputId]: value,
-    }));
-
-    if (inputId === "displayName" && value.length > 50) {
-      setInputNameError("Name cannot exceed 50 characters");
-    } else {
-      setInputNameError(null);
-    }
-  };
+  const handleChange =
+    (key) =>
+    ({ target: { value } }) =>
+      setEditUserData({ ...editUserData, [key]: value });
 
   const removeCoverImage = () => {
     setUserImages({
@@ -159,8 +135,17 @@ const UpdateUserModal = ({ modal, user }) => {
       open={modal.open}
       closeModal={modal.closeModal}
     >
-      {/* TODO: change to Update Profile Header */}
-      <DefaultHeader label="Edit profile">{/* ... */}</DefaultHeader>
+      <DefaultHeader label="Edit profile" className={"flex justify-between"}>
+        <Button
+          label={"Save"}
+          secondary
+          className={"inline-block"}
+          onClick={handleSubmit}
+          disabled={
+            userMutate.isLoading || userMutate.isPending || inputNameError
+          }
+        />
+      </DefaultHeader>
       <section
         className={twMerge(
           "h-full overflow-y-auto transition-opacity",
@@ -184,21 +169,21 @@ const UpdateUserModal = ({ modal, user }) => {
             <div className="h-full w-full bg-neutral-200"></div>
           )}
           <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-4">
-            <Button
+            <DefaultButton
               className="group/inner relative rounded-full bg-neutral-700/50 p-3 hover:bg-neutral-600/50 focus-visible:bg-neutral-600/50"
               onClick={() => coverInputFileRef.current.click()}
             >
               <FaCamera className="hover-animation h-6 w-6 text-neutral-100 focus-visible:text-white group-hover/inner:text-white" />
               <ToolTip groupInner tip="Add photo" />
-            </Button>
+            </DefaultButton>
             {userImages.coverImg && (
-              <Button
+              <DefaultButton
                 className="group/inner relative rounded-full bg-neutral-700/50 p-3 hover:bg-neutral-600/50 focus-visible:bg-neutral-600/50"
                 onClick={removeCoverImage}
               >
                 <AiOutlineClose className="hover-animation h-6 w-6 text-neutral-100 focus-visible:text-white group-hover/inner:text-white" />
                 <ToolTip groupInner tip="Remove photo" />
-              </Button>
+              </DefaultButton>
             )}
           </div>
         </div>
@@ -214,64 +199,37 @@ const UpdateUserModal = ({ modal, user }) => {
             <div className="group absolute aspect-square w-24 -translate-y-1/2 overflow-hidden rounded-full xs:w-32 sm:w-36">
               {userImages.avatarImg || user.profile.avatarImg ? (
                 <img
-                  className="inner:!m-1 inner:rounded-full h-full w-full rounded-full border-4 border-white bg-white object-cover object-center transition duration-200 group-focus-within:brightness-75 group-hover:brightness-75"
+                  className="h-full w-full rounded-full border-4 border-white bg-white object-cover object-center transition duration-200 group-focus-within:brightness-75 group-hover:brightness-75 inner:!m-1 inner:rounded-full"
                   src={previewImages.avatarImg || user.profile.avatarImg}
                 />
               ) : (
                 <div className="h-full w-full rounded-full border-4 border-white bg-neutral-200"></div>
               )}
-              <Button
+              <DefaultButton
                 className="group/inner absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-neutral-700/50 p-3 hover:bg-neutral-600/50 focus-visible:bg-neutral-600/50"
                 onClick={() => avatarInputFileRef.current.click()}
               >
                 <FaCamera className="hover-animation h-6 w-6 text-neutral-100 focus-visible:text-white group-hover/inner:text-white" />
                 <ToolTip groupInner tip="Add photo" />
-              </Button>
+              </DefaultButton>
             </div>
           </div>
-          {/* TODO: use Input component */}
-          {inputFields.map((field, index) => (
-            <div key={index} className="mb-4">
-              <label
-                htmlFor={field.inputId}
-                className="block text-sm font-medium text-gray-700"
-              >
-                {field.label}
-              </label>
-              {field.useTextArea ? (
-                <textarea
-                  id={field.inputId}
-                  value={field.inputValue}
-                  maxLength={field.inputLimit}
-                  onChange={(e) => handleChange(e, field.inputId)}
-                  className="mt-1 block h-[12ch] w-full resize-none rounded-md border-gray-300 text-9xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  placeholder={`Enter your ${field.label.toLowerCase()}`}
-                />
-              ) : (
-                <input
-                  id={field.inputId}
-                  type={field.type || "text"}
-                  value={field.inputValue}
-                  maxLength={field.inputLimit}
-                  onChange={(e) => handleChange(e, field.inputId)}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  placeholder={`Enter your ${field.label.toLowerCase()}`}
-                />
-              )}
-              {field.errorMessage && (
-                <p className="mt-1 text-sm text-red-500">
-                  {field.errorMessage}
-                </p>
-              )}
-            </div>
+          {inputFields.map((field) => (
+            <>
+              <InputField
+                {...field}
+                handleChange={handleChange(field.inputId)}
+                key={field.inputId}
+              />
+            </>
           ))}
-          <Button onClick={handleSubmit}>Update</Button>
-          <Button className="accent-tab -mx-4 mb-4 flex cursor-not-allowed items-center justify-between rounded-none py-2 hover:bg-light-primary/10 active:bg-light-primary/20 disabled:brightness-100 dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20">
+
+          <DefaultButton className="accent-tab mb-4 flex cursor-not-allowed items-center justify-between rounded-none py-2 hover:bg-light-primary/10 active:bg-light-primary/20 disabled:brightness-100 dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20">
             <span className="mx-2 text-xl">Switch to professional</span>
             <i>
               <FaChevronRight className="h-6 w-6 text-light-secondary dark:text-dark-secondary" />
             </i>
-          </Button>
+          </DefaultButton>
         </div>
       </section>
     </Modal>

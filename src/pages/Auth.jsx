@@ -146,8 +146,8 @@ const LoginPage = () => {
                       : "Sign Up"
                 }
                 secondary
-                classNames={twMerge(
-                  "btn btn-primary btn-outline rounded-full w-full",
+                className={twMerge(
+                  "btn btn-primary btn-outline w-full rounded-full",
                   (loginMutation.isPending || registerMutation.isPending) &&
                     "cursor-not-allowed opacity-50",
                 )}

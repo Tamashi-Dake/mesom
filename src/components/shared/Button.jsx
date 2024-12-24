@@ -6,7 +6,7 @@ const Button = ({
   onClick,
   disabled,
   outline,
-  classNames,
+  className,
 }) => {
   return (
     <button
@@ -17,7 +17,7 @@ const Button = ({
           : "border-sky-600 bg-sky-500 text-white",
         outline ? "border-sky-500 bg-transparent text-sky-500" : "",
         disabled ? "cursor-not-allowed opacity-70" : "hover:bg-primary-600",
-        classNames,
+        className,
       )}
       onClick={onClick}
       disabled={disabled}

@@ -21,7 +21,7 @@ const FollowButton = ({ userId, refetchSingle }) => {
             handleFollow();
           }}
         >
-          <span>Following</span>
+          <span className="text-sm">Following</span>
         </Button>
       ) : (
         <Button

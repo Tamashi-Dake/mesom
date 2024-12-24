@@ -9,18 +9,19 @@ const ProfileInfo = ({ user }) => {
   return (
     <div className="mt-4 flex flex-col gap-4 px-4">
       <div className="flex flex-col">
-        <span className="text-lg font-bold">
+        <span className="truncate whitespace-pre-line break-all text-lg font-bold">
           {user?.displayName || user.username}
         </span>
         <span className="text-sm text-slate-500">@{user?.username}</span>
-        <span className="my-1 text-sm">{user?.profile.bio}</span>
+        <span className="my-1 truncate whitespace-pre-line break-all text-sm">
+          {user?.profile.bio}
+        </span>
       </div>
 
       {/* TODO: Add missing user fields */}
       <div className="flex flex-wrap gap-2">
         <div className="flex items-center gap-1">
           <FaLink className="h-3 w-3 text-slate-500" />
-          {/* Check if user website has http or https, if not add https:// */}
           <a
             href={
               user?.profile?.website?.includes("http")
@@ -29,7 +30,7 @@ const ProfileInfo = ({ user }) => {
             }
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm text-blue-500 hover:underline"
+            className="truncate whitespace-pre-line break-all text-sm text-blue-500 hover:underline"
           >
             {user?.profile.website || ""}
           </a>

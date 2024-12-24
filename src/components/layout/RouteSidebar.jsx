@@ -51,9 +51,9 @@ const RouteSidebar = () => {
             <Button
               name="Logout"
               // if the user is not logged in, hide the logout button
-              classNames={
+              className={
                 currentUser
-                  ? "flex gap-2 items-center justify-center w-full rounded-lg p-2 bg-neutral-100 text-neutral-600"
+                  ? "flex w-full items-center justify-center gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-600"
                   : "hidden"
               }
               onClick={logoutModal.openModal}

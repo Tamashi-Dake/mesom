@@ -27,7 +27,7 @@
 
   - [ ] Login / Sign up
   - [ ] Search
-  - [ ] Update User modal
+  - [x] Update User modal
 
 - [ ] Darkmode
 
