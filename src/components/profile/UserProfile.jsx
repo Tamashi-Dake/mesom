@@ -11,6 +11,7 @@ import Button from "../shared/Button";
 import FollowButton from "../shared/FollowButton";
 import ProfileImages from "./ProfileImages";
 import ProfileInfo from "./ProfileInfo";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 const UserProfile = ({ userQuery, isMyProfile }) => {
   const queryClient = useQueryClient();
@@ -32,13 +33,12 @@ const UserProfile = ({ userQuery, isMyProfile }) => {
   return (
     <>
       {/* TODO: Add case when User not found */}
-      {(isLoading || isFetching) && <p>loading...</p>}
+      {(isLoading || isFetching) && <LoadingSpinner />}
 
-      {!isFetching && user && (
+      {user ? (
         <>
           <DefaultHeader
             label={user.displayName || user.username}
-            additionalContent="0 post"
             showBackArrow
           />
 
@@ -73,6 +73,10 @@ const UserProfile = ({ userQuery, isMyProfile }) => {
           )}
 
           <ProfileInfo user={user} />
+        </>
+      ) : (
+        <>
+          <DefaultHeader label={"User not found"} showBackArrow />
         </>
       )}
     </>

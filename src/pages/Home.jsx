@@ -7,9 +7,11 @@ import CreatePost from "../components/post/CreatePost";
 import Post from "../components/post/Post";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import { SEO } from "../components/common/SEO";
+import { useMediaQuery } from "usehooks-ts";
 
 const Home = () => {
   const [queryType, setFeedType] = useState("forYou");
+  const isMobile = useMediaQuery("(max-width: 500px)");
 
   const { data, error, isError, isLoading, isFetchingNextPage, ref } =
     useInfiniteScroll(
@@ -40,7 +42,7 @@ const Home = () => {
         description="This is Mesom, where you join discussions about the latest news."
       />
       <HomeHeader activeTab={queryType} onTabChange={handleTabChange} />
-      <CreatePost queryType={queryType} refetch />
+      {!isMobile && <CreatePost queryType={queryType} refetch />}
       <main>
         {data?.pages[0]?.message ? (
           <section className="mt-0.5 flex justify-center p-8">

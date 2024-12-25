@@ -20,21 +20,23 @@ const ProfileInfo = ({ user }) => {
 
       {/* TODO: Add missing user fields */}
       <div className="flex flex-wrap gap-2">
-        <div className="flex items-center gap-1">
-          <FaLink className="h-3 w-3 text-slate-500" />
-          <a
-            href={
-              user?.profile?.website?.includes("http")
-                ? user?.profile.website
-                : `https://${user?.profile.website}`
-            }
-            target="_blank"
-            rel="noopener noreferrer"
-            className="truncate whitespace-pre-line break-all text-sm text-blue-500 hover:underline"
-          >
-            {user?.profile.website || ""}
-          </a>
-        </div>
+        {user?.profile.website && (
+          <div className="flex items-center gap-1">
+            <FaLink className="h-3 w-3 text-slate-500" />
+            <a
+              href={
+                user?.profile?.website?.includes("http")
+                  ? user?.profile.website
+                  : `https://${user?.profile.website}`
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              className="truncate whitespace-pre-line break-all text-sm text-blue-500 hover:underline"
+            >
+              {user?.profile.website || ""}
+            </a>
+          </div>
+        )}
         <div className="flex items-center gap-2">
           <IoCalendarOutline className="h-4 w-4 text-slate-500" />
           <span className="text-sm text-slate-500">

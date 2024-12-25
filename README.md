@@ -42,7 +42,8 @@
 ## Problems
 
 - [ ] Default dark mode
-- [ ] Responsive abnormal white space
+- [x] Responsive abnormal white space
+  - [ ] Now user can't see the last post of the page
 
 ## Upcomming features
 

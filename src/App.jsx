@@ -33,7 +33,6 @@ function App() {
   }
 
   return (
-    // Invalid: Weird layout shift + abnormal white space in mobile
     <div className="xl:px-30 container mx-auto h-full md:max-w-7xl">
       <div
         className={twMerge(
@@ -45,8 +44,9 @@ function App() {
       >
         <RouteSidebar />
         <div
+          // Invalid: can't see the last post
           className={twMerge(
-            "relative w-full border-neutral-200 xs:border-x-[1px]",
+            "relative w-full overflow-hidden border-neutral-200 xs:border-x-[1px]",
             inBigScreen ? "col-span-2" : "",
           )}
         >

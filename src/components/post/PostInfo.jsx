@@ -11,11 +11,13 @@ const PostInfo = ({ author, createDate, postId, inModal }) => {
       <Link to={`/profile/${author.username}`}>
         <UserTooltip user={author} inPost inModal={inModal}>
           <div className="flex flex-col">
-            <span className="font-bold hover:underline">
+            <span className="truncate whitespace-pre-line break-words font-bold hover:underline">
               {author.displayName || author.username}
             </span>
             {isViewingPost && (
-              <span className="text-sm text-gray-700">@{author.username}</span>
+              <span className="truncate whitespace-pre-line break-words text-sm text-gray-700">
+                @{author.username}
+              </span>
             )}
           </div>
         </UserTooltip>
@@ -23,7 +25,12 @@ const PostInfo = ({ author, createDate, postId, inModal }) => {
       {!isViewingPost && (
         <div className="flex gap-1 text-sm text-gray-700">
           <UserTooltip user={author} inPost>
-            <Link to={`/profile/${author.username}`}>@{author.username}</Link>
+            <Link
+              to={`/profile/${author.username}`}
+              className="truncate whitespace-pre-line break-words"
+            >
+              @{author.username}
+            </Link>
           </UserTooltip>
 
           <>

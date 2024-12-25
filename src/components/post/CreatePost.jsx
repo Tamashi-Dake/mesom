@@ -51,7 +51,7 @@ const CreatePost = ({
   }, [isReply, postId, postMutate.isSuccess]);
 
   return (
-    <div className="hidden flex-1 items-start gap-4 border-b border-gray-200 p-4 xs:flex">
+    <div className="flex flex-1 items-start gap-4 border-b border-gray-200 p-4">
       <div className="avatar h-12 w-12 overflow-hidden rounded-full">
         <img
           className="h-full w-full object-cover"

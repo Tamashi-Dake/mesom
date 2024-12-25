@@ -70,36 +70,37 @@ const Profile = () => {
 
   useEffect(() => {
     refetch();
-  }, [userId]);
+  }, [userId, postType]);
 
   return (
     <>
       <SEO title={pageTitle} />
       <UserProfile userQuery={userQuery} isMyProfile={isMyProfile} />
 
-      <div className="flex border-b-[1px]">
-        <Tab
-          label="Posts"
-          isActive={postType === "userPosts"}
-          onClick={() => setPostType("userPosts")}
-        />
-        <Tab
-          label="Replies"
-          isActive={postType === "userReplies"}
-          onClick={() => setPostType("userReplies")}
-        />
-        <Tab
-          label="Media"
-          isActive={postType === "userMedias"}
-          onClick={() => setPostType("userMedias")}
-        />
-        <Tab
-          label="Likes"
-          isActive={postType === "userLikes"}
-          onClick={() => setPostType("userLikes")}
-        />
-      </div>
-
+      {userId && (
+        <div className="flex border-b-[1px]">
+          <Tab
+            label="Posts"
+            isActive={postType === "userPosts"}
+            onClick={() => setPostType("userPosts")}
+          />
+          <Tab
+            label="Replies"
+            isActive={postType === "userReplies"}
+            onClick={() => setPostType("userReplies")}
+          />
+          <Tab
+            label="Media"
+            isActive={postType === "userMedias"}
+            onClick={() => setPostType("userMedias")}
+          />
+          <Tab
+            label="Likes"
+            isActive={postType === "userLikes"}
+            onClick={() => setPostType("userLikes")}
+          />
+        </div>
+      )}
       {data?.pages[0]?.message ? (
         <section className="mt-0.5 flex justify-center p-8">
           <div className="flex max-w-sm flex-col items-center gap-6">
