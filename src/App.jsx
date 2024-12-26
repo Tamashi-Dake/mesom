@@ -46,7 +46,7 @@ function App() {
         <div
           // Invalid: can't see the last post
           className={twMerge(
-            "relative w-full overflow-hidden border-neutral-200 xs:border-x-[1px]",
+            "w-full border-neutral-200 xs:border-x-[1px]",
             inBigScreen ? "col-span-2" : "",
           )}
         >

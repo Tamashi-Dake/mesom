@@ -9,6 +9,7 @@ import Button from "../shared/Button";
 import { TbLogout } from "react-icons/tb";
 import ActionLogout from "../modal/ActionLogout";
 import { useModal } from "../../hooks/useModal";
+import DisplaySettings from "../shared/DisplaySetting";
 
 const RouteSidebar = () => {
   const currentUser = useCurrentUser();
@@ -34,7 +35,7 @@ const RouteSidebar = () => {
     <>
       <div className="sticky left-0 top-0 hidden h-screen xs:block xl:p-2">
         <div className="flex h-full flex-col justify-between">
-          <div className="m-2 flex flex-col space-y-4">
+          <div className="m-2 flex flex-col gap-2">
             {routes.map((route) => (
               <RouteItem
                 key={route.path}
@@ -43,6 +44,7 @@ const RouteSidebar = () => {
                 icon={route.icon}
               />
             ))}
+            <DisplaySettings />
             <RouteCreatePost />
           </div>
           <div className="m-2 space-y-4">

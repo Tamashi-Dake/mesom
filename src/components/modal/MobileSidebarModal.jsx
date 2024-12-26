@@ -40,7 +40,7 @@ const MobileSidebarModal = ({ user }) => {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <p className="truncate text-lg font-semibold leading-none text-gray-900 hover:underline">
+              <p className="max-w-60 truncate text-lg font-semibold leading-none text-gray-900 hover:underline">
                 {user?.displayName || user?.username}
               </p>
               <p className="text-sm font-normal text-gray-500">

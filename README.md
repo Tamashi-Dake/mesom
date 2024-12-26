@@ -13,7 +13,7 @@
     - [x] Owner: Delete, Pin/Unpin
     - [x] User: Follow, Block author
   - [x] Post Action - Share: Copy post link
-  - [ ] Display (custom theme)
+  - [x] Display (custom theme)
   - [ ] User sidebar (logout)
   - [x] User card (hover on @username / user)
 
@@ -42,8 +42,8 @@
 ## Problems
 
 - [ ] Default dark mode
-- [x] Responsive abnormal white space
-  - [ ] Now user can't see the last post of the page
+- [ ] Responsive abnormal white space
+- [ ] More Settings: Menu overlap with page content (caused by relative position)
 
 ## Upcomming features
 
