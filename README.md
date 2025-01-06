@@ -43,7 +43,7 @@
 
 - [ ] Default dark mode
 - [ ] Responsive abnormal white space
-- [ ] More Settings: Menu overlap with page content (caused by relative position)
+- [x] More Settings: Menu overlap with page content (caused by relative position)
 
 ## Upcomming features
 

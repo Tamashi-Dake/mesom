@@ -57,7 +57,8 @@ const DisplaySettings = () => {
             <AnimatePresence>
               {open && (
                 <MenuItems
-                  className="menu-container absolute -top-44 w-60 bg-white font-medium xl:w-11/12"
+                  anchor="top"
+                  className="menu-container absolute -top-44 w-60 bg-white font-medium"
                   as={motion.div}
                   {...variants}
                   static

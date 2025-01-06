@@ -8,6 +8,7 @@ import { TbLogout } from "react-icons/tb";
 import { MdDisplaySettings } from "react-icons/md";
 import DisplayModal from "./DisplayModal";
 import ActionLogout from "./ActionLogout";
+import { Modal } from "./Modal";
 
 const MobileSidebarModal = ({ user }) => {
   const logoutModal = useModal();
@@ -36,7 +37,7 @@ const MobileSidebarModal = ({ user }) => {
               <img
                 src={user?.profile.avatarImg || "/placeholder.png"}
                 alt="User Avatar"
-                className="h-full w-full rounded-full object-fill"
+                className="h-full w-full rounded-full object-cover"
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -87,7 +88,14 @@ const MobileSidebarModal = ({ user }) => {
           />
         </div>
       </aside>
-      {displayModal.open && <DisplayModal modal={displayModal} />}
+      <Modal
+        className="flex items-start justify-center"
+        modalClassName="bg-white relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
+        open={displayModal.open}
+        closeModal={displayModal.closeModal}
+      >
+        <DisplayModal closeModal={displayModal.closeModal} />
+      </Modal>
       {logoutModal.open && <ActionLogout modal={logoutModal} />}
     </>
   );

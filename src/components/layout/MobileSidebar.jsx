@@ -22,7 +22,7 @@ const MobileSidebar = () => {
       <Modal
         className="flex h-full items-start justify-start !p-0"
         modalAnimation={variant}
-        modalClassName="bg-white relative max-w-xl h-full"
+        modalClassName="bg-white relative max-w-xl "
         open={modal.open}
         closeModal={modal.closeModal}
       >
@@ -32,7 +32,7 @@ const MobileSidebar = () => {
         <img
           src={user?.profile.avatarImg || "/placeholder.png"}
           alt="User Avatar"
-          className="h-full w-full rounded-full object-fill"
+          className="h-full w-full rounded-full object-cover"
         />
       </div>
     </>

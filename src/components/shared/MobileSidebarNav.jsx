@@ -10,7 +10,7 @@ const MobileSidebarNav = ({ name, path, icon, onClick }) => {
       {onClick ? (
         <Button
           onClick={onClick}
-          className="flex cursor-pointer items-center justify-start gap-4 rounded-2xl p-2"
+          className="flex cursor-pointer items-center justify-start gap-4 rounded-2xl py-2"
         >
           {icon}
           <p className="pb-[0.1rem] text-xl">{name}</p>
@@ -20,7 +20,7 @@ const MobileSidebarNav = ({ name, path, icon, onClick }) => {
           to={path}
           // TODO-Low Priority: Change icon colors on route match.
           className={twMerge(
-            "flex cursor-pointer items-center justify-start gap-4 rounded-2xl p-2 hover:bg-slate-400 hover:bg-opacity-10",
+            "flex cursor-pointer items-center justify-start gap-4 rounded-2xl py-2 hover:bg-slate-400 hover:bg-opacity-10",
             match ? "bg-teal-600 bg-opacity-10 font-semibold" : "",
           )}
         >
