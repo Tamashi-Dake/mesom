@@ -33,7 +33,7 @@ const CreatePostActions = ({
   useEffect(() => {
     const fetchEmojiData = async () => {
       const response = await fetch(
-        "https://cdn.jsdelivr.net/npm/@emoji-mart/data"
+        "https://cdn.jsdelivr.net/npm/@emoji-mart/data",
       );
       const data = await response.json();
       setEmojiData(data);
@@ -63,25 +63,25 @@ const CreatePostActions = ({
     const codePoints = e.unified.split("-");
     // Chuyển đổi từng phần thành mã code point
     const emoji = String.fromCodePoint(
-      ...codePoints.map((code) => parseInt(code, 16))
+      ...codePoints.map((code) => parseInt(code, 16)),
     );
 
     if (isCharLimitExceeded) {
       return toast.error(
-        "Input limit reached, please unlock Premium to add more features"
+        "Input limit reached, please unlock Premium to add more features",
       );
     }
     // Cập nhật văn bản
     handleAddEmoji((prevText) => prevText + emoji);
   };
   return (
-    <div className="flex justify-between relative py-2 ">
-      <div className="flex gap-1 items-center">
+    <div className="relative flex justify-between py-2">
+      <div className="flex items-center gap-1">
         <span onClick={() => imgRef.current.click()}>
-          <CiImageOn className="fill-blue-500 hover:fill-blue-400 w-5 h-5 cursor-pointer" />
+          <CiImageOn className="h-5 w-5 cursor-pointer fill-blue-500 hover:fill-blue-400" />
         </span>
         <span onClick={() => (showEmoji ? null : setShowEmoji(!showEmoji))}>
-          <CiFaceSmile className="fill-blue-500 hover:fill-blue-400 w-5 h-5 cursor-pointer" />
+          <CiFaceSmile className="h-5 w-5 cursor-pointer fill-blue-500 hover:fill-blue-400" />
         </span>
       </div>
       {showEmoji && (
@@ -127,8 +127,8 @@ const CreatePostActions = ({
           }
           className={twMerge(
             textLength > 0 || imagesLength > 0
-              ? " hover:bg-sky-500/85"
-              : "bg-sky-500/50 "
+              ? "hover:bg-main-accent/85"
+              : "bg-main-accent/50",
           )}
         />
       </div>

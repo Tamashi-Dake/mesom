@@ -32,15 +32,16 @@
     format("woff");
 }
 
-/* TODO: Add theme with useTheme */
 @layer base {
   :root {
-    /*
     --main-background: var(--dark-background);
     --main-search-background: var(--dark-search-background);
     --main-sidebar-background: var(--dark-sidebar-background);
     --main-accent: var(--accent-blue);
-*/
+
+    --preview-background: var(--dark-background);
+    --preview-accent: var(--accent-blue);
+
     --dark-background: 0 0 0;
     --dim-background: 22 33 44;
     --light-background: 255 255 255;

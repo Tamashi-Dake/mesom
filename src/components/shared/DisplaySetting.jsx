@@ -39,7 +39,6 @@ const DisplaySettings = () => {
       >
         <DisplayModal closeModal={displayModal.closeModal} />
       </Modal>
-      {/* TODO: relative bị nằm dưới các relative trong page content, cần check lại index/thứ tự */}
       <Menu className="relative" as="div">
         {({ open }) => (
           <>

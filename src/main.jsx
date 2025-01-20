@@ -16,6 +16,7 @@ import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/Auth.jsx";
 import PostPage from "./pages/PostPage.jsx";
 import Bookmark from "./pages/Bookmarks.jsx";
+import { ThemeContextProvider } from "./lib/context/themeContext.jsx";
 
 // Create a new instance of QueryClient
 const queryClient = new QueryClient({
@@ -34,7 +35,12 @@ const router = createBrowserRouter([
 
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ThemeContextProvider>
+        <App />
+      </ThemeContextProvider>
+    ),
+
     children: [
       {
         index: true,
