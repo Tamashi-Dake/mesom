@@ -29,7 +29,7 @@
   - [ ] Search
   - [x] Update User modal
 
-- [ ] Darkmode
+- [x] Darkmode
 
 - [ ] Error elements
 

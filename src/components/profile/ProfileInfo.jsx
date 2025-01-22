@@ -7,13 +7,13 @@ const ProfileInfo = ({ user }) => {
   const memberSinceDate = formatDate(user?.createdAt, "user");
 
   return (
-    <div className="mt-4 flex flex-col gap-4 px-4">
+    <div className="mt-4 flex flex-col gap-4 px-4 text-main-primary">
       <div className="flex flex-col">
         <span className="truncate whitespace-pre-line break-all text-lg font-bold">
           {user?.displayName || user.username}
         </span>
         <span className="text-sm text-slate-500">@{user?.username}</span>
-        <span className="my-1 truncate whitespace-pre-line break-all text-sm">
+        <span className="my-1 truncate whitespace-pre-line break-all text-sm text-main-secondary">
           {user?.profile.bio}
         </span>
       </div>
@@ -21,8 +21,8 @@ const ProfileInfo = ({ user }) => {
       {/* TODO: Add missing user fields */}
       <div className="flex flex-wrap gap-2">
         {user?.profile.website && (
-          <div className="flex items-center gap-1">
-            <FaLink className="h-3 w-3 text-slate-500" />
+          <div className="flex items-center gap-2">
+            <FaLink className="h-4 w-4 text-slate-500" />
             <a
               href={
                 user?.profile?.website?.includes("http")
@@ -31,7 +31,7 @@ const ProfileInfo = ({ user }) => {
               }
               target="_blank"
               rel="noopener noreferrer"
-              className="truncate whitespace-pre-line break-all text-sm text-blue-500 hover:underline"
+              className="truncate whitespace-pre-line break-all text-sm text-main-accent hover:underline"
             >
               {user?.profile.website || ""}
             </a>

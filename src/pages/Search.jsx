@@ -20,7 +20,7 @@ const Search = () => {
         activeTab={activeTab}
         onTabChange={onTabChange}
       />
-      <div>
+      <div className="text-main-primary">
         <h2>Search</h2>
         <p>Search information</p>
       </div>

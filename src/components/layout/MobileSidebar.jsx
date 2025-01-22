@@ -22,7 +22,7 @@ const MobileSidebar = () => {
       <Modal
         className="flex h-full items-start justify-start !p-0"
         modalAnimation={variant}
-        modalClassName="bg-white relative max-w-xl "
+        modalClassName="bg-main-background text-main-primary relative max-w-xl"
         open={modal.open}
         closeModal={modal.closeModal}
       >

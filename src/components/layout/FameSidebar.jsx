@@ -18,7 +18,7 @@ const FameSidebar = () => {
         inBigScreen ? "block" : "hidden",
       )}
     >
-      <div className="rounded-xl bg-neutral-100 px-4">
+      <div className="rounded-xl bg-main-background px-4 text-main-primary">
         <h2 className="p-2 text-xl font-semibold">Who to follow</h2>
         <div className="flex flex-col gap-4">
           {userQuery.isLoading && (

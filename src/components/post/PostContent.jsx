@@ -40,7 +40,7 @@ const PostContent = ({ textContent, images }) => {
           //   event.stopPropagation();
           // }}
           onClick={handleReadMore}
-          className="w-fit rounded-lg bg-neutral-200 px-4 py-2 text-sm font-semibold hover:bg-neutral-100"
+          className="w-fit rounded-lg bg-main-primary/10 px-4 py-2 text-sm font-semibold hover:bg-main-primary/20"
         >
           {readMore ? "Show less" : "Show more"}
         </Button>

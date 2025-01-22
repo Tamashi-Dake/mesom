@@ -131,14 +131,13 @@ const UpdateUserModal = ({ modal, user, userMutate }) => {
   return (
     <Modal
       className="flex items-start justify-center"
-      modalClassName="bg-white relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
+      modalClassName="bg-main-background text-main-primary relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
       open={modal.open}
       closeModal={modal.closeModal}
     >
       <DefaultHeader label="Edit profile" className={"flex justify-between"}>
         <Button
           label={"Save"}
-          secondary
           className={"inline-block"}
           onClick={handleSubmit}
           disabled={
@@ -227,7 +226,7 @@ const UpdateUserModal = ({ modal, user, userMutate }) => {
           <DefaultButton className="accent-tab mb-4 flex cursor-not-allowed items-center justify-between rounded-none py-2 hover:bg-light-primary/10 active:bg-light-primary/20 disabled:brightness-100 dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20">
             <span className="mx-2 text-xl">Switch to professional</span>
             <i>
-              <FaChevronRight className="h-6 w-6 text-light-secondary dark:text-dark-secondary" />
+              <FaChevronRight className="h-6 w-6 text-main-secondary" />
             </i>
           </DefaultButton>
         </div>

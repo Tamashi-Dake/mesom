@@ -172,19 +172,19 @@ const PostOptions = ({
             <PopoverButton
               as={Button}
               className={cn(
-                `main-tab group right-2 top-2 rounded-full p-2 hover:bg-accent-blue/10 focus-visible:bg-accent-blue/10 focus-visible:!ring-accent-blue/80 active:bg-accent-blue/20`,
-                open && "bg-accent-blue/10 [&>div>svg]:text-accent-blue",
+                `main-tab group right-2 top-2 rounded-full p-2 hover:bg-main-accent/10 focus-visible:bg-main-accent/10 focus-visible:!ring-main-accent/80 active:bg-main-accent/20`,
+                open && "bg-main-accent/10 [&>div>svg]:text-main-accent",
               )}
             >
               <div className="group relative">
-                <IoIosMore className="h-5 w-5 text-light-secondary group-hover:text-accent-blue group-focus-visible:text-accent-blue dark:text-dark-secondary/80" />
+                <IoIosMore className="h-5 w-5 text-light-secondary group-hover:text-main-accent group-focus-visible:text-main-accent dark:text-dark-secondary/80" />
                 {!open && <ToolTip tip="More" />}
               </div>
             </PopoverButton>
             <AnimatePresence>
               {open && (
                 <PopoverPanel
-                  className="menu-container group absolute right-2 z-[9] whitespace-nowrap bg-white text-light-primary dark:text-dark-primary dark:text-neutral-700"
+                  className="menu-container group absolute right-2 z-[9] whitespace-nowrap bg-main-background text-main-primary"
                   as={motion.div}
                   {...popupVariant}
                   static
@@ -192,7 +192,7 @@ const PostOptions = ({
                   {isOwner && (
                     <PopoverButton
                       as={Button}
-                      className="accent-tab flex w-full items-center gap-3 rounded-md rounded-b-none px-4 py-2 text-accent-red hover:bg-main-sidebar-background hover:bg-neutral-100"
+                      className="accent-tab flex w-full items-center gap-3 rounded-md rounded-b-none px-4 py-2 text-accent-red hover:bg-main-primary/10"
                       onClick={(event) => {
                         event.preventDefault();
                         removeOpenModal();
@@ -205,7 +205,7 @@ const PostOptions = ({
 
                   {isOwner ? (
                     <PopoverButton
-                      className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-sidebar-background hover:bg-neutral-100"
+                      className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-primary/10"
                       as={Button}
                       onClick={(event) => {
                         event.preventDefault();
@@ -227,7 +227,7 @@ const PostOptions = ({
                   ) : (
                     <>
                       <PopoverButton
-                        className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-sidebar-background hover:bg-neutral-100"
+                        className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-primary/10"
                         as={Button}
                         onClick={(e) => {
                           handleFollow(e, close);
@@ -246,7 +246,7 @@ const PostOptions = ({
                         )}
                       </PopoverButton>
                       <PopoverButton
-                        className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-sidebar-background hover:bg-neutral-100"
+                        className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-primary/10"
                         as={Button}
                         onClick={(event) => {
                           event.preventDefault();
@@ -268,7 +268,7 @@ const PostOptions = ({
                     </>
                   )}
                   <PopoverButton
-                    className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-sidebar-background hover:bg-neutral-100"
+                    className="accent-tab flex w-full items-center gap-3 rounded-md rounded-t-none px-4 py-2 hover:bg-main-primary/10"
                     as={Button}
                     onClick={(event) => {
                       event.preventDefault();
@@ -294,7 +294,7 @@ const PostOptions = ({
         )}
       </Popover>
       <Modal
-        modalClassName="max-w-xs relative bg-white bg-main-background w-full p-8 rounded-2xl"
+        modalClassName="max-w-xs relative text-main-primary bg-main-background w-full p-8 rounded-2xl"
         open={removeOpen}
         closeModal={removeCloseModal}
         actionModal
@@ -305,28 +305,28 @@ const PostOptions = ({
           profile, the timeline of any accounts that follow you, and from Mesom search results.`}
           mainBtnClassName="bg-accent-red hover:bg-accent-red/90 active:bg-accent-red/75 accent-tab
                             focus-visible:bg-accent-red/90"
-          secondaryBtnClassName="dark:text-black"
+          secondaryBtnClassName="bg-main-secondary"
           mainBtnLabel="Delete"
           action={handleDeletePost}
           closeModal={removeCloseModal}
         />
       </Modal>
       <Modal
-        modalClassName="max-w-xs relative bg-white bg-main-background w-full p-8 rounded-2xl"
+        modalClassName="max-w-xs relative text-main-primary bg-main-background w-full p-8 rounded-2xl"
         open={pinOpen}
         closeModal={pinCloseModal}
         actionModal
       >
         <ActionModal
           {...currentPinModalData}
-          mainBtnClassName="bg-light-primary hover:bg-light-primary/90 active:bg-light-primary/80 dark:text-light-primarydark:bg-light-border dark:hover:bg-light-border/90 dark:active:bg-light-border/75"
-          secondaryBtnClassName="dark:text-black"
+          mainBtnClassName="bg-main-accent text-white hover:bg-main-accent/80 active:bg-main-accent/80 "
+          secondaryBtnClassName="bg-main-secondary"
           action={handlePin}
           closeModal={pinCloseModal}
         />
       </Modal>
       <Modal
-        modalClassName="max-w-xs relative bg-white bg-main-background w-full p-8 rounded-2xl"
+        modalClassName="max-w-xs relative text-main-primary bg-main-background w-full p-8 rounded-2xl"
         open={blockOpen}
         closeModal={blockCloseModal}
         actionModal
@@ -335,21 +335,21 @@ const PostOptions = ({
           {...currentBlockUserModalData}
           mainBtnClassName="bg-accent-red hover:bg-accent-red/90 active:bg-accent-red/75 accent-tab
                             focus-visible:bg-accent-red/90"
-          secondaryBtnClassName="dark:text-black"
+          secondaryBtnClassName="bg-main-secondary"
           action={handleBlock}
           closeModal={blockCloseModal}
         />
       </Modal>
       <Modal
-        modalClassName="max-w-xs relative bg-white bg-main-background w-full p-8 rounded-2xl"
+        modalClassName="max-w-xs relative text-main-primary bg-main-background w-full p-8 rounded-2xl"
         open={allowNotiOpen}
         closeModal={allowNotiCloseModal}
         actionModal
       >
         <ActionModal
           {...currentBlockPostNotificationsData}
-          mainBtnClassName="bg-light-primary hover:bg-light-primary/90 active:bg-light-primary/80 dark:text-light-primarydark:bg-light-border dark:hover:bg-light-border/90 dark:active:bg-light-border/75"
-          secondaryBtnClassName="dark:text-black"
+          mainBtnClassName="bg-main-accent hover:bg-main-accent/80 active:bg-main-accent/80 "
+          secondaryBtnClassName="bg-main-secondary"
           action={handleBlockNotifications}
           closeModal={allowNotiCloseModal}
         />

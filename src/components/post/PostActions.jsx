@@ -134,10 +134,10 @@ const PostActions = ({ post, queryType }) => {
           onClick={postParam ? null : handleReply}
         >
           <span className="h-8 w-8 rounded-full p-2 transition-all ease-in-out group-hover:bg-sky-500/10">
-            <FaRegComment className="text-slate-500 group-hover:text-sky-400" />
+            <FaRegComment className="text-main-primary group-hover:text-main-accent/80" />
           </span>
 
-          <span className="text-sm text-slate-500 group-hover:text-sky-400">
+          <span className="text-sm text-main-primary group-hover:text-main-accent/80">
             {post.userReplies > 0 ? post.userReplies : ""}
           </span>
         </Button>
@@ -159,12 +159,12 @@ const PostActions = ({ post, queryType }) => {
           <span className="flex h-8 w-8 items-center justify-center rounded-full transition-all ease-in-out group-hover:bg-green-500/10">
             <BiRepost
               className={twMerge(
-                "h-6 w-6 text-slate-500 group-hover:text-green-500",
+                "h-6 w-6 text-main-primary group-hover:text-green-500",
                 isShared ? "text-green-500 group-hover:text-green-600" : "",
               )}
             />
           </span>
-          <span className="text-sm text-slate-500 group-hover:text-green-500">
+          <span className="text-sm text-main-primary group-hover:text-green-500">
             {post.userShared.length > 0 ? post.userShared.length : ""}
           </span>
         </Button>
@@ -178,7 +178,7 @@ const PostActions = ({ post, queryType }) => {
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-full p-2 transition-all ease-in-out group-hover:bg-pink-500/10">
             {!isLiked && (
-              <FaRegHeart className="text-slate-500 group-hover:text-pink-500" />
+              <FaRegHeart className="text-main-primary group-hover:text-pink-500" />
             )}
             {isLiked && (
               <FaHeart className="text-pink-500 group-hover:text-pink-600" />
@@ -187,7 +187,7 @@ const PostActions = ({ post, queryType }) => {
 
           <span
             className={`text-sm group-hover:text-pink-500 ${
-              isLiked ? "text-pink-500" : "text-slate-500"
+              isLiked ? "text-pink-500" : "text-main-primary"
             }`}
           >
             {post.userLikes.length > 0 ? post.userLikes.length : ""}
@@ -208,20 +208,22 @@ const PostActions = ({ post, queryType }) => {
             {isViewingPost ? (
               <>
                 {!isBookmarked && (
-                  <FaRegBookmark className="text-slate-500 group-hover:text-blue-500" />
+                  <FaRegBookmark className="text-main-primary group-hover:text-blue-500" />
                 )}
                 {isBookmarked && (
                   <FaBookmark className="text-blue-500 group-hover:text-blue-600" />
                 )}
               </>
             ) : (
-              <IoStatsChartSharp className="text-slate-500 group-hover:text-blue-500" />
+              <IoStatsChartSharp className="text-main-primary group-hover:text-main-accent" />
             )}
           </span>
           <span
             className={`text-sm group-hover:text-blue-500 ${
-              (isBookmarked ? "text-blue-500" : "text-slate-500",
-              !inPostPage && "text-slate-500")
+              (isBookmarked ? "text-blue-500" : "text-main-primary",
+              !inPostPage
+                ? "text-main-primary group-hover:text-main-accent"
+                : "group-hover:text-blue-500")
             }`}
           >
             {isViewingPost
@@ -232,7 +234,7 @@ const PostActions = ({ post, queryType }) => {
           </span>
         </Button>
       </div>
-      <div className="flex w-1/5 items-center justify-end">
+      <div className="flex items-center justify-end xs:w-1/5">
         {!isViewingPost && (
           <Button
             className={twMerge(
@@ -245,9 +247,9 @@ const PostActions = ({ post, queryType }) => {
               handleBookmark();
             }}
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full p-2 transition-all ease-in-out group-hover:bg-blue-500/10">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full transition-all ease-in-out group-hover:bg-blue-500/10 xs:p-2">
               {!isBookmarked && (
-                <FaRegBookmark className="text-slate-500 group-hover:text-blue-500" />
+                <FaRegBookmark className="text-main-primary group-hover:text-blue-500" />
               )}
               {isBookmarked && (
                 <FaBookmark className="text-blue-500 group-hover:text-blue-600" />
@@ -261,26 +263,26 @@ const PostActions = ({ post, queryType }) => {
               <PopoverButton
                 as={Button}
                 className={cn(
-                  `main-tab group right-2 top-2 rounded-full p-2 hover:bg-accent-blue/10 focus-visible:bg-accent-blue/10 focus-visible:!ring-accent-blue/80 active:bg-accent-blue/20`,
+                  `main-tab group right-2 top-2 rounded-full hover:bg-accent-blue/10 focus-visible:bg-accent-blue/10 focus-visible:!ring-accent-blue/80 active:bg-accent-blue/20 xs:p-2`,
                   open && "bg-accent-blue/10 [&>div>svg]:text-accent-blue",
                 )}
               >
                 <div className="group relative">
-                  <IoShareOutline className="h-5 w-5 text-light-secondary group-hover:text-accent-blue group-focus-visible:text-accent-blue dark:text-dark-secondary/80" />
-                  {!open && <ToolTip tip="Share this post" />}
+                  <IoShareOutline className="h-5 w-5 text-main-primary group-hover:text-accent-blue group-focus-visible:text-accent-blue" />
+                  {!open && <ToolTip tip="Share" />}
                 </div>
               </PopoverButton>
               <AnimatePresence>
                 {open && (
                   <PopoverPanel
-                    className="menu-container group absolute right-2 z-[9] whitespace-nowrap bg-white text-light-primary dark:text-dark-primary dark:text-neutral-700"
+                    className="menu-container group absolute right-2 z-[9] whitespace-nowrap bg-main-background text-main-primary"
                     as={motion.div}
                     {...popupVariant}
                     static
                   >
                     <PopoverButton
                       as={Button}
-                      className="accent-tab flex w-full items-center gap-3 rounded-md rounded-b-none p-4 text-light-primary hover:bg-main-sidebar-background"
+                      className="accent-tab flex w-full items-center gap-3 rounded-md rounded-b-none p-4 text-main-primary hover:bg-main-sidebar-background"
                       onClick={(event) => handleCopy(event, close)}
                     >
                       <FaCopy />

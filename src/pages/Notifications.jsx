@@ -52,14 +52,14 @@ const Notifications = () => {
                 />
               </span>
               <div className="flex flex-col gap-2 text-center">
-                <p className="text-3xl font-extrabold">
+                <p className="text-3xl font-extrabold text-main-primary">
                   No{" "}
                   {activeTab === "allNotifications"
                     ? "notifications"
                     : "mentions"}{" "}
                   yet
                 </p>
-                <p className="text-light-secondary dark:text-dark-secondary">
+                <p className="text-main-secondary">
                   When you get{" "}
                   {activeTab === "allNotifications"
                     ? "notifications"

@@ -41,10 +41,10 @@ const MobileSidebarModal = ({ user }) => {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <p className="max-w-60 truncate text-lg font-semibold leading-none text-gray-900 hover:underline">
+              <p className="max-w-60 truncate text-lg font-semibold leading-none hover:underline">
                 {user?.displayName || user?.username}
               </p>
-              <p className="text-sm font-normal text-gray-500">
+              <p className="text-sm font-normal text-main-secondary">
                 @{user?.username}
               </p>
             </div>
@@ -77,20 +77,20 @@ const MobileSidebarModal = ({ user }) => {
           ))}
           <MobileSidebarNav
             name={"Display"}
-            icon={<MdDisplaySettings size={24} color="black" />}
+            icon={<MdDisplaySettings size={24} />}
             onClick={displayModal.openModal}
           />
 
           <MobileSidebarNav
             name={"Log Out"}
-            icon={<TbLogout size={24} color="black" />}
+            icon={<TbLogout size={24} />}
             onClick={logoutModal.openModal}
           />
         </div>
       </aside>
       <Modal
         className="flex items-start justify-center"
-        modalClassName="bg-white relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
+        modalClassName="bg-main-background relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
         open={displayModal.open}
         closeModal={displayModal.closeModal}
       >

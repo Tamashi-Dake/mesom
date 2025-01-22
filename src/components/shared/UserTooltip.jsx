@@ -13,7 +13,7 @@ const UserTooltip = ({ children, user, inPost, inModal }) => {
         <div
           role="tooltip"
           className={twMerge(
-            "menu-container invisible absolute left-1/2 w-72 rounded-2xl bg-white p-3 text-black opacity-0 [transition:visibility_0ms_ease_400ms,opacity_200ms_ease_200ms] sm:group-hover:visible sm:group-hover:opacity-100 sm:group-hover:delay-500",
+            "menu-container invisible absolute left-1/2 w-72 rounded-2xl bg-main-background p-3 text-main-primary opacity-0 [transition:visibility_0ms_ease_400ms,opacity_200ms_ease_200ms] sm:group-hover:visible sm:group-hover:opacity-100 sm:group-hover:delay-500",
             inPost ? "" : "-translate-x-1/2",
             inModal ? "hidden" : "",
           )}
@@ -35,25 +35,27 @@ const UserTooltip = ({ children, user, inPost, inModal }) => {
               )}
             >
               <div className="flex flex-col gap-1">
-                <p className="truncate text-base font-semibold leading-none text-gray-900 hover:underline">
+                <p className="truncate text-base font-semibold leading-none hover:underline">
                   {user?.displayName || user?.username}
                 </p>
-                <p className="mb-3 text-sm font-normal">@{user?.username}</p>
+                <p className="mb-3 text-sm font-normal text-main-secondary">
+                  @{user?.username}
+                </p>
               </div>
             </div>
 
-            <p className="mb-4 whitespace-pre-line break-words text-sm">
+            <p className="mb-4 whitespace-pre-line break-words text-sm text-main-secondary">
               {user?.profile.bio}
             </p>
             <ul className="flex text-sm">
               <li className="me-2 hover:underline">
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-main-primary">
                   {user?.following.length || 0}
                 </span>
                 <span> Following</span>
               </li>
               <li className="me-2 hover:underline">
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-main-primary">
                   {user?.followers.length || 0}
                 </span>
                 <span> Followers</span>

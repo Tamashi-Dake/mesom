@@ -34,7 +34,7 @@ export const Modal = ({
           <div
             className={cn(
               "fixed inset-0 overflow-y-auto p-4",
-              className ?? "flex items-center justify-center"
+              className ?? "flex items-center justify-center",
             )}
           >
             <DialogPanel
@@ -53,10 +53,7 @@ export const Modal = ({
                     delay: 0.2,
                   }}
                   className={twMerge(
-                    "absolute right-0 top-0 p-4 ml-auto border-0 hover:opacity-70 transition",
-                    imageModal
-                      ? "text-white bg-neutral-700 rounded-full"
-                      : "text-neutral-800"
+                    "absolute right-0 top-0 ml-auto border-0 p-4 text-main-primary transition hover:opacity-70",
                   )}
                   onClick={closeModal}
                 >

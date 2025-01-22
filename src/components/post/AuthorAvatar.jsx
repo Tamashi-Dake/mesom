@@ -16,7 +16,7 @@ const AuthorAvatar = ({ author, isReply = false, inModal }) => {
       </Link>
       {isReply && (
         <div className="reply-line-wrapper flex flex-1 justify-center">
-          <div className="reply-line border-[1px] border-neutral-400"></div>
+          <div className="reply-line border-[1px] border-light-border dark:border-dark-border"></div>
         </div>
       )}
     </div>

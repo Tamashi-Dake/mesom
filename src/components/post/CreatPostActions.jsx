@@ -9,6 +9,7 @@ import Button from "../shared/Button";
 import { useOnClickOutside } from "usehooks-ts";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { useTheme } from "../../lib/context/themeContext";
 
 const CreatePostActions = ({
   modal,
@@ -26,6 +27,7 @@ const CreatePostActions = ({
 
   const [showEmoji, setShowEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState(null);
+  const { theme } = useTheme();
   const emojiRef = useRef(null);
   // Sử dụng hook để ẩn Picker khi click ra ngoài
   useOnClickOutside(emojiRef, () => setShowEmoji(false));
@@ -78,10 +80,10 @@ const CreatePostActions = ({
     <div className="relative flex justify-between py-2">
       <div className="flex items-center gap-1">
         <span onClick={() => imgRef.current.click()}>
-          <CiImageOn className="h-5 w-5 cursor-pointer fill-blue-500 hover:fill-blue-400" />
+          <CiImageOn className="h-6 w-6 cursor-pointer fill-main-accent/80 hover:fill-main-accent" />
         </span>
         <span onClick={() => (showEmoji ? null : setShowEmoji(!showEmoji))}>
-          <CiFaceSmile className="h-5 w-5 cursor-pointer fill-blue-500 hover:fill-blue-400" />
+          <CiFaceSmile className="h-6 w-6 cursor-pointer fill-main-accent/80 hover:fill-main-accent" />
         </span>
       </div>
       {showEmoji && (
@@ -95,7 +97,7 @@ const CreatePostActions = ({
             emojiButtonSize={28}
             onEmojiSelect={addEmoji}
             maxFrequentRows={1}
-            theme={"light"}
+            theme={theme}
           />
         </div>
       )}

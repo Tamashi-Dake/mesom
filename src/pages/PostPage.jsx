@@ -62,7 +62,7 @@ const PostPage = () => {
           (!parentPost?.deleted ? (
             <Link
               to={`/post/${parentPost?._id}`}
-              className="flex flex-1 items-start gap-2 p-4 transition-all hover:bg-neutral-100/90"
+              className="flex flex-1 items-start gap-2 p-4 text-main-primary transition-all hover:bg-main-primary/10"
             >
               <AuthorAvatar author={parentPost.author} isReply />
               <div className="flex flex-1 flex-col">
@@ -87,7 +87,7 @@ const PostPage = () => {
               </div>
             </Link>
           ) : (
-            <div className="border-b border-gray-200">
+            <div className="border-b border-light-border dark:border-dark-border">
               <h4 className="m-4 rounded-2xl bg-neutral-100 px-4 py-2 text-base font-light text-gray-500">
                 This post was deleted by the author.
               </h4>
@@ -97,7 +97,7 @@ const PostPage = () => {
         {post &&
           (!post?.deleted ? (
             <>
-              <div className="flex flex-1 items-start gap-2 border-b border-gray-200 p-4 transition-all">
+              <div className="flex flex-1 items-start gap-2 border-b border-light-border p-4 text-main-primary transition-all dark:border-dark-border">
                 <AuthorAvatar author={post.author} />
 
                 <div className="flex flex-1 flex-col">
@@ -115,11 +115,11 @@ const PostPage = () => {
                     />
                   </div>
                   {parentPost && (
-                    <p className="text-sm text-gray-400 text-light-secondary dark:text-dark-secondary">
+                    <p className="text-sm text-main-secondary">
                       Replying to{" "}
                       <Link
                         to={`/user/${parentPost?.author?.username}`}
-                        className="custom-underline text-blue-500 text-main-accent"
+                        className="custom-underline text-main-accent"
                       >
                         @{parentPost?.author?.username}
                       </Link>
@@ -129,7 +129,7 @@ const PostPage = () => {
                   <div className="flex items-center gap-1">
                     <PostDate createdAt={post.createdAt} />
                     <span>·</span>
-                    <span className="text-sm text-neutral-600">
+                    <span className="text-sm text-main-secondary">
                       {post.views} {post.views > 1 ? "views" : "view"}
                     </span>
                   </div>

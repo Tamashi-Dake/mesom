@@ -7,7 +7,7 @@ const PostDate = ({ createdAt }) => {
       <div className="group relative">
         <div
           className={
-            "custom-underline peer whitespace-nowrap text-light-secondary dark:text-dark-secondary text-neutral-600 text-sm"
+            "custom-underline peer whitespace-nowrap text-sm text-main-secondary"
           }
         >
           {formatDate(createdAt, "full")}

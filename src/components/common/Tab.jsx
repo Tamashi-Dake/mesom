@@ -1,12 +1,11 @@
 const Tab = ({ label, isActive, onClick }) => (
   <div
-    className="flex justify-center flex-1 p-3 
-     transition-all ease-in-out duration-300 cursor-pointer relative select-none"
+    className="relative flex flex-1 cursor-pointer select-none justify-center p-3 transition-all duration-300 ease-in-out"
     onClick={onClick}
   >
     {label}
     <div
-      className={`transition-all ease-in-out duration-200 absolute bottom-0 w-10 h-1 rounded-full bg-blue-500 ${
+      className={`absolute bottom-0 h-1 w-10 rounded-full bg-main-accent transition-all duration-200 ease-in-out ${
         isActive ? "scale-100" : "scale-0 duration-75"
       }`}
     ></div>

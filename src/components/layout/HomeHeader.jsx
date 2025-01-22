@@ -16,7 +16,7 @@ const HomeHeader = ({ activeTab, onTabChange }) => {
         </div>
         {!isVerified && (
           <Button
-            secondary
+            className={"bg-main-accent/40 text-white"}
             label={"Upgrade to Premium"}
             onClick={() => alert("Upgrade to Premium")}
           />

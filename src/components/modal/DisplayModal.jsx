@@ -83,8 +83,10 @@ const DisplayModal = ({ closeModal }) => {
   return (
     <div className="flex flex-col items-center gap-4 p-4">
       <div className="flex flex-col gap-3 text-center">
-        <h2 className="text-2xl font-bold">Customize your view</h2>
-        <p className="text-light-secondary dark:text-dark-secondary">
+        <h2 className="text-2xl font-bold text-main-primary">
+          Customize your view
+        </h2>
+        <p className="text-main-secondary">
           These display settings affect this account on Mesom.
         </p>
       </div>
@@ -97,10 +99,8 @@ const DisplayModal = ({ closeModal }) => {
           <div>
             <div className="flex gap-1">
               <span className="font-bold hover:underline">Mesom</span>
-              <p className="text-light-secondary dark:text-dark-secondary">
-                @mesom
-              </p>
-              <div className="flex gap-1 text-light-secondary dark:text-dark-secondary">
+              <p className="text-main-secondary">@mesom</p>
+              <div className="flex gap-1 text-main-secondary">
                 <i>·</i>
                 <p>8m</p>
               </div>
@@ -114,9 +114,7 @@ const DisplayModal = ({ closeModal }) => {
         </div>
       </article>
       <div className="flex w-full flex-col gap-1">
-        <p className="text-sm font-bold text-light-secondary dark:text-dark-secondary">
-          Color
-        </p>
+        <p className="px-4 font-bold text-main-primary">Color</p>
         <div className="hover-animation grid grid-cols-3 grid-rows-2 justify-items-center gap-3 rounded-2xl bg-main-sidebar-background py-3 xs:grid-cols-6 xs:grid-rows-none">
           {accentsColor.map((accentColor) => (
             <InputAccentRadio
@@ -129,9 +127,7 @@ const DisplayModal = ({ closeModal }) => {
         </div>
       </div>
       <div className="flex w-full flex-col gap-1">
-        <p className="text-sm font-bold text-light-secondary dark:text-dark-secondary">
-          Background
-        </p>
+        <p className="px-4 font-bold text-main-primary">Background</p>
         <div className="hover-animation grid grid-rows-3 gap-3 rounded-2xl bg-main-sidebar-background px-4 py-3 xs:grid-cols-3 xs:grid-rows-none">
           {themes.map(([themeType, label]) => (
             <InputThemeRadio

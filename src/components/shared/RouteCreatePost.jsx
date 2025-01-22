@@ -5,7 +5,7 @@ import { useAuthModal } from "../../hooks/useModal";
 const RouteCreatePost = () => {
   const authModal = useAuthModal();
   return (
-    <div className="mx-auto flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-sky-500 p-4 transition hover:bg-opacity-80 sm:w-full">
+    <div className="mx-auto flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-main-accent p-4 transition hover:bg-opacity-80 sm:w-full">
       <Link
         to="/"
         className="flex items-center justify-center gap-4"

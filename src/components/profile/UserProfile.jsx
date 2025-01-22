@@ -50,7 +50,6 @@ const UserProfile = ({ userQuery, isMyProfile }) => {
           <div className="mt-4 flex justify-end px-4">
             {isMyProfile ? (
               <Button
-                secondary
                 label={"Edit profile"}
                 disabled={
                   updateUserModal.open ||

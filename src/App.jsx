@@ -33,7 +33,7 @@ function App() {
   }
 
   return (
-    <div className="xl:px-30 container mx-auto h-full md:max-w-7xl">
+    <div className="xl:px-30 container mx-auto h-full bg-main-background md:max-w-7xl">
       <div
         className={twMerge(
           "grid h-full w-full grid-cols-none grid-rows-[1fr,auto] xs:grid-rows-1 xl:grid-cols-[1fr,1fr,1fr,1fr]",
@@ -46,11 +46,13 @@ function App() {
         <div
           // Invalid: can't see the last post
           className={twMerge(
-            "relative w-full overflow-hidden border-neutral-200 xs:border-x-[1px]",
+            "relative w-full overflow-hidden border-light-border dark:border-dark-border xs:border-x-[1px]",
             inBigScreen ? "col-span-2" : "",
           )}
         >
           <Outlet />
+          {/* Hack: overflow might add weird space or cut some page contents and i don't have time to think about this sh */}
+          <div className="block h-12 bg-transparent xs:hidden"></div>
         </div>
         <FameSidebar />
         <RouteBottomBar />

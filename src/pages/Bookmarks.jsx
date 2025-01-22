@@ -46,8 +46,10 @@ const Bookmark = () => {
                 />
               </span>
               <div className="flex flex-col gap-2 text-center">
-                <p className="text-3xl font-extrabold">Save Posts for later</p>
-                <p className="text-light-secondary dark:text-dark-secondary">
+                <p className="text-3xl font-extrabold text-main-primary">
+                  Save Posts for later
+                </p>
+                <p className="text-main-secondary">
                   Don’t let the good ones fly away! Bookmark Posts to easily
                   find them again in the future.
                 </p>

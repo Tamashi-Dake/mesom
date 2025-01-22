@@ -29,6 +29,8 @@ export function ThemeContextProvider({ children }) {
       else root.classList.remove("dark");
 
       root.style.setProperty("--main-background", `var(--${theme}-background)`);
+      root.style.setProperty("--main-primary", `var(--${theme}-primary)`);
+      root.style.setProperty("--main-secondary", `var(--${theme}-secondary)`);
 
       return undefined;
     };

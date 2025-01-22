@@ -46,6 +46,14 @@
     --dim-background: 22 33 44;
     --light-background: 255 255 255;
 
+    --dark-primary: 231 233 234;
+    --dim-primary: 231 233 234;
+    --light-primary: 15 20 25;
+
+    --dark-secondary: 113 118 123;
+    --dim-secondary: 113 118 123;
+    --light-secondary: 83 100 113;
+
     --dark-search-background: 32 35 39;
     --dim-search-background: 39 51 64;
     --light-search-background: 239 243 244;
@@ -71,7 +79,7 @@
 
   body {
     /* hover-animation bg-main-background text-light-primary dark:text-dark-primary; */
-    @apply font-twitter-chirp;
+    @apply bg-main-background font-twitter-chirp;
   }
 }
 

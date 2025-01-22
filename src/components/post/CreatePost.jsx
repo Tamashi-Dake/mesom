@@ -51,7 +51,7 @@ const CreatePost = ({
   }, [isReply, postId, postMutate.isSuccess]);
 
   return (
-    <div className="flex flex-1 items-start gap-4 border-b border-gray-200 bg-main-background p-4">
+    <div className="flex flex-1 items-start gap-4 border-b border-light-border bg-main-background p-4 dark:border-dark-border">
       <div className="avatar h-12 w-12 overflow-hidden rounded-full">
         <img
           className="h-full w-full object-cover"
@@ -64,7 +64,7 @@ const CreatePost = ({
           maxLength={currentUser.data?.verified ? 1000 : 400}
           minRows={3}
           maxRows={7}
-          className="w-full resize-none p-0 text-lg focus:outline-none [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:w-2"
+          className="w-full resize-none bg-main-background p-0 text-lg text-main-primary focus:outline-none [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar]:w-2"
           placeholder={isReply ? "Post your reply" : "What's happening?"}
           value={text}
           onChange={(e) => setText(e.target.value)}

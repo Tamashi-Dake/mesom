@@ -25,12 +25,12 @@ const Notification = ({ notification, innerRef }) => {
   return (
     <div
       ref={innerRef}
-      className="border-b border-gray-200"
+      className="border-b border-light-border dark:border-dark-border"
       key={notification?._id}
     >
       <div className="flex gap-2 p-4">
         <NotificationIcon type={notification?.type} />
-        <Link className="flex-1" to={link}>
+        <Link className="flex-1 text-main-primary" to={link}>
           <div className="avatar h-8 w-8">
             <img
               src={notification?.from.profile.avatarImg || "/placeholder.png"}

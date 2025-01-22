@@ -30,8 +30,8 @@ const ActionLogout = ({ modal }) => {
       <ActionModal
         title="Log out of Mesom?"
         description={`You can always log back in at any time. If you log out, you will need to have your username and password to log back in.`}
-        mainBtnClassName="bg-light-primary hover:bg-light-primary/90 active:bg-light-primary/80 dark:text-light-primarydark:bg-light-border dark:hover:bg-light-border/90 dark:active:bg-light-border/75"
-        secondaryBtnClassName="dark:text-black"
+        mainBtnClassName="bg-main-primary hover:bg-light-primary/90 active:bg-light-primary/80 dark:bg-light-border dark:hover:bg-light-border/90 dark:active:bg-light-border/75"
+        secondaryBtnClassName="bg-main-primary"
         mainBtnLabel="Log out"
         action={handleLogout}
         closeModal={modal.closeModal}

@@ -35,7 +35,7 @@ const RouteSidebar = () => {
     <>
       <div className="sticky left-0 top-0 hidden h-screen xs:block xl:p-2">
         <div className="flex h-full flex-col justify-between">
-          <div className="m-2 flex flex-col gap-2">
+          <div className="mx-1 my-2 flex flex-col gap-2">
             {routes.map((route) => (
               <RouteItem
                 key={route.path}
@@ -52,16 +52,15 @@ const RouteSidebar = () => {
 
             <Button
               name="Logout"
-              // if the user is not logged in, hide the logout button
               className={
                 currentUser
-                  ? "flex w-full items-center justify-center gap-2 rounded-lg bg-neutral-100 p-2 text-neutral-600"
+                  ? "flex w-full items-center justify-center gap-2 bg-main-background p-2 text-main-primary"
                   : "hidden"
               }
               onClick={logoutModal.openModal}
               label={
                 <>
-                  <TbLogout size={24} color="black" />
+                  <TbLogout size={24} />
                   <p className="hidden xl:block">Logout</p>
                 </>
               }

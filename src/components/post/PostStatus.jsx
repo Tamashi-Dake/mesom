@@ -32,35 +32,28 @@ const PostStatus = ({ totalReplies, userLikes, userShares }) => {
   return (
     <>
       {isStatsVisible && (
-        <div
-          className="flex gap-4 py-4 text-light-secondary dark:text-dark-secondary
-                     [&>button>div]:font-bold [&>button>div]:text-light-primary 
-                     dark:[&>button>div]:text-dark-primary border-y-[1px]"
-        >
+        <div className="flex gap-4 border-y-[1px] border-light-border py-4 text-main-secondary dark:border-dark-border [&>button>div]:font-bold [&>button>div]:text-main-primary">
           {allStats.map(
             ([title, type, stats], index) =>
               !!stats && (
                 <button
                   className={twMerge(
-                    `hover-animation mt-0.5 mb-[3px] flex h-4 items-center gap-1 border-b 
-                     border-b-transparent outline-none hover:border-b-light-primary 
-                     focus-visible:border-b-light-primary dark:hover:border-b-dark-primary
-                     dark:focus-visible:border-b-dark-primary text-sm`,
-                    index === 0 && "cursor-not-allowed"
+                    `hover-animation mb-[3px] mt-0.5 flex h-4 items-center gap-1 border-b border-b-transparent text-sm outline-none hover:border-b-light-primary focus-visible:border-b-light-primary dark:hover:border-b-dark-primary dark:focus-visible:border-b-dark-primary`,
+                    index === 0 && "cursor-not-allowed",
                   )}
                   key={title}
                   //   onClick={type ? handleOpen(type) : undefined}
                 >
                   <span className="font-semibold">{stats}</span>
-                  <p className="text-neutral-600">{`${
+                  <p className="text-main-secondary">{`${
                     stats === 1
                       ? title
                       : stats > 1 && index === 0
-                      ? `${title.slice(0, -1)}ies`
-                      : `${title}s`
+                        ? `${title.slice(0, -1)}ies`
+                        : `${title}s`
                   }`}</p>
                 </button>
-              )
+              ),
           )}
         </div>
       )}

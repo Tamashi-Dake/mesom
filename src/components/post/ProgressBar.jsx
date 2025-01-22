@@ -28,7 +28,7 @@ const ProgressBar = ({
         className={twMerge(
           "flex h-5 w-5 -rotate-90 items-center justify-center transition",
           container,
-          remainingCharacters <= -10 && "opacity-0"
+          remainingCharacters <= -10 && "opacity-0",
         )}
       >
         <svg
@@ -48,7 +48,7 @@ const ProgressBar = ({
           <circle
             className={twMerge(
               "transition-colors",
-              isHittingCharLimit ? "stroke-red-500" : stroke
+              isHittingCharLimit ? "stroke-red-500" : stroke,
             )}
             cx="50%"
             cy="50%"
@@ -65,10 +65,9 @@ const ProgressBar = ({
       </i>
       <span
         className={twMerge(
-          `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-             scale-50 text-xs opacity-0`,
-          isCloseToLimit && "scale-100 opacity-100 transition text-yellow-500",
-          isHittingCharLimit && "text-red-500"
+          `absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 scale-50 text-xs opacity-0`,
+          isCloseToLimit && "scale-100 text-yellow-500 opacity-100 transition",
+          isHittingCharLimit && "text-red-500",
         )}
       >
         {remainingCharacters}
@@ -91,7 +90,7 @@ const circleStyles = [
   {
     container: null,
     viewBox: "0 0 20 20",
-    stroke: "stroke-blue-500",
+    stroke: "stroke-main-accent",
     r: 9,
   },
   {

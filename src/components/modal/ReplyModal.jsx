@@ -6,7 +6,7 @@ const ReplyModal = ({ modal, post }) => {
   return (
     <Modal
       className="flex items-start justify-center"
-      modalClassName="bg-white relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
+      modalClassName="bg-main-background relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
       open={modal.open}
       closeModal={modal.closeModal}
     >

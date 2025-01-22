@@ -6,7 +6,7 @@ const Messages = () => {
     <>
       <SEO title="Messages / Mesom" />
       <Header label="Messages" showBackArrow />
-      <div>
+      <div className="text-main-primary">
         <h2>Messages</h2>
         <p>Messages information</p>
       </div>

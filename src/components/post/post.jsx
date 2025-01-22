@@ -23,8 +23,10 @@ const Post = ({
       ref={innerRef}
       to={`/post/${post?._id}`}
       className={twMerge(
-        "flex flex-1 items-start gap-2 px-4 py-3 transition-all ease-in-out hover:cursor-pointer",
-        inReplyModal ? "" : "border-b border-gray-200",
+        "flex flex-1 items-start gap-2 px-4 py-3 text-main-primary transition-all ease-in-out hover:cursor-pointer",
+        inReplyModal
+          ? ""
+          : "border-b border-light-border dark:border-dark-border",
       )}
     >
       <AuthorAvatar
@@ -51,11 +53,11 @@ const Post = ({
           )}
         </div>
         {isReply && (
-          <p className="text-sm text-light-secondary dark:text-dark-secondary">
+          <p className="text-sm text-main-secondary">
             Replying to{" "}
             <Link
               to={`/user/${authorName}`}
-              className="custom-underline text-blue-500 text-main-accent"
+              className="custom-underline text-main-accent"
             >
               @{authorName}
             </Link>
@@ -71,7 +73,7 @@ const Post = ({
             {/* TODO: Add accent color */}
             <Link
               to={`/profile/${post.author.username}`}
-              className="text-blue-500"
+              className="text-main-accent"
             >
               @{post.author.username}
             </Link>

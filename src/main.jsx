@@ -31,8 +31,6 @@ const queryClient = new QueryClient({
 
 // Create a new instance of BrowserRouter
 const router = createBrowserRouter([
-  // TODO: Add lazy load?
-
   {
     path: "/",
     element: (

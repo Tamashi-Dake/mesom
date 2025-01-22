@@ -78,7 +78,7 @@ const Profile = () => {
       <UserProfile userQuery={userQuery} isMyProfile={isMyProfile} />
 
       {userId && (
-        <div className="flex border-b-[1px]">
+        <div className="flex border-b-[1px] border-light-border text-main-primary dark:border-dark-border">
           <Tab
             label="Posts"
             isActive={postType === "userPosts"}
@@ -105,10 +105,10 @@ const Profile = () => {
         <section className="mt-0.5 flex justify-center p-8">
           <div className="flex max-w-sm flex-col items-center gap-6">
             <div className="flex flex-col gap-2 text-center">
-              <p className="text-3xl font-extrabold">
+              <p className="text-3xl font-extrabold text-main-primary">
                 {currentTabMessage.title}
               </p>
-              <p className="text-light-secondary dark:text-dark-secondary">
+              <p className="text-main-secondary">
                 {currentTabMessage.description}
               </p>
             </div>

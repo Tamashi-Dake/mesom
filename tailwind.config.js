@@ -8,6 +8,7 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: "class",
   theme: {
     screens: {
       xs: "500px",
@@ -36,6 +37,7 @@ export default {
         'accent-orange': 'rgb(var(--accent-orange) / <alpha-value>)',
         'accent-green': 'rgb(var(--accent-green) / <alpha-value>)',
         'accent-red': '#F4212E',
+
         'dark-primary': '#E7E9EA',
         'dark-secondary': '#71767B',
         'light-primary': '#0F1419',
@@ -44,7 +46,7 @@ export default {
         'light-border': '#EFF3F4',
         'dark-line-reply': '#333639',
         'light-line-reply': '#CFD9DE',
-        'twitter-icon': '#D6D9DB',
+        'mesom-icon': '#D6D9DB',
         'image-preview-hover': '#272C30',
       },
     },
