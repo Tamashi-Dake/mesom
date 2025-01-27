@@ -76,9 +76,9 @@ const LoginPage = () => {
   return (
     <>
       <SEO title="Auth / Mesom" />
-      <div className="mx-auto flex h-screen max-w-screen-xl flex-col items-center md:flex-row">
+      <div className="mx-auto flex h-screen max-w-screen-xl flex-col items-center text-main-primary md:flex-row">
         <div className="flex w-24 flex-grow-[0.5] items-center justify-center md:max-w-[50%] md:flex-1 lg:h-full">
-          <XSvg className="w-2/3 fill-black" />
+          <XSvg className="w-2/3 fill-main-primary" />
         </div>
         <div className="flex items-center p-4 md:h-screen md:max-w-[50%] md:flex-grow xl:max-h-[1000px]">
           <div className="authContent flex flex-1 flex-col items-start justify-between gap-8 p-4 lg:min-h-[60%]">
@@ -89,7 +89,7 @@ const LoginPage = () => {
               className="flex w-full flex-1 shrink-0 flex-col items-start gap-4 lg:w-3/4"
               onSubmit={handleSubmit}
             >
-              <h3 className="text-4xl font-extrabold text-black">
+              <h3 className="text-4xl font-extrabold">
                 {isLogin ? "Let's go" : "Join now"}
               </h3>
               {loginMutation.isError && (
@@ -99,7 +99,7 @@ const LoginPage = () => {
                 <p className="text-red-500">{registerMutation.error.message}</p>
               )}
               <label className="input input-bordered flex w-full items-center gap-2 rounded">
-                <FaUser className="size-6 text-black" />
+                <FaUser className="size-6 text-main-primary" />
                 <Input
                   type="text"
                   placeholder="Username"
@@ -111,7 +111,7 @@ const LoginPage = () => {
               </label>
 
               <label className="input input-bordered flex w-full items-center gap-2 rounded">
-                <FaLock className="size-6 text-black" />
+                <FaLock className="size-6 text-main-primary" />
                 <Input
                   type="password"
                   placeholder="Password"
@@ -125,7 +125,7 @@ const LoginPage = () => {
 
               {!isLogin && (
                 <label className="input input-bordered flex w-full items-center gap-2 rounded">
-                  <BsShieldFillCheck className="size-6 text-black" />
+                  <BsShieldFillCheck className="size-6 text-main-primary" />
                   <Input
                     type="password"
                     placeholder="Confirm Password"
@@ -145,7 +145,6 @@ const LoginPage = () => {
                       ? "Login"
                       : "Sign Up"
                 }
-                secondary
                 className={twMerge(
                   "btn btn-primary btn-outline w-full rounded-full",
                   (loginMutation.isPending || registerMutation.isPending) &&

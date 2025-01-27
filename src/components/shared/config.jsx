@@ -86,12 +86,10 @@ export const mobileRoutes = [
 export const config = {
   "/profile": {
     title: "Messages",
-    link: "/messages",
     icon: <CiMail size={24} color="white" />,
   },
   "/": {
     title: "Create Post",
-    link: "/",
     icon: <FaFeather size={24} color="white" />,
   },
 };

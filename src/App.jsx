@@ -20,7 +20,7 @@ function App() {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   let location = useLocation();
-  const { title, link, icon } = config[location.pathname] || config["/"];
+  const { title, icon } = config[location.pathname] || config["/"];
 
   useEffect(() => {
     if (!currentUser.isLoading && !currentUser.data) {
@@ -56,7 +56,8 @@ function App() {
         </div>
         <FameSidebar />
         <RouteBottomBar />
-        <FloatButton title={title} link={link} icon={icon} />
+        {/* TODO: 2 chức năng: create post, và link đến conversations khi ở trong profile */}
+        <FloatButton title={title} icon={icon} />
       </div>
     </div>
   );

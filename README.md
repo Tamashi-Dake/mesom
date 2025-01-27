@@ -29,8 +29,6 @@
   - [ ] Search
   - [x] Update User modal
 
-- [x] Darkmode
-
 - [ ] Error elements
 
 - [ ] Show more = get 10 suggested user
@@ -39,12 +37,8 @@
   - [ ] user vào block user
   - [ ] post vào pined post
 
-## Problems
-
-- [ ] Default dark mode
-- [ ] Responsive abnormal white space
-- [x] More Settings: Menu overlap with page content (caused by relative position)
-
 ## Upcomming features
 
 - [ ] Add gif-picker-react
+
+## Problems

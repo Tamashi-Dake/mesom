@@ -64,8 +64,8 @@ export const ImageModal = ({
         key === "ArrowLeft"
           ? handleNextIndex("prev")
           : key === "ArrowRight"
-          ? handleNextIndex("next")
-          : null;
+            ? handleNextIndex("next")
+            : null;
 
       if (callback) callback();
     };
@@ -80,10 +80,9 @@ export const ImageModal = ({
         arrowButtons.map(([name, className, icon]) => (
           <Button
             className={twMerge(
-              `absolute z-10 hover:bg-light-primary/10 active:bg-light-primary/20
-               dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20`,
+              `absolute z-10 text-main-accent hover:bg-light-primary/10 active:bg-light-primary/20 dark:hover:bg-dark-primary/10 dark:active:bg-dark-primary/20`,
               name === "prev" ? "left-2" : "right-2",
-              className
+              className,
             )}
             onClick={(e) => {
               e.stopPropagation();
@@ -102,7 +101,7 @@ export const ImageModal = ({
             exit={tweet ? backdropVariant.exit : undefined}
             transition={{ duration: 0.15 }}
           >
-            <LoadingSpinner className="w-20 h-20" />
+            <LoadingSpinner className="h-20 w-20" />
           </motion.div>
         ) : (
           <motion.div
