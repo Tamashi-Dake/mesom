@@ -1,12 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchHeader from "../components/layout/SearchHeader";
 import { SEO } from "../components/common/SEO";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { searchUsers } from "../services/searchService";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import UserCard from "../components/shared/UserCard";
+import Conversation from "../components/message/Conversation";
 
 const Search = () => {
+  const [inputValue, setInputValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
-  const [activeTab, setActiveTab] = useState("users"); // top 5 tags in count
-  const onSearchValueChange = (value) => {
-    setSearchValue(value);
+  const [activeTab, setActiveTab] = useState("users");
+
+  const { data, error, isError, isLoading, isFetchingNextPage, ref } =
+    useInfiniteScroll(
+      ["search", activeTab, searchValue],
+      ({ pageParam = 0 }) => {
+        if (!searchValue) {
+          return { users: [], conversations: [], nextSkip: null };
+        }
+        if (activeTab === "users") {
+          return searchUsers({ query: searchValue, skip: pageParam });
+        }
+        if (activeTab === "tags") {
+          return;
+        }
+      },
+      (lastPage) => lastPage.nextSkip || undefined,
+    );
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      setSearchValue(inputValue);
+    }, 500);
+    return () => clearTimeout(debounceTimeout);
+  }, [inputValue]);
+
+  const onInputValueChange = (value) => {
+    setInputValue(value);
   };
   const onTabChange = (tab) => {
     setActiveTab(tab);
@@ -15,14 +46,82 @@ const Search = () => {
     <>
       <SEO title={"Search / Mesom"} />
       <SearchHeader
-        searchValue={searchValue}
-        onSearchValueChange={onSearchValueChange}
+        inputValue={inputValue}
+        onInputValueChange={onInputValueChange}
         activeTab={activeTab}
         onTabChange={onTabChange}
       />
       <div className="text-main-primary">
-        <h2>Search</h2>
-        <p>Search information</p>
+        {isLoading && inputValue && <LoadingSpinner />}
+        {activeTab === "tags" && (
+          <section className="mt-0.5 flex justify-center p-8">
+            <div className="flex max-w-sm flex-col items-center gap-6">
+              <div className="flex flex-col gap-2 text-center">
+                <p className="text-3xl font-extrabold text-main-primary">
+                  Search for tags is not available yet
+                </p>
+                <p className="text-main-secondary">
+                  We are working on it, please try searching for users
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+        {(!inputValue || data?.pages[0]?.message) && activeTab !== "tags" && (
+          <section className="mt-0.5 flex justify-center p-8">
+            <div className="flex max-w-sm flex-col items-center gap-6">
+              <div className="flex flex-col gap-2 text-center">
+                <p className="text-3xl font-extrabold text-main-primary">
+                  {!inputValue
+                    ? "Search for people or trending tags"
+                    : data?.pages[0]?.message
+                      ? "No results found"
+                      : ""}
+                </p>
+                {data?.pages[0]?.message && (
+                  <p className="text-main-secondary">
+                    Try searching for something else
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+        {!(!inputValue || data?.pages[0]?.message) &&
+          data?.pages?.map((searchPageInfo) => {
+            return (
+              <>
+                {searchPageInfo?.users?.map((user, index) => {
+                  const isUserBeforeLastUser =
+                    index === searchPageInfo.users.length - 1;
+                  return (
+                    <UserCard
+                      originXTranslate
+                      openSpace
+                      user={user}
+                      key={user._id}
+                      innerRef={isUserBeforeLastUser ? ref : null}
+                    />
+                  );
+                })}
+                {searchPageInfo?.conversations?.map((con, index) => {
+                  const isConversationBeforeLastConversation =
+                    index === searchPageInfo.conversations.length - 1;
+                  return (
+                    <Conversation
+                      innerRef={
+                        isConversationBeforeLastConversation ? ref : null
+                      }
+                      key={con._id}
+                      conversation={con}
+                    />
+                  );
+                })}
+              </>
+            );
+          })}
+        {isFetchingNextPage && <LoadingSpinner />}
+        {isError && <div>Error: {error.message}</div>}
       </div>
     </>
   );

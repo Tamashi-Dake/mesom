@@ -2,20 +2,20 @@
 
 ## TODO
 
+- [ ] Real-time Message
+
+  - [ ] Conversation
+    - [ ] Hide conversation with user
+    - [ ] Block user
+  - [ ] Message
+    - [ ] Copy message
+    - [ ] React to message
+    - [ ] Reply to message
+
 - [ ] Infinite scroll
 
-  - [ ] Search (Username/Display name, Tag)
+  - [x] Search (Username/Display name, Tag)
   - [ ] Message?
-
-- [ ] Menu
-
-  - [x] Post Options (Follow/Block author, Block notification from post)
-    - [x] Owner: Delete, Pin/Unpin
-    - [x] User: Follow, Block author
-  - [x] Post Action - Share: Copy post link
-  - [x] Display (custom theme)
-  - [ ] User sidebar (logout)
-  - [x] User card (hover on @username / user)
 
 - [ ] Skeleton
 

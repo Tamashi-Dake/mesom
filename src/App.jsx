@@ -14,6 +14,7 @@ import useCurrentUser from "./hooks/useCurrentUser";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import { useMediaQuery } from "usehooks-ts";
 import { twMerge } from "tailwind-merge";
+import { SEO } from "./components/common/SEO";
 
 function App() {
   const inBigScreen = useMediaQuery("(min-width: 1000px)");
@@ -33,33 +34,39 @@ function App() {
   }
 
   return (
-    <div className="xl:px-30 container mx-auto h-full bg-main-background md:max-w-7xl">
-      <div
-        className={twMerge(
-          "grid h-full w-full grid-cols-none grid-rows-[1fr,auto] xs:grid-rows-1 xl:grid-cols-[1fr,1fr,1fr,1fr]",
-          inBigScreen
-            ? "xs:grid-cols-[minmax(auto,4rem),1fr,1fr,1fr]"
-            : "xs:grid-cols-[minmax(auto,5rem),1fr]",
-        )}
-      >
-        <RouteSidebar />
+    <>
+      <SEO
+        title="Mesom"
+        description="This is Mesom, where you join discussions about the latest news."
+      />
+      <div className="xl:px-30 container mx-auto h-full bg-main-background md:max-w-7xl">
         <div
-          // Invalid: can't see the last post
           className={twMerge(
-            "relative w-full overflow-hidden border-light-border dark:border-dark-border xs:border-x-[1px]",
-            inBigScreen ? "col-span-2" : "",
+            "grid h-full w-full grid-cols-none grid-rows-[1fr,auto] xs:grid-rows-1 xl:grid-cols-[1fr,1fr,1fr,1fr]",
+            inBigScreen
+              ? "xs:grid-cols-[minmax(auto,4rem),1fr,1fr,1fr]"
+              : "xs:grid-cols-[minmax(auto,5rem),1fr]",
           )}
         >
-          <Outlet />
-          {/* Hack: overflow might add weird space or cut some page contents and i don't have time to think about this sh */}
-          <div className="block h-12 bg-transparent xs:hidden"></div>
+          <RouteSidebar />
+          <div
+            // Invalid: can't see the last post
+            className={twMerge(
+              "relative w-full overflow-hidden border-light-border dark:border-dark-border xs:border-x-[1px]",
+              inBigScreen ? "col-span-2" : "",
+            )}
+          >
+            <Outlet />
+            {/* Hack: overflow might add weird space or cut some page contents and i don't have time to think about this sh */}
+            <div className="block h-12 bg-transparent xs:hidden"></div>
+          </div>
+          <FameSidebar />
+          <RouteBottomBar />
+          {/* TODO: 2 chức năng: create post, và link đến conversations khi ở trong profile */}
+          <FloatButton title={title} icon={icon} />
         </div>
-        <FameSidebar />
-        <RouteBottomBar />
-        {/* TODO: 2 chức năng: create post, và link đến conversations khi ở trong profile */}
-        <FloatButton title={title} icon={icon} />
       </div>
-    </div>
+    </>
   );
 }
 

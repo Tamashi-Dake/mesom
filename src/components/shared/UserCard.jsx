@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import FollowButton from "./FollowButton";
 import UserTooltip from "./UserTooltip";
+import { twMerge } from "tailwind-merge";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, innerRef, openSpace, originXTranslate }) => {
   return (
     <Link
+      ref={innerRef}
       to={`/profile/${user.username}`}
-      className="grid max-w-[260px] grid-cols-[auto,1fr] items-center justify-between"
+      className={twMerge(
+        "grid grid-cols-[auto,1fr] items-center justify-between",
+        openSpace ? "px-4 py-2" : "max-w-[260px]",
+      )}
     >
-      <UserTooltip user={user}>
+      <UserTooltip inPost={originXTranslate} user={user}>
         <div className="avatar h-12 w-12 overflow-hidden rounded-full">
           <img
             className="h-full w-full object-cover"
@@ -17,7 +22,7 @@ const UserCard = ({ user }) => {
         </div>
       </UserTooltip>
       <div className="flex items-center justify-between p-2">
-        <UserTooltip user={user}>
+        <UserTooltip user={user} inPost={originXTranslate}>
           <div className="flex flex-col">
             <span className="w-28 truncate font-semibold tracking-tight hover:underline">
               {user.displayName || user.username}

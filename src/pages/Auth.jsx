@@ -92,6 +92,11 @@ const LoginPage = () => {
               <h3 className="text-4xl font-extrabold">
                 {isLogin ? "Let's go" : "Join now"}
               </h3>
+              <p>
+                Test account: <br />
+                <strong>Username:</strong> test <br />
+                <strong>Password:</strong> test@123
+              </p>
               {loginMutation.isError && (
                 <p className="text-red-500">{loginMutation.error.message}</p>
               )}

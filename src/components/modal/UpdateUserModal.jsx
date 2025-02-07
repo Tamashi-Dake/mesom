@@ -123,7 +123,7 @@ const UpdateUserModal = ({ modal, user, userMutate }) => {
       postData.append("coverImg", userImages.coverImg);
     }
 
-    userMutate.mutate({ userId: user._id, postData });
+    userMutate.mutate(postData);
 
     modal.closeModal();
   };

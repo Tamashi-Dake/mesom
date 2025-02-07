@@ -11,8 +11,8 @@ export const getUserByUsername = async (username) => {
   return response.data;
 };
 
-export const updateUser = async ({ userId, postData }) => {
-  const response = await api.patch(`/user/${userId}`, postData);
+export const updateUser = async (postData) => {
+  const response = await api.patch(`/user`, postData);
   return response.data;
 };
 
