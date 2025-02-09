@@ -4,18 +4,16 @@
 
 - [ ] Real-time Message
 
+  - [x] Hide Float button, bottom route bar when in /conversation
   - [ ] Conversation
+    - [ ] Create after first message is sent, refresh and redirect to new conversation
     - [ ] Hide conversation with user
     - [ ] Block user
   - [ ] Message
     - [ ] Copy message
     - [ ] React to message
     - [ ] Reply to message
-
-- [ ] Infinite scroll
-
-  - [x] Search (Username/Display name, Tag)
-  - [ ] Message?
+  - [ ] Load message bottom up
 
 - [ ] Skeleton
 
@@ -26,8 +24,9 @@
 - [ ] Validate form
 
   - [ ] Login / Sign up
-  - [ ] Search
+  - [ ] Search (search/conversation/modal add user)
   - [x] Update User modal
+  - [ ] Message
 
 - [ ] Error elements
 

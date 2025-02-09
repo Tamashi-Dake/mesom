@@ -34,7 +34,7 @@
 
 @layer base {
   :root {
-    --main-background: var(--dark-background);
+    --main-background: var(--light-background);
     --main-search-background: var(--dark-search-background);
     --main-sidebar-background: var(--dark-sidebar-background);
     --main-accent: var(--accent-blue);

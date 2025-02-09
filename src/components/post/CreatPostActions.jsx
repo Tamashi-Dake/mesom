@@ -19,7 +19,7 @@ const CreatePostActions = ({
   imgRef,
   handleAddEmoji,
   handleImgChange,
-  mutatePening,
+  mutatePending,
 }) => {
   const inputLimit = verifiedUser ? 1000 : 350;
   const inputLength = textLength;
@@ -123,9 +123,11 @@ const CreatePostActions = ({
           />
         </motion.div>
         <Button
-          label={mutatePening ? "Posting..." : "Post"}
+          label={mutatePending ? "Posting..." : "Post"}
           disabled={
-            (textLength === 0 && imagesLength === 0) || isCharLimitExceeded
+            (textLength === 0 && imagesLength === 0) ||
+            isCharLimitExceeded ||
+            mutatePending
           }
           className={twMerge(
             textLength > 0 || imagesLength > 0

@@ -30,9 +30,12 @@ const MobileSidebarModal = ({ user }) => {
 
   return (
     <>
-      <aside className="flex flex-col gap-4 px-6 py-4">
+      <aside className="flex flex-col gap-4 p-4 px-6">
         <div className="flex flex-col gap-4">
-          <Link to={`/profile/${user?.username}`}>
+          <Link
+            to={`/profile/${user?.username}`}
+            className="flex flex-col items-center justify-center"
+          >
             <div className="avatar mb-4 h-12 w-12 xs:hidden">
               <img
                 src={user?.profile.avatarImg || "/placeholder.png"}
@@ -50,18 +53,18 @@ const MobileSidebarModal = ({ user }) => {
             </div>
           </Link>
 
-          <div className="flex gap-4">
+          <div className="flex justify-center gap-4">
             <div className="flex items-center gap-1">
               <span className="text-base font-bold">
                 {user?.following.length}
               </span>
-              <span className="text-base text-slate-500">Following</span>
+              <span className="text-base text-main-secondary">Following</span>
             </div>
             <div className="flex items-center gap-1">
               <span className="text-base font-bold">
                 {user?.followers.length}
               </span>
-              <span className="text-base text-slate-500">Followers</span>
+              <span className="text-base text-main-secondary">Followers</span>
             </div>
           </div>
         </div>

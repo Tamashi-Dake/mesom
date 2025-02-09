@@ -1,22 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 
-import "./index.css";
+import { ThemeContextProvider } from "./lib/context/themeContext.jsx";
 
 import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import Profile from "./pages/Profile.jsx";
 import About from "./pages/About.jsx";
-import Messages from "./pages/Messages.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import Search from "./pages/Search.jsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/Auth.jsx";
 import PostPage from "./pages/PostPage.jsx";
 import Bookmark from "./pages/Bookmarks.jsx";
-import { ThemeContextProvider } from "./lib/context/themeContext.jsx";
+import ErrorElement from "./components/skeleton/ErrorElement.jsx";
+import Conversations from "./pages/Conversations.jsx";
+
+import "./index.css";
+import Conversation from "./components/conversation/Conversation.jsx";
+import ConversationInfo from "./components/conversation/ConversationInfo.jsx";
+import NewConversation from "./components/conversation/NewConversation.jsx";
 
 // Create a new instance of QueryClient
 const queryClient = new QueryClient({
@@ -38,13 +43,11 @@ const router = createBrowserRouter([
         <App />
       </ThemeContextProvider>
     ),
-
+    errorElement: <ErrorElement />,
     children: [
       {
         index: true,
         element: <Home />,
-        // TODO: Add error page
-        // errorElement: <Error />,
       },
       {
         path: "/post/:postId",
@@ -59,8 +62,20 @@ const router = createBrowserRouter([
         element: <Notifications />,
       },
       {
-        path: "/messages",
-        element: <Messages />,
+        path: "/conversations",
+        element: <Conversations />,
+      },
+      {
+        path: "/conversation",
+        element: <NewConversation />,
+      },
+      {
+        path: "/conversation/:conversationId",
+        element: <Conversation />,
+      },
+      {
+        path: "/conversation/:conversationId/info",
+        element: <ConversationInfo />,
       },
       {
         path: "/bookmarks",

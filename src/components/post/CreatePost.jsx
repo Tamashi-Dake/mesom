@@ -86,7 +86,7 @@ const CreatePost = ({
           imagesLength={previewImages.length}
           imgRef={imgRef}
           handleImgChange={handleImgChange}
-          mutatePening={postMutate.isPending}
+          mutatePending={postMutate.isPending}
           modal={modal}
         />
 

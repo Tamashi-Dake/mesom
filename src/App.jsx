@@ -1,20 +1,21 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router";
-import { config } from "./components/shared/config";
+import { useMediaQuery } from "usehooks-ts";
+import { twMerge } from "tailwind-merge";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
+import useCurrentUser from "./hooks/useCurrentUser";
+
+import { config } from "./components/shared/config";
 import FameSidebar from "./components/layout/FameSidebar";
 import RouteSidebar from "./components/layout/RouteSidebar";
 import RouteBottomBar from "./components/layout/RouteBottombar";
 import FloatButton from "./components/shared/FloatButton";
+import LoadingSpinner from "./components/common/LoadingSpinner";
+import { SEO } from "./components/common/SEO";
 
 import "./App.css";
-
-import useCurrentUser from "./hooks/useCurrentUser";
-import LoadingSpinner from "./components/common/LoadingSpinner";
-import { useMediaQuery } from "usehooks-ts";
-import { twMerge } from "tailwind-merge";
-import { SEO } from "./components/common/SEO";
 
 function App() {
   const inBigScreen = useMediaQuery("(min-width: 1000px)");
@@ -22,6 +23,7 @@ function App() {
   const navigate = useNavigate();
   let location = useLocation();
   const { title, icon } = config[location.pathname] || config["/"];
+  const inConversation = location.pathname.includes("/conversation");
 
   useEffect(() => {
     if (!currentUser.isLoading && !currentUser.data) {
@@ -58,14 +60,21 @@ function App() {
           >
             <Outlet />
             {/* Hack: overflow might add weird space or cut some page contents and i don't have time to think about this sh */}
-            <div className="block h-12 bg-transparent xs:hidden"></div>
+            {!inConversation && (
+              <div className="block h-12 bg-transparent xs:hidden"></div>
+            )}
           </div>
           <FameSidebar />
-          <RouteBottomBar />
-          {/* TODO: 2 chức năng: create post, và link đến conversations khi ở trong profile */}
-          <FloatButton title={title} icon={icon} />
+          {!inConversation && (
+            <>
+              <RouteBottomBar />
+              {/* TODO: 2 chức năng: create post, và link đến conversations khi ở trong profile */}
+              <FloatButton title={title} icon={icon} />
+            </>
+          )}
         </div>
       </div>
+      <SpeedInsights />
     </>
   );
 }

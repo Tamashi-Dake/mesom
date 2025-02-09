@@ -1,4 +1,6 @@
-const SearchInput = ({ label, placeholder, value, onChange }) => {
+import { twMerge } from "tailwind-merge";
+
+const SearchInput = ({ label, placeholder, value, onChange, className }) => {
   return (
     <form className="flex-1">
       <label htmlFor="default-search" className="sr-only">
@@ -24,7 +26,10 @@ const SearchInput = ({ label, placeholder, value, onChange }) => {
         </div>
         <input
           id="default-search"
-          className="block w-full rounded-lg border border-main-secondary bg-main-background p-4 ps-10 text-sm text-main-primary focus:border-main-accent focus:outline-none focus:ring-main-accent"
+          className={twMerge(
+            "block w-full rounded-lg border border-main-secondary bg-main-background p-4 ps-10 text-sm text-main-primary focus:border-main-accent focus:outline-none focus:ring-main-accent",
+            className,
+          )}
           placeholder={placeholder}
           required
           value={value}

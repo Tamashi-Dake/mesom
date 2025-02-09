@@ -1,9 +1,16 @@
+import cn from "clsx";
 import { Link } from "react-router-dom";
-import useCurrentUser from "../../hooks/useCurrentUser";
 import { twMerge } from "tailwind-merge";
+
+import useCurrentUser from "../../hooks/useCurrentUser";
 import { formatDate } from "../../helper/formatDate";
 
-const Conversation = ({ conversation, innerRef }) => {
+import { ToolTip } from "../common/Tooltip";
+import { Button } from "@headlessui/react";
+
+import { IoIosMore } from "react-icons/io";
+
+const ConversationCard = ({ conversation, innerRef }) => {
   const currentUser = useCurrentUser();
   return (
     <Link
@@ -37,7 +44,7 @@ const Conversation = ({ conversation, innerRef }) => {
           )
         ) : (
           <img
-            className="h-full w-full object-cover"
+            className="h-full w-full rounded-full object-cover"
             src={
               conversation.participants.find(
                 (participant) => participant._id !== currentUser._id,
@@ -46,9 +53,9 @@ const Conversation = ({ conversation, innerRef }) => {
           />
         )}
       </div>
-      <div className="flex items-center justify-between p-2">
-        <div className="flex flex-col">
-          <span className="truncate font-semibold tracking-tight hover:underline">
+      <div className="group flex min-w-0 items-center justify-between p-2">
+        <div className="flex min-w-0 flex-col">
+          <span className="truncate font-semibold tracking-tight text-main-primary hover:underline">
             {conversation.isGroup
               ? conversation.name
               : conversation.participants.find(
@@ -58,22 +65,39 @@ const Conversation = ({ conversation, innerRef }) => {
                   (participant) => participant._id !== currentUser._id,
                 ).username}
           </span>
-          <span className="truncate text-sm text-main-secondary">
-            {conversation.lastMessage
-              ? conversation.lastMessage.type !== "text"
-                ? " sends a file"
-                : conversation.lastMessage.text
-              : "No messages yet"}
-          </span>
-          <span>
-            {conversation.lastMessage &&
-              formatDate(conversation.lastMessage.createdAt)}
-          </span>
+          <div className="flex min-w-0 gap-1 text-sm tracking-tight text-main-secondary">
+            <span className="truncate">
+              {conversation.lastMessage
+                ? conversation.lastMessage.type !== "text"
+                  ? " sends a file"
+                  : conversation.lastMessage.text
+                : "No messages yet"}
+            </span>
+            <span className="truncate">·</span>
+            <span className="truncate">
+              {conversation.lastMessage &&
+                formatDate(conversation.lastMessage.createdAt, "post")}
+            </span>
+          </div>
         </div>
-        {/* TODO: Conversation options */}
+        {/* TODO: add Conversation option */}
+        <Button
+          className={cn(
+            `main-tab group right-2 top-2 rounded-full p-2 hover:bg-main-accent/10 focus-visible:bg-main-accent/10 focus-visible:!ring-main-accent/80 active:bg-main-accent/20 group-hover:visible lg:invisible`,
+            open && "bg-main-accent/10 [&>div>svg]:text-main-accent",
+          )}
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <div className="group relative">
+            <IoIosMore className="h-5 w-5 text-light-secondary group-hover:text-main-accent group-focus-visible:text-main-accent dark:text-dark-secondary/80" />
+            {!open && <ToolTip tip="More" />}
+          </div>
+        </Button>
       </div>
     </Link>
   );
 };
 
-export default Conversation;
+export default ConversationCard;

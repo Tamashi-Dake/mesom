@@ -11,11 +11,10 @@ import Button from "../shared/Button";
 import FollowButton from "../shared/FollowButton";
 import ProfileImages from "./ProfileImages";
 import ProfileInfo from "./ProfileInfo";
-import LoadingSpinner from "../common/LoadingSpinner";
 
 const UserProfile = ({ userQuery, isMyProfile }) => {
   const queryClient = useQueryClient();
-  const { data: user, isFetching, isLoading } = userQuery;
+  const { data: user } = userQuery;
   const updateUserModal = useModal();
 
   const userMutate = useMutation({
@@ -32,9 +31,6 @@ const UserProfile = ({ userQuery, isMyProfile }) => {
 
   return (
     <>
-      {/* TODO: Add case when User not found */}
-      {(isLoading || isFetching) && <LoadingSpinner />}
-
       {user ? (
         <>
           <DefaultHeader

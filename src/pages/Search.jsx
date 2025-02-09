@@ -5,7 +5,6 @@ import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import { searchUsers } from "../services/searchService";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import UserCard from "../components/shared/UserCard";
-import Conversation from "../components/message/Conversation";
 
 const Search = () => {
   const [inputValue, setInputValue] = useState("");
@@ -17,13 +16,13 @@ const Search = () => {
       ["search", activeTab, searchValue],
       ({ pageParam = 0 }) => {
         if (!searchValue) {
-          return { users: [], conversations: [], nextSkip: null };
+          return { users: [], nextSkip: null };
         }
         if (activeTab === "users") {
           return searchUsers({ query: searchValue, skip: pageParam });
         }
         if (activeTab === "tags") {
-          return;
+          return { users: [], nextSkip: null };
         }
       },
       (lastPage) => lastPage.nextSkip || undefined,
@@ -88,38 +87,21 @@ const Search = () => {
           </section>
         )}
         {!(!inputValue || data?.pages[0]?.message) &&
-          data?.pages?.map((searchPageInfo) => {
-            return (
-              <>
-                {searchPageInfo?.users?.map((user, index) => {
-                  const isUserBeforeLastUser =
-                    index === searchPageInfo.users.length - 1;
-                  return (
-                    <UserCard
-                      originXTranslate
-                      openSpace
-                      user={user}
-                      key={user._id}
-                      innerRef={isUserBeforeLastUser ? ref : null}
-                    />
-                  );
-                })}
-                {searchPageInfo?.conversations?.map((con, index) => {
-                  const isConversationBeforeLastConversation =
-                    index === searchPageInfo.conversations.length - 1;
-                  return (
-                    <Conversation
-                      innerRef={
-                        isConversationBeforeLastConversation ? ref : null
-                      }
-                      key={con._id}
-                      conversation={con}
-                    />
-                  );
-                })}
-              </>
-            );
-          })}
+          data?.pages?.map((searchPageInfo) =>
+            searchPageInfo?.users?.map((user, index) => {
+              const isUserBeforeLastUser =
+                index === searchPageInfo.users.length - 1;
+              return (
+                <UserCard
+                  originXTranslate
+                  openSpace
+                  user={user}
+                  key={user._id}
+                  innerRef={isUserBeforeLastUser ? ref : null}
+                />
+              );
+            }),
+          )}
         {isFetchingNextPage && <LoadingSpinner />}
         {isError && <div>Error: {error.message}</div>}
       </div>

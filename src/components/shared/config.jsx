@@ -29,7 +29,7 @@ export const routes = [
   },
   {
     name: "Messages",
-    path: "/messages",
+    path: "/conversations",
     icon: <BsChatDots size={24} className="text-main-primary" />,
   },
   {
@@ -62,7 +62,7 @@ export const mobileRoutes = [
   },
   {
     name: "Messages",
-    path: "/messages",
+    path: "/conversations",
     icon: <BsChatDots size={24} className="text-main-primary" />,
   },
   {
