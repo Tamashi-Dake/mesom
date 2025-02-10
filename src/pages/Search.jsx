@@ -72,7 +72,7 @@ const Search = () => {
               <div className="flex flex-col gap-2 text-center">
                 <p className="text-3xl font-extrabold text-main-primary">
                   {!inputValue
-                    ? "Search for people or trending tags"
+                    ? "Search for people in Mesom"
                     : data?.pages[0]?.message
                       ? "No results found"
                       : ""}

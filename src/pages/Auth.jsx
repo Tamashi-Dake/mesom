@@ -14,10 +14,10 @@ import { FaLock } from "react-icons/fa6";
 import { BsShieldFillCheck } from "react-icons/bs";
 import XSvg from "../assets/X";
 import { SEO } from "../components/common/SEO";
-import useCurrentUser from "../hooks/useCurrentUser";
+// import useCurrentUser from "../hooks/useCurrentUser";
 
 const LoginPage = () => {
-  const { data } = useCurrentUser();
+  // const { data } = useCurrentUser();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
@@ -26,14 +26,17 @@ const LoginPage = () => {
     password: "",
     confirmPassword: "",
   });
+
   useEffect(() => {
     setFormData({ username: "", password: "", confirmPassword: "" });
   }, [isLogin]);
-  useEffect(() => {
-    if (data && data?._id) {
-      navigate("/");
-    }
-  }, [data, navigate]);
+
+  // useEffect(() => {
+  //   if (data && data?._id) {
+  //     navigate("/");
+  //   }
+  // }, [data, navigate]);
+
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: () => {

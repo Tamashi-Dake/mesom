@@ -6,9 +6,11 @@
 
   - [x] Hide Float button, bottom route bar when in /conversation
   - [ ] Conversation
+    - [x] Add user modal
     - [ ] Create after first message is sent, refresh and redirect to new conversation
     - [ ] Hide conversation with user
     - [ ] Block user
+    - [ ] Update conversation modal
   - [ ] Message
     - [ ] Copy message
     - [ ] React to message

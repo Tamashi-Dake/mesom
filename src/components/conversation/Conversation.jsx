@@ -45,19 +45,17 @@ const Conversation = () => {
           {isLoading || (isFetchingNextPage && <LoadingSpinner />)}
           {isError && toast.error(error.message)}
           {messages?.pages?.map((searchPageInfo) =>
-            [...searchPageInfo.messages].map(
-              (message, index, reversedMessages) => {
-                const isMessageBeforeLastMessage =
-                  index === reversedMessages.length - 1;
-                return (
-                  <Message
-                    innerRef={isMessageBeforeLastMessage ? ref : null}
-                    key={message._id}
-                    message={message}
-                  />
-                );
-              },
-            ),
+            searchPageInfo.messages?.map((message, index, reversedMessages) => {
+              const isMessageBeforeLastMessage =
+                index === reversedMessages.length - 1;
+              return (
+                <Message
+                  innerRef={isMessageBeforeLastMessage ? ref : null}
+                  key={message._id}
+                  message={message}
+                />
+              );
+            }),
           )}
           {messages?.pages[0]?.message && (
             <div className="text-center text-main-primary">

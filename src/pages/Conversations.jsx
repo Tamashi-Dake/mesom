@@ -8,10 +8,14 @@ import ConversationsHeader from "../components/layout/ConversationsHeader";
 import SearchInput from "../components/shared/SearchInput";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import ConversationCard from "../components/conversation/ConversationCard";
+import { useModal } from "../hooks/useModal";
+import { Modal } from "../components/modal/Modal";
+import AddUserModal from "../components/modal/AddUserModal";
 
 const Conversations = () => {
   const [inputValue, setInputValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const addUserModal = useModal();
 
   const { data, error, isError, isLoading, isFetchingNextPage, ref } =
     useInfiniteScroll(
@@ -35,9 +39,7 @@ const Conversations = () => {
   return (
     <>
       <SEO title="Conversations / Mesom" />
-      <ConversationsHeader
-        onClick={() => alert("Open Conversation settings - WIP")}
-      />
+      <ConversationsHeader modal={addUserModal} />
       <main>
         <div className="px-4 pb-2">
           <SearchInput
@@ -67,6 +69,14 @@ const Conversations = () => {
           {isError && <div>Error: {error.message}</div>}
         </div>
       </main>
+      <Modal
+        className="flex items-start justify-center"
+        modalClassName="bg-main-background relative rounded-2xl max-w-xl w-full my-8 overflow-hidden"
+        open={addUserModal.open}
+        closeModal={addUserModal.closeModal}
+      >
+        <AddUserModal closeModal={addUserModal.closeModal} />
+      </Modal>
     </>
   );
 };

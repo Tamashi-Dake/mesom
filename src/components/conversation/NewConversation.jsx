@@ -1,21 +1,15 @@
 import { SEO } from "../common/SEO";
-import useStore from "../../hooks/useStore";
-import useCurrentUser from "../../hooks/useCurrentUser";
+import useAddUserStore from "../../hooks/useStore";
+// import useCurrentUser from "../../hooks/useCurrentUser";
 import DefaultHeader from "../layout/DefaultHeader";
 import MessageInput from "./MessageInput";
 
 const NewConversation = () => {
-  const currentUser = useCurrentUser();
-  //   const participants = useStore((state) => state.data);
-  const participants = [
-    { _id: "1", name: "user1" },
-    { _id: "2", name: "user2" },
-    { _id: "3", name: "user3" },
-    { _id: "4", name: "user4" },
-  ];
-  const conversationName = participants
+  // const currentUser = useCurrentUser();
+  const { users } = useAddUserStore();
+  const conversationName = users
     .slice(0, 3)
-    .map((member) => member.name)
+    .map((member) => member.displayName || member.username)
     .join();
   return (
     <>
